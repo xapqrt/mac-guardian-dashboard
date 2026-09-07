@@ -162,7 +162,7 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
               <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-2">
                 <div className="flex justify-between items-center text-[#86868b]">
                   <span className="font-medium text-white flex items-center gap-1.5">
-                    <Headphones className="w-3.5 h-3.5 text-[#2997ff]" /> OnePlus Buds 4
+                    <Headphones className="w-3.5 h-3.5 text-[#22D3EE]" /> OnePlus Buds 4
                   </span>
                   <span>{buds.rssi || -47} dBm</span>
                 </div>

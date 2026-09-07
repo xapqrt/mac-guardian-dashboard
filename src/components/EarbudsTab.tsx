@@ -314,7 +314,7 @@ export const EarbudsTab: React.FC = () => {
           <div className="space-y-1.5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white">
-                <Headphones className="w-5 h-5 text-[#0071e3]" />
+                <Headphones className="w-5 h-5 text-[#22D3EE]" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">

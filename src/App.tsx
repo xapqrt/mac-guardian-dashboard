@@ -182,7 +182,7 @@ export default function App() {
               particleCount: 40,
               spread: 60,
               origin: { y: 0.82 },
-              colors: ['#ffffff', '#0071e3', '#30d158', '#2997ff'],
+              colors: ['#7C3AED', '#22D3EE', '#F5F5F7', '#EF4444'],
               disableForReducedMotion: true,
             });
           } catch (e) {}
@@ -593,25 +593,25 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* 10. Apple Frosted Glass Footer */}
-      <footer className="border-t border-white/[0.08] bg-black/80 backdrop-blur-xl px-6 sm:px-12 py-6 text-xs text-[#86868b] flex flex-wrap items-center justify-between gap-4 mt-20">
+      {/* 10. Frosted Glass Footer */}
+      <footer className="border-t border-white/10 bg-[#08080a]/90 backdrop-blur-xl px-6 sm:px-12 py-6 text-xs text-[#8A8A93] flex flex-wrap items-center justify-between gap-4 mt-20">
         <div className="flex items-center gap-2.5">
-          <span className="text-white font-medium">Mac Guardian Pro</span>
+          <span className="text-[#F5F5F7] font-medium">Mac Guardian Pro</span>
           <span>•</span>
           <span>{stats?.specs?.chip || 'Apple Silicon'} ({stats?.specs?.model || 'MacBook Pro'})</span>
           <span>•</span>
-          <span className="text-[#30d158] flex items-center gap-1.5 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#30d158]"></span>
+          <span className="text-[#22D3EE] flex items-center gap-1.5 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#22D3EE] shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
             Kernel Active
           </span>
         </div>
-        <div className="flex items-center gap-5 text-[#86868b]">
+        <div className="flex items-center gap-5 text-[#8A8A93]">
           <button
             onClick={() => setIsReceiptsModalOpen(true)}
             className="hover:text-white transition-colors flex items-center gap-1.5"
           >
             <span>Receipts</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px] text-white">{receipts.length}</span>
+            <span className="px-1.5 py-0.2 rounded-2xl bg-white/10 text-[10px] text-white border border-white/10">{receipts.length}</span>
           </button>
           <button
             onClick={() => setIsAIOpen(true)}
