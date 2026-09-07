@@ -112,9 +112,9 @@ export const HoloCard: React.FC<HoloCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 text-[#F5F5F7] ${
+      className={`relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/[0.07] backdrop-blur-xl transition-all duration-200 text-[#F5F5F7] ${
         hoverGlow
-          ? 'hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]'
+          ? 'hover:-translate-y-0.5 hover:border-white/[0.14] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)]'
           : ''
       } ${onClick ? 'cursor-pointer active:scale-[0.99]' : ''} ${className}`}
     >
@@ -125,9 +125,8 @@ export const HoloCard: React.FC<HoloCardProps> = ({
 
 // ============================================================================
 // 3. CVA-POWERED ACTION BUTTON (TactileButton)
-// Primary: gradient violet→cyan, scale 0.97 on press, glow intensifies on hover
-// Secondary: glass style (bg-white/5 backdrop-blur-xl border border-white/10)
-// Loading state: spinner replaces label, fixed min-width
+// Primary: calm electric violet, scale 0.98 on press, subtle soft glow
+// Secondary: soft glass (bg-white/[0.04] border border-white/[0.08])
 // ============================================================================
 
 const buttonVariants = cva(
@@ -136,15 +135,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white shadow-sm hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] active:scale-[0.97]',
+          'bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-sm hover:shadow-[0_0_16px_rgba(124,58,237,0.25)] active:scale-[0.98]',
         secondary:
-          'bg-white/5 backdrop-blur-xl text-[#F5F5F7] border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(124,58,237,0.15)] active:scale-[0.97]',
+          'bg-white/[0.04] backdrop-blur-xl text-zinc-200 border border-white/[0.08] hover:bg-white/[0.08] hover:border-white/[0.15] active:scale-[0.98]',
         danger:
-          'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 hover:bg-[#EF4444]/25 hover:shadow-[0_0_24px_rgba(239,68,68,0.3)] active:scale-[0.97]',
+          'bg-rose-500/15 text-rose-300 border border-rose-500/25 hover:bg-rose-500/20 active:scale-[0.98]',
         success:
-          'bg-[#22D3EE]/15 text-[#22D3EE] border border-[#22D3EE]/30 hover:bg-[#22D3EE]/25 hover:shadow-[0_0_24px_rgba(34,211,238,0.3)] active:scale-[0.97]',
+          'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20 active:scale-[0.98]',
         ghost:
-          'bg-transparent text-[#8A8A93] hover:text-[#F5F5F7] hover:bg-white/5 active:scale-[0.97]'
+          'bg-transparent text-zinc-400 hover:text-white hover:bg-white/[0.05] active:scale-[0.98]'
       },
       size: {
         sm: 'px-3 py-1.5 text-xs gap-1.5 min-w-[80px]',
@@ -258,15 +257,15 @@ export const CyberBadge: React.FC<CyberBadgeProps> = ({
   size = 'xs'
 }) => {
   const styles = {
-    blue: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
-    purple: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
-    indigo: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
-    cyan: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
-    emerald: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
-    sky: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
-    amber: 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30',
-    rose: 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30',
-    slate: 'bg-white/5 text-[#8A8A93] border-white/10'
+    blue: 'bg-violet-500/10 text-violet-300 border-violet-500/20',
+    purple: 'bg-violet-500/10 text-violet-300 border-violet-500/20',
+    indigo: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20',
+    cyan: 'bg-sky-500/10 text-sky-300 border-sky-500/20',
+    emerald: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20',
+    sky: 'bg-sky-500/10 text-sky-300 border-sky-500/20',
+    amber: 'bg-amber-500/10 text-amber-300 border-amber-500/20',
+    rose: 'bg-rose-500/10 text-rose-300 border-rose-500/20',
+    slate: 'bg-white/[0.04] text-zinc-400 border-white/[0.07]'
   };
 
   const sizeStyles =

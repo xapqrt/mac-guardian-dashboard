@@ -293,10 +293,10 @@ export const GazeSentryTab: React.FC = () => {
   return (
     <div className="space-y-8 max-w-[1400px] mx-auto text-white">
       {/* 1. Header Banner */}
-      <HoloCard className="p-8 border-white/10 bg-black shadow-2xl space-y-6">
+      <HoloCard className="p-8 border-white/10 bg-white/[0.02] shadow-2xl space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-[#8B5CF6] shrink-0">
               <Eye className="w-6 h-6" />
             </div>
             <div>
@@ -317,7 +317,7 @@ export const GazeSentryTab: React.FC = () => {
               disabled={calibrating}
               className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-semibold border border-white/20 transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
             >
-              <RotateCcw className={`w-3.5 h-3.5 text-blue-400 ${calibrating ? 'animate-spin' : ''}`} />
+              <RotateCcw className={`w-3.5 h-3.5 text-[#8B5CF6] ${calibrating ? 'animate-spin' : ''}`} />
               {calibrating ? 'Calibrating...' : 'Recalibrate Baseline'}
             </button>
 
@@ -326,8 +326,8 @@ export const GazeSentryTab: React.FC = () => {
               onClick={handleToggleActive}
               className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all border flex items-center gap-2 cursor-pointer shadow-lg active:scale-95 ${
                 config.enableGazeTracking
-                  ? 'bg-blue-600 hover:bg-blue-500 text-white border-blue-400 shadow-blue-600/30'
-                  : 'bg-black text-white/50 border-white/20 hover:border-white/40'
+                  ? 'bg-[#7C3AED] hover:bg-[#6D28D9] text-white border-[#8B5CF6]/40 shadow-[0_0_16px_rgba(124,58,237,0.25)]'
+                  : 'bg-white/[0.02] text-white/50 border-white/20 hover:border-white/40'
               }`}
             >
               <span className={`w-2.5 h-2.5 rounded-full ${config.enableGazeTracking ? 'bg-white animate-pulse' : 'bg-white/30'}`} />
@@ -339,17 +339,17 @@ export const GazeSentryTab: React.FC = () => {
         {/* Live Visual Telemetry Grid: Yaw Track + Eyebrow Elevation Track */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Yaw Angle Gauge */}
-          <div className="p-5 rounded-2xl bg-[#0b0c10] border border-white/10 space-y-3">
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-white/80 flex items-center gap-2">
-                <Radio className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
+                <Radio className="w-3.5 h-3.5 text-[#8B5CF6] animate-pulse" />
                 Live Head Yaw Glance
               </span>
               <div className="flex items-center gap-2 font-mono text-xs">
                 <span className="px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-white/70 text-[11px]">
                   L: -{leftThreshold}°
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-bold shadow-sm shadow-blue-600/30 text-xs">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#7C3AED] text-white font-semibold text-xs">
                   {gazeTelemetry.rightTurnDelta > 0.5
                     ? `+${gazeTelemetry.rightTurnDelta.toFixed(1)}° Right`
                     : gazeTelemetry.rightTurnDelta < -0.5
@@ -364,19 +364,19 @@ export const GazeSentryTab: React.FC = () => {
 
             {/* Dynamic Meter Track */}
             <div className="space-y-1.5">
-              <div className="relative h-8 bg-black rounded-full overflow-hidden border border-white/20 flex items-center shadow-inner">
+              <div className="relative h-8 bg-white/[0.02] rounded-full overflow-hidden border border-white/20 flex items-center shadow-inner">
                 {/* Center Zero Reference Line */}
                 <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white z-20 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
 
                 {/* Independent Left Trigger Line */}
                 <div
-                  className="absolute top-0 bottom-0 w-1 bg-blue-400 z-20 shadow-[0_0_10px_rgba(96,165,250,1)]"
+                  className="absolute top-0 bottom-0 w-1 bg-[#38BDF8] z-20 shadow-[0_0_8px_rgba(56,189,248,0.6)]"
                   style={{ left: `${Math.max(0, 50 - (leftThreshold / 90) * 50)}%` }}
                 />
 
                 {/* Independent Right Trigger Line */}
                 <div
-                  className="absolute top-0 bottom-0 w-1 bg-blue-400 z-20 shadow-[0_0_10px_rgba(96,165,250,1)]"
+                  className="absolute top-0 bottom-0 w-1 bg-[#38BDF8] z-20 shadow-[0_0_8px_rgba(56,189,248,0.6)]"
                   style={{ left: `${Math.min(100, 50 + (rightThreshold / 90) * 50)}%` }}
                 />
 
@@ -385,8 +385,8 @@ export const GazeSentryTab: React.FC = () => {
                   <div
                     className={`h-full transition-all duration-75 absolute right-1/2 rounded-l-full ${
                       isYawLeftExceeded
-                        ? 'bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,1)]'
-                        : 'bg-blue-700/60'
+                        ? 'bg-[#38BDF8] shadow-[0_0_12px_rgba(56,189,248,0.4)]'
+                        : 'bg-sky-500/30'
                     }`}
                     style={{
                       width: `${Math.min(50, (Math.abs(gazeTelemetry.rightTurnDelta) / 90) * 50)}%`
@@ -399,8 +399,8 @@ export const GazeSentryTab: React.FC = () => {
                   <div
                     className={`h-full transition-all duration-75 absolute left-1/2 rounded-r-full ${
                       isYawRightExceeded
-                        ? 'bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,1)]'
-                        : 'bg-blue-700/60'
+                        ? 'bg-[#38BDF8] shadow-[0_0_12px_rgba(56,189,248,0.4)]'
+                        : 'bg-sky-500/30'
                     }`}
                     style={{
                       width: `${Math.min(50, (gazeTelemetry.rightTurnDelta / 90) * 50)}%`
@@ -420,10 +420,10 @@ export const GazeSentryTab: React.FC = () => {
           </div>
 
           {/* Eyebrow Raise Elevation Meter */}
-          <div className="p-5 rounded-2xl bg-[#0b0c10] border border-white/10 space-y-3">
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-white/80 flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
                 Eyebrow Elevation Ratio (Landmark Distance)
               </span>
               <div className="flex items-center gap-2 font-mono text-xs">
@@ -432,7 +432,7 @@ export const GazeSentryTab: React.FC = () => {
                 </span>
                 <span className={`px-2.5 py-0.5 rounded-full font-bold shadow-sm text-xs ${
                   isBrowRaised
-                    ? 'bg-blue-500 text-white shadow-blue-500/40 animate-pulse'
+                    ? 'bg-[#38BDF8] text-black font-semibold animate-pulse'
                     : currentBrowRaise < -5
                     ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                     : 'bg-white/10 text-white/80'
@@ -445,13 +445,13 @@ export const GazeSentryTab: React.FC = () => {
 
             {/* Dynamic Eyebrow Meter Track */}
             <div className="space-y-1.5">
-              <div className="relative h-8 bg-black rounded-full overflow-hidden border border-white/20 flex items-center shadow-inner">
+              <div className="relative h-8 bg-white/[0.02] rounded-full overflow-hidden border border-white/20 flex items-center shadow-inner">
                 {/* 0% Baseline */}
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-white/40 z-20" />
 
                 {/* Threshold Marker */}
                 <div
-                  className="absolute top-0 bottom-0 w-1 bg-blue-400 z-20 shadow-[0_0_10px_rgba(96,165,250,1)]"
+                  className="absolute top-0 bottom-0 w-1 bg-[#38BDF8] z-20 shadow-[0_0_8px_rgba(56,189,248,0.6)]"
                   style={{ left: `${Math.min(100, Math.max(0, (browThreshold / 50) * 100))}%` }}
                 />
 
@@ -459,10 +459,10 @@ export const GazeSentryTab: React.FC = () => {
                 <div
                   className={`h-full transition-all duration-75 rounded-r-full ${
                     isBrowRaised
-                      ? 'bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,1)]'
+                      ? 'bg-[#38BDF8] shadow-[0_0_12px_rgba(56,189,248,0.4)]'
                       : currentBrowRaise < -5
                       ? 'bg-amber-600/40'
-                      : 'bg-blue-700/60'
+                      : 'bg-sky-500/30'
                   }`}
                   style={{
                     width: `${Math.min(100, Math.max(0, (currentBrowRaise / 50) * 100))}%`
@@ -473,7 +473,7 @@ export const GazeSentryTab: React.FC = () => {
               <div className="flex justify-between text-[10px] font-mono text-white/50 px-1">
                 <span>0% Resting</span>
                 <span>Subtle (12%)</span>
-                <span className="text-blue-400 font-bold">Target Gate: +{browThreshold}%</span>
+                <span className="text-[#8B5CF6] font-bold">Target Gate: +{browThreshold}%</span>
                 <span>Exaggerated (30%)</span>
                 <span>+50% Max</span>
               </div>
@@ -484,19 +484,19 @@ export const GazeSentryTab: React.FC = () => {
         {/* Live Trigger Status HUD */}
         <div className="text-center py-2.5 px-4 rounded-xl bg-white/5 border border-white/10">
           {triggerFlash ? (
-            <span className="text-xs font-bold text-white bg-blue-600 px-5 py-2.5 rounded-full shadow-lg shadow-blue-600/50 animate-pulse inline-flex items-center gap-2">
+            <span className="text-xs font-bold text-white bg-[#7C3AED] px-5 py-2 rounded-full shadow-sm animate-pulse inline-flex items-center gap-2">
               <Zap className="w-4 h-4 text-white" />
               ⚡ TRIGGER EXECUTED: SWITCHED DESKTOP ({triggerFlash.direction === 'brow' ? 'Eyebrows' : triggerFlash.direction === 'left' ? 'Left Glance' : 'Right Glance'} → {triggerFlash.action})
             </span>
           ) : (
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-white/70">
               <span className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${isYawRightExceeded || isYawLeftExceeded ? 'bg-blue-400' : 'bg-white/30'}`} />
+                <span className={`w-2 h-2 rounded-full ${isYawRightExceeded || isYawLeftExceeded ? 'bg-[#38BDF8]' : 'bg-white/30'}`} />
                 Glance: {isYawRightExceeded ? 'Right Exceeded' : isYawLeftExceeded ? 'Left Exceeded' : 'Centered'}
               </span>
               <span className="text-white/30">•</span>
               <span className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${isBrowRaised ? 'bg-blue-400 animate-pulse' : currentBrowRaise < -5 ? 'bg-amber-400' : 'bg-white/30'}`} />
+                <span className={`w-2 h-2 rounded-full ${isBrowRaised ? 'bg-[#38BDF8] animate-pulse' : currentBrowRaise < -5 ? 'bg-amber-400' : 'bg-white/30'}`} />
                 Eyebrows: {isBrowRaised ? 'Raised (Above Threshold)' : currentBrowRaise < -5 ? 'Frowning' : 'Resting'}
               </span>
               <span className="text-white/30">•</span>
@@ -517,11 +517,11 @@ export const GazeSentryTab: React.FC = () => {
       {/* 2. TRIGGER LOGIC SELECTOR & EYEBROW SENSITIVITY */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Trigger Mode Architecture Card */}
-        <HoloCard className="p-7 border-white/10 bg-black space-y-5">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-blue-400" />
+                <ShieldCheck className="w-4 h-4 text-[#8B5CF6]" />
                 Detection Trigger Mode
               </h3>
               <p className="text-xs text-white/70 mt-0.5">
@@ -565,24 +565,24 @@ export const GazeSentryTab: React.FC = () => {
                 onClick={() => updateConfig({ gazeTriggerMode: item.id as any })}
                 className={`w-full p-3.5 rounded-xl border text-left transition-all flex items-start justify-between cursor-pointer ${
                   triggerMode === item.id
-                    ? 'bg-blue-600/15 text-white border-blue-500 shadow-md shadow-blue-600/10'
-                    : 'bg-black text-white/70 border-white/10 hover:border-white/30 hover:bg-white/5'
+                    ? 'bg-violet-500/10 text-white border-[#8B5CF6]/50 shadow-md shadow-blue-600/10'
+                    : 'bg-white/[0.02] text-white/70 border-white/10 hover:border-white/30 hover:bg-white/5'
                 }`}
               >
                 <div className="space-y-1">
                   <div className="text-xs font-bold text-white flex items-center gap-2">
                     {item.title}
                     {item.id === 'eyebrow_only' && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500 text-white font-semibold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#7C3AED] text-white font-semibold">
                         INSTANT 1MS
                       </span>
                     )}
                   </div>
                   <div className="text-[11px] text-white/60">{item.subtitle}</div>
-                  <div className="text-[10px] font-mono text-blue-400">{item.badge}</div>
+                  <div className="text-[10px] font-mono text-[#8B5CF6]">{item.badge}</div>
                 </div>
                 {triggerMode === item.id && (
-                  <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-[#7C3AED] flex items-center justify-center text-white shrink-0 mt-0.5">
                     <Check className="w-3 h-3" />
                   </div>
                 )}
@@ -592,18 +592,18 @@ export const GazeSentryTab: React.FC = () => {
         </HoloCard>
 
         {/* Eyebrow Sensitivity & Baseline Calibration Card */}
-        <HoloCard className="p-7 border-white/10 bg-black space-y-5">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-blue-400" />
+                <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
                 Eyebrow Elevation Sensitivity (+{browThreshold}%)
               </h3>
               <p className="text-xs text-white/70 mt-0.5">
                 Percentage increase above resting baseline required to trigger.
               </p>
             </div>
-            <div className="font-mono text-base font-bold text-blue-400 bg-blue-600/15 px-3 py-1 rounded-xl border border-blue-500/30">
+            <div className="font-mono text-base font-bold text-[#8B5CF6] bg-violet-500/10 px-3 py-1 rounded-xl border border-violet-500/20">
               +{browThreshold}%
             </div>
           </div>
@@ -617,10 +617,10 @@ export const GazeSentryTab: React.FC = () => {
               step="1"
               value={browThreshold}
               onChange={(e) => updateConfig({ gazeBrowThreshold: parseInt(e.target.value, 10) })}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#8B5CF6]"
             />
             <div className="flex justify-between text-[11px] font-mono text-white/50">
-              <span className="text-blue-400 font-bold">10% (Micro-Lift)</span>
+              <span className="text-[#8B5CF6] font-bold">10% (Micro-Lift)</span>
               <span>15% (Subtle)</span>
               <span className="text-white font-bold">18% (Natural)</span>
               <span>25% (Deliberate)</span>
@@ -642,8 +642,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeBrowThreshold: preset.pct })}
                   className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     browThreshold === preset.pct
-                      ? 'bg-blue-600 text-white border-blue-400 font-bold shadow-md shadow-blue-600/30'
-                      : 'bg-black text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-bold shadow-sm'
+                      : 'bg-white/[0.02] text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
                   }`}
                 >
                   <div className="text-xs font-bold">{preset.label}</div>
@@ -669,8 +669,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeBrowAction: item.id })}
                   className={`w-full p-2.5 rounded-xl border text-left text-xs transition-all flex items-center justify-between cursor-pointer ${
                     (config.gazeBrowAction || 'switch_right') === item.id
-                      ? 'bg-blue-600 text-white border-blue-400 font-semibold shadow-sm'
-                      : 'bg-black text-white/70 border-white/10 hover:border-white/30'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-semibold shadow-sm'
+                      : 'bg-white/[0.02] text-white/70 border-white/10 hover:border-white/30'
                   }`}
                 >
                   <span>{item.label}</span>
@@ -680,7 +680,7 @@ export const GazeSentryTab: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-blue-600/10 border border-blue-500/30 text-xs text-white/80 leading-relaxed">
+          <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-xs text-white/80 leading-relaxed">
             ⚡ <strong>Instant 1ms Reaction:</strong> Zero hold required. The instant eyebrows cross the threshold, the desktop switches immediately, and it re-arms instantly the moment eyebrows return below threshold so you can rapidly pump gestures without delay.
           </div>
         </HoloCard>
@@ -689,18 +689,18 @@ export const GazeSentryTab: React.FC = () => {
       {/* 2. SEPARATE ADJUSTMENTS: LEFT TURN vs RIGHT TURN */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Turn Degree Customization Card */}
-        <HoloCard className="p-7 border-white/10 bg-black space-y-6">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-6">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4 text-blue-400" />
+                <ArrowLeft className="w-4 h-4 text-[#8B5CF6]" />
                 Left Turn Sensitivity (5° to 90°)
               </h3>
               <p className="text-xs text-white/70 mt-0.5">
                 Angle required when glancing left to switch desktops.
               </p>
             </div>
-            <div className="font-mono text-base font-bold text-blue-400 bg-blue-600/15 px-3 py-1 rounded-xl border border-blue-500/30">
+            <div className="font-mono text-base font-bold text-[#8B5CF6] bg-violet-500/10 px-3 py-1 rounded-xl border border-violet-500/20">
               -{leftThreshold}°
             </div>
           </div>
@@ -714,10 +714,10 @@ export const GazeSentryTab: React.FC = () => {
               step="1"
               value={leftThreshold}
               onChange={(e) => updateConfig({ gazeLeftAngle: parseInt(e.target.value, 10) })}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#8B5CF6]"
             />
             <div className="flex justify-between text-[11px] font-mono text-white/50">
-              <span className="text-blue-400 font-bold">5° (Micro Glance)</span>
+              <span className="text-[#8B5CF6] font-bold">5° (Micro Glance)</span>
               <span>15° (Natural)</span>
               <span>30° (Firm)</span>
               <span>45° (Side)</span>
@@ -742,8 +742,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeLeftAngle: preset.deg })}
                   className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     leftThreshold === preset.deg
-                      ? 'bg-blue-600 text-white border-blue-400 font-bold shadow-md shadow-blue-600/30'
-                      : 'bg-black text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-bold shadow-sm'
+                      : 'bg-white/[0.02] text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
                   }`}
                 >
                   <div className="text-xs font-bold">{preset.label}</div>
@@ -768,8 +768,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeLeftAction: item.id })}
                   className={`w-full p-2.5 rounded-xl border text-left text-xs transition-all flex items-center justify-between cursor-pointer ${
                     (config.gazeLeftAction || 'switch_left') === item.id
-                      ? 'bg-blue-600 text-white border-blue-400 font-semibold shadow-sm'
-                      : 'bg-black text-white/70 border-white/10 hover:border-white/30'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-semibold shadow-sm'
+                      : 'bg-white/[0.02] text-white/70 border-white/10 hover:border-white/30'
                   }`}
                 >
                   <span>{item.label}</span>
@@ -781,18 +781,18 @@ export const GazeSentryTab: React.FC = () => {
         </HoloCard>
 
         {/* Right Turn Degree Customization Card */}
-        <HoloCard className="p-7 border-white/10 bg-black space-y-6">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-6">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <ArrowRight className="w-4 h-4 text-blue-400" />
+                <ArrowRight className="w-4 h-4 text-[#8B5CF6]" />
                 Right Turn Sensitivity (5° to 90°)
               </h3>
               <p className="text-xs text-white/70 mt-0.5">
                 Angle required when glancing right to switch desktops.
               </p>
             </div>
-            <div className="font-mono text-base font-bold text-blue-400 bg-blue-600/15 px-3 py-1 rounded-xl border border-blue-500/30">
+            <div className="font-mono text-base font-bold text-[#8B5CF6] bg-violet-500/10 px-3 py-1 rounded-xl border border-violet-500/20">
               +{rightThreshold}°
             </div>
           </div>
@@ -806,10 +806,10 @@ export const GazeSentryTab: React.FC = () => {
               step="1"
               value={rightThreshold}
               onChange={(e) => updateConfig({ gazeRightAngle: parseInt(e.target.value, 10) })}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#8B5CF6]"
             />
             <div className="flex justify-between text-[11px] font-mono text-white/50">
-              <span className="text-blue-400 font-bold">5° (Micro Glance)</span>
+              <span className="text-[#8B5CF6] font-bold">5° (Micro Glance)</span>
               <span>15° (Natural)</span>
               <span>30° (Firm)</span>
               <span>45° (Side)</span>
@@ -834,8 +834,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeRightAngle: preset.deg })}
                   className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                     rightThreshold === preset.deg
-                      ? 'bg-blue-600 text-white border-blue-400 font-bold shadow-md shadow-blue-600/30'
-                      : 'bg-black text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-bold shadow-sm'
+                      : 'bg-white/[0.02] text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
                   }`}
                 >
                   <div className="text-xs font-bold">{preset.label}</div>
@@ -860,8 +860,8 @@ export const GazeSentryTab: React.FC = () => {
                   onClick={() => updateConfig({ gazeRightAction: item.id, gazeAction: item.id })}
                   className={`w-full p-2.5 rounded-xl border text-left text-xs transition-all flex items-center justify-between cursor-pointer ${
                     (config.gazeRightAction || 'switch_right') === item.id
-                      ? 'bg-blue-600 text-white border-blue-400 font-semibold shadow-sm'
-                      : 'bg-black text-white/70 border-white/10 hover:border-white/30'
+                      ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-semibold shadow-sm'
+                      : 'bg-white/[0.02] text-white/70 border-white/10 hover:border-white/30'
                   }`}
                 >
                   <span>{item.label}</span>
@@ -875,18 +875,18 @@ export const GazeSentryTab: React.FC = () => {
 
       {/* 3. Anti-Jitter Dwell Confirmation & Thermal Architecture */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <HoloCard className="p-7 border-white/10 bg-black space-y-5">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Clock className="w-4 h-4 text-blue-400" />
+                <Clock className="w-4 h-4 text-[#8B5CF6]" />
                 Dwell Confirmation Filter ({config.gazeDwellMs ?? 0} ms)
               </h3>
               <p className="text-xs text-white/70 mt-0.5">
                 Glance hold requirement. Set to 0ms for instantaneous 1ms trigger with zero hold!
               </p>
             </div>
-            <div className="font-mono text-base font-bold text-blue-400 bg-blue-600/15 px-3 py-1 rounded-xl border border-blue-500/30">
+            <div className="font-mono text-base font-bold text-[#8B5CF6] bg-violet-500/10 px-3 py-1 rounded-xl border border-violet-500/20">
               {config.gazeDwellMs ?? 0} ms
             </div>
           </div>
@@ -899,10 +899,10 @@ export const GazeSentryTab: React.FC = () => {
               step="25"
               value={config.gazeDwellMs ?? 0}
               onChange={(e) => updateConfig({ gazeDwellMs: parseInt(e.target.value, 10) })}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#8B5CF6]"
             />
             <div className="flex justify-between text-[11px] font-mono text-white/50">
-              <span className="text-blue-400 font-bold">0ms (Instantaneous)</span>
+              <span className="text-[#8B5CF6] font-bold">0ms (Instantaneous)</span>
               <span>50ms (Micro)</span>
               <span>100ms (Hold)</span>
               <span>250ms (Firm)</span>
@@ -921,8 +921,8 @@ export const GazeSentryTab: React.FC = () => {
                 onClick={() => updateConfig({ gazeDwellMs: item.ms })}
                 className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                   (config.gazeDwellMs ?? 0) === item.ms
-                    ? 'bg-blue-600 text-white border-blue-400 font-bold shadow-md shadow-blue-600/30'
-                    : 'bg-black text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
+                    ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 font-bold shadow-sm'
+                    : 'bg-white/[0.02] text-white/80 border-white/10 hover:border-white/30 hover:bg-white/5'
                 }`}
               >
                 <div className="text-xs font-bold">{item.label}</div>
@@ -932,11 +932,11 @@ export const GazeSentryTab: React.FC = () => {
           </div>
         </HoloCard>
 
-        <HoloCard className="p-7 border-white/10 bg-black space-y-4 flex flex-col justify-between">
+        <HoloCard className="p-7 border-white/10 bg-white/[0.02] space-y-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-[#8B5CF6] shrink-0">
                   <BatteryCharging className="w-5 h-5" />
                 </div>
                 <div>
@@ -958,7 +958,7 @@ export const GazeSentryTab: React.FC = () => {
                 }}
                 className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                   config.gazeBatteryEcoMode !== false
-                    ? 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-600/30'
+                    ? 'bg-[#7C3AED] text-white border-[#8B5CF6]/40 shadow-sm'
                     : 'bg-white/5 text-white/50 border-white/10 hover:border-white/30'
                 }`}
               >
@@ -971,14 +971,14 @@ export const GazeSentryTab: React.FC = () => {
               <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
                 <div className="text-[10px] text-white/50">Tracking Engine</div>
                 <div className="text-white font-bold text-xs mt-0.5 flex items-center gap-1.5">
-                  <Gauge className="w-3.5 h-3.5 text-blue-400" />
+                  <Gauge className="w-3.5 h-3.5 text-[#8B5CF6]" />
                   1-Euro Adaptive
                 </div>
               </div>
               <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
                 <div className="text-[10px] text-white/50">Battery Saver</div>
                 <div className="text-white font-bold text-xs mt-0.5 flex items-center gap-1.5">
-                  <ThermometerSnowflake className="w-3.5 h-3.5 text-blue-400" />
+                  <ThermometerSnowflake className="w-3.5 h-3.5 text-[#8B5CF6]" />
                   -50% Wattage
                 </div>
               </div>
@@ -987,11 +987,11 @@ export const GazeSentryTab: React.FC = () => {
 
           <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono">
             <span className="text-white/60 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-blue-400" />
+              <Cpu className="w-3.5 h-3.5 text-[#8B5CF6]" />
               Settings Storage
             </span>
             <span className="text-white font-bold flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#8B5CF6]" />
               Local Storage + SSD Synced
             </span>
           </div>
@@ -999,8 +999,8 @@ export const GazeSentryTab: React.FC = () => {
       </div>
 
       {/* 4. Apple Quality Guarantee Card */}
-      <HoloCard className="p-6 border-white/10 bg-black flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+      <HoloCard className="p-6 border-white/10 bg-white/[0.02] flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-[#8B5CF6] shrink-0">
           <ShieldCheck className="w-5 h-5" />
         </div>
         <div className="space-y-1">

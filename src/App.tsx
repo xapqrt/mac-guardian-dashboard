@@ -14,6 +14,7 @@ import { AppleDynamicIsland } from './components/AppleDynamicIsland';
 import { CosmicField } from './components/CosmicField';
 
 // Detail Tabs & Tool Studios
+import { SentryCockpit } from './components/SentryCockpit';
 import { EarbudsTab } from './components/EarbudsTab';
 import { GazeSentryTab } from './components/GazeSentryTab';
 import { ThermalTab } from './components/ThermalTab';
@@ -367,160 +368,118 @@ export default function App() {
 
               {/* VIEW: SENTRY (GHOSTKEY & GAZE) */}
               {currentView === 'sentry' && (
-                <div className="w-full space-y-8">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Spatial Sentry</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      GhostKey & Gaze Studio.
-                    </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
-                      Fine-tune stem squeeze thresholds, headphone acoustics, and on-device gaze estimation with local Neural Engine acceleration.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
-                    <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                      <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
-                        <span>OnePlus Buds 4 Stem Controls</span>
-                        <span className="text-xs text-[#22D3EE] font-mono">Connected</span>
-                      </h3>
-                      <EarbudsTab />
-                    </div>
-
-                    <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                      <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
-                        <span>Gaze & Bezel Sentry</span>
-                        <span className="text-xs text-[#7C3AED] font-mono">Local Neural Engine</span>
-                      </h3>
-                      <GazeSentryTab />
-                    </div>
-                  </div>
-                </div>
+                <SentryCockpit />
               )}
 
               {/* VIEW: THERMAL & BATTERY */}
               {currentView === 'thermal' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Thermal Telemetry</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Thermal & Battery Studio.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#8B5CF6]">Thermal Telemetry</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Thermal & Battery Studio
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Real-time Apple Silicon die temperatures, cooling fans, and Li-ion degradation analytics.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <ThermalTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
-                  </div>
+                  <ThermalTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
                 </div>
               )}
 
               {/* VIEW: APFS STORAGE */}
               {currentView === 'storage' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">APFS Storage Engine</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Storage & Sunburst Explorer.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#38BDF8]">APFS Storage Engine</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Storage & Sunburst Explorer
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Interactive sunburst disk allocation, developer ghost folders, and heavy downloads hunter with surgical filtering.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <StorageTab stats={stats} triggerAction={triggerAction} />
-                  </div>
+                  <StorageTab stats={stats} triggerAction={triggerAction} />
                 </div>
               )}
 
               {/* VIEW: PROCESSES & RAM */}
               {currentView === 'processes' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Kernel Activity Monitor</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Processes & Safety Inspector.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#8B5CF6]">Kernel Activity Monitor</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Processes & Safety Inspector
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Apple kernel protection guards, RAM compression rings, and surgical thread termination with reusable multi-criteria filtering.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <ProcessesTab stats={stats} triggerAction={triggerAction} />
-                  </div>
+                  <ProcessesTab stats={stats} triggerAction={triggerAction} />
                 </div>
               )}
 
               {/* VIEW: DEV GHOST HUNTER & PORTS */}
               {currentView === 'dev' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Developer Tools</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Dev Ghost Hunter & Port Sentry.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#38BDF8]">Developer Tools</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Dev Ghost Hunter & Port Sentry
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Detect stuck Node/Python compilers, nuke rogue listening sockets, and inspect compiler matrices.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <DevGhostHunter stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
-                  </div>
+                  <DevGhostHunter stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
                 </div>
               )}
 
               {/* VIEW: PRIVACY VAULT */}
               {currentView === 'privacy' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#EF4444]">Kernel Defense</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Privacy Vault & Hygiene Cockpit.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-rose-400">Kernel Defense</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Privacy Vault & Hygiene Cockpit
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Memory-resident clipboard shredder, hardware microphone lockdown, and browser tracking artifact purges.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <PrivacyVaultTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
-                  </div>
+                  <PrivacyVaultTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
                 </div>
               )}
 
               {/* VIEW: TITANIUM TWEAKS */}
               {currentView === 'tweaks' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">System Optimization</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Titanium Controls & Audio Studio.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#8B5CF6]">System Optimization</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Titanium Controls & Audio Studio
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       CoreAudio latency repair, performance governors, and appearance toggles.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <TweaksTab stats={stats} perfMode={perfMode} setPerfMode={setPerfMode} triggerAction={triggerAction} />
-                  </div>
+                  <TweaksTab stats={stats} perfMode={perfMode} setPerfMode={setPerfMode} triggerAction={triggerAction} />
                 </div>
               )}
 
               {/* VIEW: STARTUP DAEMONS */}
               {currentView === 'startup' && (
                 <div className="w-full space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Boot Acceleration</span>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-                      Startup LaunchAgents Manager.
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#38BDF8]">Boot Acceleration</span>
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                      Startup LaunchAgents Manager
                     </h2>
-                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                    <p className="text-xs text-zinc-400 max-w-2xl">
                       Audit and disable background login items, updater daemons, and memory-hogging background applications.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-                    <StartupTab stats={stats} triggerAction={triggerAction} />
-                  </div>
+                  <StartupTab stats={stats} triggerAction={triggerAction} />
                 </div>
               )}
             </motion.div>

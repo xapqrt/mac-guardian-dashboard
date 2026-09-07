@@ -314,7 +314,7 @@ export const EarbudsTab: React.FC = () => {
           <div className="space-y-1.5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white">
-                <Headphones className="w-5 h-5 text-[#22D3EE]" />
+                <Headphones className="w-5 h-5 text-[#8B5CF6]" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
@@ -434,12 +434,12 @@ export const EarbudsTab: React.FC = () => {
           )}
 
           {/* OnePlus Buds 4 Live Battery & Audio Link Cockpit */}
-          <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
-            <div className="absolute top-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+          <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-sm backdrop-blur-xl relative overflow-hidden">
+            <div className="absolute top-0 right-1/4 w-80 h-80 bg-violet-500/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-[#38BDF8]">
                   <Headphones className="w-6 h-6" />
                 </div>
                 <div>
@@ -467,7 +467,7 @@ export const EarbudsTab: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               
               {/* Left: Earbuds Battery Cockpit (6 cols) */}
-              <div className="lg:col-span-6 bg-[#0c111e]/90 rounded-2xl border border-white/[0.08] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+              <div className="lg:col-span-6 bg-white/[0.02] rounded-2xl border border-white/[0.08] p-6 sm:p-8 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-mono font-bold tracking-wider text-slate-300 uppercase flex items-center gap-2">
@@ -480,7 +480,7 @@ export const EarbudsTab: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-6 my-2">
-                    <div className="relative w-24 h-24 rounded-full border-4 border-emerald-500/30 flex items-center justify-center bg-emerald-950/20 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                    <div className="relative w-24 h-24 rounded-full border-2 border-emerald-500/30 flex items-center justify-center bg-emerald-500/5">
                       <div className="text-2xl font-black font-mono text-white">
                         {btStats.battery || 60}%
                       </div>
@@ -518,7 +518,7 @@ export const EarbudsTab: React.FC = () => {
               </div>
 
               {/* Right: Audio Link Quality (AuLQ) & Signal (6 cols) */}
-              <div className="lg:col-span-6 bg-[#0c111e]/90 rounded-2xl border border-white/[0.08] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+              <div className="lg:col-span-6 bg-white/[0.02] rounded-2xl border border-white/[0.08] p-6 sm:p-8 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-mono font-bold tracking-wider text-slate-300 uppercase flex items-center gap-2">

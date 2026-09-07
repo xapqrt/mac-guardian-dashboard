@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #08080a;
-  --accent-primary: #7C3AED;
-  --accent-cyan: #22D3EE;
-  --accent-danger: #EF4444;
-  --text-primary: #F5F5F7;
-  --text-muted: #8A8A93;
+  --bg-main: #09090b;
+  --accent-primary: #8B5CF6;
+  --accent-cyan: #38BDF8;
+  --accent-danger: #F87171;
+  --text-primary: #F4F4F5;
+  --text-muted: #A1A1AA;
 }
 
 body {
   margin: 0;
-  background-color: #08080a;
-  color: #F5F5F7;
+  background-color: #09090b;
+  color: #F4F4F5;
   font-family: 'Inter', 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -22,39 +22,39 @@ body {
   line-height: 1.6;
 }
 
-/* Subtle animated gradient mesh with ~5% opacity so it doesn't fight readability */
+/* Calm, elegant ambient backlight with low opacity (2-3%) so it never fights readability */
 .cinematic-mesh {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.05;
+  opacity: 0.025;
   background: 
-    radial-gradient(at 15% 20%, #7C3AED 0px, transparent 50%),
-    radial-gradient(at 85% 25%, #22D3EE 0px, transparent 50%),
-    radial-gradient(at 50% 80%, #7C3AED 0px, transparent 50%);
-  filter: blur(80px);
+    radial-gradient(at 20% 20%, #8B5CF6 0px, transparent 60%),
+    radial-gradient(at 80% 30%, #38BDF8 0px, transparent 60%),
+    radial-gradient(at 50% 80%, #8B5CF6 0px, transparent 60%);
+  filter: blur(100px);
 }
 
-/* Subtle noise overlay */
+/* Subtle texture overlay */
 .cinematic-noise {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 32px 32px;
 }
 
-/* Glassmorphism panel: bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl */
+/* Refined Glassmorphism panel: calm, balanced, non-glaring */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 1rem; /* rounded-2xl */
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(124, 58, 237, 0.15);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(139, 92, 246, 0.08);
 }
 
 /* Violet to cyan gradient text */

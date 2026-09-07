@@ -121,24 +121,22 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   const model = stats?.specs?.model || 'MacBook Pro';
 
   return (
-    <aside className="w-64 h-screen shrink-0 bg-[#08080a]/95 backdrop-blur-2xl border-r border-white/[0.08] flex flex-col justify-between select-none sticky top-0 z-40">
+    <aside className="w-64 h-screen shrink-0 bg-[#09090b]/95 backdrop-blur-2xl border-r border-white/[0.06] flex flex-col justify-between select-none sticky top-0 z-40">
       {/* 1. Header & Brand */}
-      <div className="p-4 border-b border-white/[0.08]">
+      <div className="p-4 border-b border-white/[0.06]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#22D3EE] p-0.5 shadow-[0_0_20px_rgba(124,58,237,0.35)] flex items-center justify-center">
-              <div className="w-full h-full bg-[#08080a] rounded-2xl flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-[#22D3EE]" />
-              </div>
+            <div className="w-8 h-8 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-white">
+              <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
             </div>
             <div>
-              <div className="text-sm font-bold tracking-tight text-[#F5F5F7] flex items-center gap-1.5">
+              <div className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5">
                 <span>Mac Guardian</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#7C3AED]/20 text-[#22D3EE] font-mono border border-[#7C3AED]/30">
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/[0.06] text-zinc-400 font-mono border border-white/[0.08]">
                   PRO
                 </span>
               </div>
-              <p className="text-[11px] text-[#8A8A93] font-mono truncate max-w-[140px]">
+              <p className="text-[11px] text-zinc-400 font-mono truncate max-w-[140px]">
                 {chip}
               </p>
             </div>
@@ -147,10 +145,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           <button
             onClick={onToggleSound}
             title={soundEnabled ? 'Mute sound effects' : 'Enable audio feedback'}
-            className="p-1.5 rounded-xl hover:bg-white/5 text-[#8A8A93] hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             {soundEnabled ? (
-              <Volume2 className="w-4 h-4 text-[#22D3EE]" />
+              <Volume2 className="w-4 h-4 text-zinc-300" />
             ) : (
               <VolumeX className="w-4 h-4" />
             )}
@@ -158,18 +156,18 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         </div>
 
         {/* Live Kernel Telemetry Pill */}
-        <div className="mt-3 flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-[11px] font-mono text-[#8A8A93]">
+        <div className="mt-3 flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-white/[0.02] border border-white/[0.06] text-[11px] font-mono text-zinc-400">
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#22D3EE] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse" />
-            <span className="text-[#F5F5F7]">Mach Kernel</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="text-zinc-200">Mach Kernel</span>
           </span>
-          <span className="text-[#22D3EE]">ACTIVE</span>
+          <span className="text-emerald-400/90 text-[10px]">ACTIVE</span>
         </div>
       </div>
 
       {/* 2. Navigation List */}
       <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-        <div className="px-3 pb-1 pt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-[#8A8A93]">
+        <div className="px-3 pb-1 pt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-400">
           Navigation
         </div>
 
@@ -185,16 +183,16 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 sound.playClick();
                 onSelectView(item.id);
               }}
-              className={`w-full relative flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all duration-150 cursor-pointer ${
+              className={`w-full relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer ${
                 isActive
-                  ? 'text-white bg-gradient-to-r from-[#7C3AED]/20 to-[#22D3EE]/10 border border-[#7C3AED]/40 shadow-[0_0_20px_rgba(124,58,237,0.2)]'
-                  : 'text-[#8A8A93] hover:text-[#F5F5F7] hover:bg-white/[0.04] border border-transparent'
+                  ? 'text-white bg-white/[0.07] border border-white/[0.12] shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.03] border border-transparent'
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeSidebarIndicator"
-                  className="absolute left-0 w-1 h-5 rounded-r-full bg-gradient-to-b from-[#7C3AED] to-[#22D3EE] shadow-[0_0_12px_#22D3EE]"
+                  className="absolute left-0 w-1 h-5 rounded-r-full bg-[#8B5CF6] shadow-[0_0_8px_rgba(139,92,246,0.6)]"
                   transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                 />
               )}
@@ -202,7 +200,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               <div className="flex items-center gap-3 min-w-0">
                 <Icon
                   className={`w-4 h-4 transition-colors ${
-                    isActive ? 'text-[#22D3EE]' : 'text-[#8A8A93]'
+                    isActive ? 'text-[#8B5CF6]' : 'text-zinc-400'
                   }`}
                 />
                 <span className="truncate">{item.label}</span>
@@ -212,8 +210,8 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 <span
                   className={`text-[10px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 ${
                     isActive
-                      ? 'bg-white/20 text-white font-semibold'
-                      : 'bg-white/5 text-[#8A8A93] border border-white/5'
+                      ? 'bg-white/15 text-white font-medium'
+                      : 'bg-white/[0.04] text-zinc-400 border border-white/[0.04]'
                   }`}
                 >
                   {badgeVal}
