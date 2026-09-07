@@ -166,7 +166,7 @@ export const AppUninstaller: React.FC<AppUninstallerProps> = ({
           onClick={() => setConfirmApp(null)}
         >
           <div
-            className="w-full max-w-md rounded-3xl bg-[#12090b] border border-rose-500/30 p-8 space-y-6 shadow-2xl animate-in zoom-in-95 duration-150"
+            className="w-full max-w-md rounded-2xl bg-[#0e0e12] border border-white/10 p-8 space-y-6 shadow-[0_0_40px_rgba(239,68,68,0.2)] animate-in zoom-in-95 duration-150"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3">

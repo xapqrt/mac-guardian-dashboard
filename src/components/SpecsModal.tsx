@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Cpu,
   X,
@@ -23,8 +24,6 @@ export const SpecsModal: React.FC<SpecsModalProps> = ({
   onClose,
   stats
 }) => {
-  if (!isOpen) return null;
-
   const specRows = [
     { label: 'Processor', value: stats?.specs?.chip || 'Apple Silicon', icon: Cpu },
     { label: 'Hardware Model', value: stats?.specs?.model || 'Mac', icon: Zap },
@@ -38,58 +37,71 @@ export const SpecsModal: React.FC<SpecsModalProps> = ({
   ];
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-150"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-xl rounded-3xl bg-[#101010] border border-white/[0.08] p-8 space-y-6 shadow-2xl animate-in zoom-in-95 duration-150 text-[#f5f5f7]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-[#f5f5f7]">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-base text-[#f5f5f7] tracking-tight">Apple Silicon Architecture</h3>
-              <p className="text-xs text-[#86868b] mt-0.5">Hardware specifications & kernel telemetry</p>
-            </div>
-          </div>
-
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-full text-[#86868b] hover:text-[#f5f5f7] hover:bg-white/[0.08] transition-colors"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="w-full max-w-xl rounded-2xl bg-[#08080a] border border-white/10 p-6 sm:p-8 space-y-6 shadow-[0_24px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(124,58,237,0.15)] text-[#F5F5F7]"
+            onClick={(e) => e.stopPropagation()}
           >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="space-y-2 font-mono text-xs">
-          {specRows.map((row, idx) => {
-            const Icon = row.icon;
-            return (
-              <div
-                key={idx}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-[#0a0a0c] border border-white/[0.06] hover:border-white/[0.12] transition-colors"
-              >
-                <div className="flex items-center gap-2.5 text-[#86868b] font-sans text-xs">
-                  <Icon className="w-3.5 h-3.5 text-[#86868b]" />
-                  <span>{row.label}</span>
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#7C3AED]">
+                  <Cpu className="w-5 h-5 text-[#22D3EE]" />
                 </div>
-                <span className="font-medium text-[#f5f5f7] truncate max-w-[280px] text-right">
-                  {row.value}
-                </span>
+                <div>
+                  <h3 className="font-semibold text-base text-[#F5F5F7] tracking-tight">Apple Silicon Architecture</h3>
+                  <p className="text-xs text-[#8A8A93] mt-0.5">Hardware specifications & kernel telemetry</p>
+                </div>
               </div>
-            );
-          })}
-        </div>
 
-        <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-[#86868b] font-mono">
-          <span>Sub-25ms Telemetry Bus</span>
-          <span className="text-[#30d158] font-medium">Native Apple Architecture</span>
-        </div>
-      </div>
-    </div>
+              <button
+                onClick={onClose}
+                className="p-1.5 rounded-2xl text-[#8A8A93] hover:text-[#F5F5F7] hover:bg-white/5 transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2 font-mono text-xs">
+              {specRows.map((row, idx) => {
+                const Icon = row.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-150"
+                  >
+                    <div className="flex items-center gap-2.5 text-[#8A8A93] font-sans text-xs">
+                      <Icon className="w-3.5 h-3.5 text-[#7C3AED]" />
+                      <span>{row.label}</span>
+                    </div>
+                    <span className="font-medium text-[#F5F5F7] truncate max-w-[280px] text-right">
+                      {row.value}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-[#8A8A93] font-mono">
+              <span>Sub-25ms Telemetry Bus</span>
+              <span className="text-[#22D3EE] font-medium">Native Silicon Pipeline</span>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
+

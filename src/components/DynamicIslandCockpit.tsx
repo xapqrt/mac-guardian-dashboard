@@ -32,10 +32,10 @@ export const DynamicIslandCockpit: React.FC<DynamicIslandProps> = ({
   return (
     <div className="w-full max-w-3xl mx-auto px-4 z-30 transition-all duration-300">
       <div
-        className={`border border-white/[0.1] bg-black/85 backdrop-blur-2xl shadow-2xl transition-all duration-300 overflow-hidden ${
+        className={`border border-white/10 bg-[#08080a]/90 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 overflow-hidden rounded-2xl ${
           isExpanded
-            ? 'rounded-3xl p-6 space-y-5 border-white/[0.14]'
-            : 'rounded-full px-5 py-2.5 hover:border-white/[0.18]'
+            ? 'p-6 space-y-5 border-white/15'
+            : 'px-5 py-2.5 hover:border-[#7C3AED]/40'
         }`}
       >
         {/* Compact Island Pill (Always visible) */}

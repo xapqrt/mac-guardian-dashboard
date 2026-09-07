@@ -3,120 +3,77 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #000000;
-  --panel-bg: rgba(18, 18, 20, 0.65);
-  --panel-border: rgba(255, 255, 255, 0.08);
-  --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
-  --apple-gray: #86868b;
-  --font-mono: -apple-system-monospaced, "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
+  --bg-main: #08080a;
+  --accent-primary: #7C3AED;
+  --accent-cyan: #22D3EE;
+  --accent-danger: #EF4444;
+  --text-primary: #F5F5F7;
+  --text-muted: #8A8A93;
 }
 
 body {
   margin: 0;
-  background-color: #000000;
-  color: #f5f5f7;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+  background-color: #08080a;
+  color: #F5F5F7;
+  font-family: 'Inter', 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.025em;
   overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* Apple Typography Gradients */
-.apple-text-gradient {
-  background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #86868b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Subtle animated gradient mesh with ~5% opacity so it doesn't fight readability */
+.cinematic-mesh {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background: 
+    radial-gradient(at 15% 20%, #7C3AED 0px, transparent 50%),
+    radial-gradient(at 85% 25%, #22D3EE 0px, transparent 50%),
+    radial-gradient(at 50% 80%, #7C3AED 0px, transparent 50%);
+  filter: blur(80px);
 }
 
-.apple-subtext-gradient {
-  background: linear-gradient(180deg, #f5f5f7 0%, #a1a1a6 60%, #86868b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Subtle noise overlay */
+.cinematic-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
-.apple-blue-gradient {
-  background: linear-gradient(180deg, #2997ff 0%, #0071e3 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Apple Glassmorphism & Liquid Metal */
-.apple-frosted-acrylic {
-  background: rgba(18, 18, 20, 0.65);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 20px 40px -15px rgba(0, 0, 0, 0.8);
-}
-
-.apple-capsule {
-  border-radius: 9999px;
-  background: rgba(15, 15, 18, 0.7);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+/* Glassmorphism panel: bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.6);
+  border-radius: 1rem; /* rounded-2xl */
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.apple-metallic-chip {
-  background: linear-gradient(135deg, #1c1c22 0%, #0e0e11 50%, #1f1f26 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.25), 0 24px 60px rgba(0, 0, 0, 0.9);
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(124, 58, 237, 0.15);
 }
 
-.apple-card {
-  background: #0d0d0f;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  border-radius: 1.5rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* Violet to cyan gradient text */
+.text-gradient-violet-cyan {
+  background: linear-gradient(135deg, #F5F5F7 0%, #C4B5FD 40%, #7C3AED 70%, #22D3EE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.apple-card:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #22D3EE 0%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.apple-inset {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
-}
-
-/* High-tension Gloss hover */
-.apple-btn-gloss {
-  position: relative;
-  overflow: hidden;
-}
-
-.apple-btn-gloss::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-
-.apple-btn-gloss:hover::after {
-  transform: translateX(100%);
-}
-
-/* Subtle Apple Micro-Texture */
-.apple-noise {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 0);
-  background-size: 20px 20px;
-}
-
-/* Sleek Apple-style Scrollbars */
+/* Sleek Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -124,34 +81,22 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(124, 58, 237, 0.4);
 }
 
-/* Compatibility utility mappings for legacy components */
-.glass-panel {
-  background: rgba(13, 13, 15, 0.75);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Universal graceful degradation for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.glass-panel-glow {
-  background: rgba(13, 13, 15, 0.85);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-}
-
-.titanium-card {
-  background: #0d0d0f;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  border-radius: 1.5rem;
-}
 

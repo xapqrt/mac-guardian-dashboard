@@ -45,7 +45,7 @@ export const M4TelemetryCard: React.FC<M4TelemetryProps> = ({ telemetry, loadAvg
   const load1 = parseFloat(loadAvg?.load1 || '2.2');
 
   return (
-    <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0e131f]/90 to-[#090c14]/90 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+    <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
       {/* Ambient Silicon Glow Background */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />

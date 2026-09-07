@@ -10,8 +10,11 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
     "@types/three": "^0.185.4",
     "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
     "lucide-react": "^0.475.0",

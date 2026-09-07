@@ -27,7 +27,7 @@ export const AudioSoundboardStudio: React.FC = () => {
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* Soundboard Card */}
-      <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0e1424]/95 to-[#0a0f1c]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+      <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-wrap items-center justify-between gap-6 border-b border-white/[0.08] pb-6">

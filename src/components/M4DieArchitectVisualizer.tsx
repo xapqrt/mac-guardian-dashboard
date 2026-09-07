@@ -133,7 +133,7 @@ export const M4DieArchitectVisualizer: React.FC<M4DieProps> = ({ telemetry, load
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* Visual Die Header Bar */}
-      <HoloCard className="p-8 sm:p-10 space-y-6 bg-gradient-to-b from-[#0c1220]/95 to-[#090d16]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+      <HoloCard className="p-8 sm:p-10 space-y-6 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -189,7 +189,7 @@ export const M4DieArchitectVisualizer: React.FC<M4DieProps> = ({ telemetry, load
             </div>
 
             {/* The Silicon Die Floorplan SVG Container */}
-            <div className={`p-6 rounded-3xl border transition-all duration-500 relative overflow-hidden ${
+            <div className={`p-6 rounded-2xl border transition-all duration-500 relative overflow-hidden ${
               heatmapMode
                 ? 'bg-gradient-to-br from-[#1a0808] via-[#240d0d] to-[#0c0404] border-rose-500/40 shadow-[0_0_30px_rgba(244,63,94,0.15)]'
                 : 'bg-[#090d18]/90 border-white/10 shadow-inner'
@@ -384,7 +384,7 @@ export const M4DieArchitectVisualizer: React.FC<M4DieProps> = ({ telemetry, load
           </div>
 
           {/* Right: Sub-Block Deep Inspector (5 cols) */}
-          <div className="lg:col-span-5 bg-[#0b0e19]/90 rounded-3xl border border-white/10 p-6 sm:p-8 space-y-6 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-white/5 rounded-2xl border border-white/10 p-6 sm:p-8 space-y-6 flex flex-col justify-between backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
                 <div>

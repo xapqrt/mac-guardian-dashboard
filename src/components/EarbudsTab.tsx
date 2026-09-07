@@ -412,7 +412,7 @@ export const EarbudsTab: React.FC = () => {
         <div className="space-y-8">
           {/* Low-Latency Disconnect Warning Banner */}
           {btStats.connected === false && (
-            <div className="p-6 rounded-3xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex flex-wrap items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-300 shadow-xl shadow-rose-950/20">
+            <div className="p-6 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/30 text-rose-300 flex flex-wrap items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-300 shadow-xl shadow-rose-950/20">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 shrink-0">
                   <WifiOff className="w-6 h-6 animate-pulse" />
@@ -427,14 +427,14 @@ export const EarbudsTab: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-xs font-mono font-bold text-rose-300">
+              <div className="px-4 py-2 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-xs font-mono font-bold text-rose-300">
                 RECONNECTING KERNEL DAEMON
               </div>
             </div>
           )}
 
           {/* OnePlus Buds 4 Live Battery & Audio Link Cockpit */}
-          <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0f172a]/90 to-[#0b101d]/90 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+          <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
             <div className="absolute top-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
@@ -1523,7 +1523,7 @@ export const EarbudsTab: React.FC = () => {
                 if (isPanicking) triggerRestore();
                 else triggerPanic('Phone Web Remote');
               }}
-              className={`w-full py-12 rounded-3xl border text-lg font-extrabold tracking-tight transition-all duration-200 active:scale-95 shadow-2xl flex flex-col items-center justify-center gap-2 ${
+              className={`w-full py-12 rounded-2xl border text-lg font-extrabold tracking-tight transition-all duration-200 active:scale-95 shadow-2xl flex flex-col items-center justify-center gap-2 ${
                 isPanicking
                   ? 'bg-emerald-500 text-slate-950 border-emerald-400'
                   : 'bg-rose-600 text-white border-rose-500'

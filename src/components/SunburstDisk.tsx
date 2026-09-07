@@ -73,7 +73,7 @@ export const SunburstDisk: React.FC<SunburstDiskProps> = ({
   const activeItem = hoveredIndex !== null ? slices[hoveredIndex] : null;
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-12 rounded-3xl bg-[#0e1017] border border-white/[0.08] relative overflow-hidden">
+    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-12 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)] relative overflow-hidden">
       {/* Ambient background glow */}
       <div
         className="pointer-events-none absolute -left-10 top-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl opacity-20 transition-colors duration-500"

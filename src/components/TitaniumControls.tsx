@@ -840,8 +840,8 @@ export const TitaniumCard: React.FC<TitaniumCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden rounded-3xl bg-[#0a0d14] border border-white/[0.09] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),inset_0_-1px_0_0_rgba(0,0,0,0.5),0_12px_36px_-8px_rgba(0,0,0,0.8)] transition-all duration-200 ${
-        hoverGlow ? 'hover:border-white/20' : ''
+      className={`relative overflow-hidden rounded-2xl bg-[#08080a]/90 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(124,58,237,0.12)] transition-all duration-200 ${
+        hoverGlow ? 'hover:border-[#7C3AED]/40 hover:-translate-y-0.5' : ''
       } ${onClick ? 'cursor-pointer active:scale-[0.99]' : ''} ${className}`}
     >
       {/* Top Specular Sheen Rim */}

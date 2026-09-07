@@ -168,7 +168,7 @@ export const DevMatrixInspector: React.FC<DevMatrixProps> = ({ stats, triggerAct
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* Top Banner */}
-      <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0f172a]/95 to-[#0b101d]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+      <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-wrap items-center justify-between gap-6 border-b border-white/[0.08] pb-6">
@@ -199,7 +199,7 @@ export const DevMatrixInspector: React.FC<DevMatrixProps> = ({ stats, triggerAct
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left: 2D Radar Canvas (6 cols) */}
-          <div className="lg:col-span-6 bg-[#080d1a]/90 rounded-3xl border border-white/10 p-6 flex flex-col justify-between items-center relative">
+          <div className="lg:col-span-6 bg-white/5 rounded-2xl border border-white/10 p-6 flex flex-col justify-between items-center relative backdrop-blur-xl">
             <div className="w-full flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
               <span className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-cyan-400" />
@@ -227,7 +227,7 @@ export const DevMatrixInspector: React.FC<DevMatrixProps> = ({ stats, triggerAct
           <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
             
             {/* Selected Node Card */}
-            <div className="p-6 rounded-3xl bg-[#0b101e]/90 border border-white/10 space-y-4">
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4 backdrop-blur-xl">
               <div className="flex justify-between items-center border-b border-white/[0.06] pb-3">
                 <div className="flex items-center gap-2">
                   <Server className="w-4 h-4 text-cyan-400" />
@@ -283,7 +283,7 @@ export const DevMatrixInspector: React.FC<DevMatrixProps> = ({ stats, triggerAct
             </div>
 
             {/* Quick Diagnostic Terminal Console */}
-            <div className="p-6 rounded-3xl bg-[#080b14] border border-white/10 space-y-3">
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3 backdrop-blur-xl">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-cyan-400" />

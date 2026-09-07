@@ -54,7 +54,7 @@ export const MemoryCompressorVisualizer: React.FC<MemoryCompressorProps> = ({
   };
 
   return (
-    <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0c1322]/95 to-[#080d18]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+    <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
       <div className="absolute top-0 right-1/3 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}

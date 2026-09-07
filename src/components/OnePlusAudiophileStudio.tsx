@@ -131,7 +131,7 @@ export const OnePlusAudiophileStudio: React.FC<AudiophileStudioProps> = ({ btSta
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* Hero Audiophile Header Card */}
-      <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0e1626]/95 to-[#090e1a]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+      <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-1/3 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-wrap items-center justify-between gap-6 border-b border-white/[0.08] pb-6">
@@ -174,7 +174,7 @@ export const OnePlusAudiophileStudio: React.FC<AudiophileStudioProps> = ({ btSta
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left: Photorealistic OnePlus Buds Nord 4 Dual Stems (5 cols) */}
-          <div className="lg:col-span-5 bg-[#090e1c]/90 rounded-3xl border border-white/10 p-8 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 bg-white/5 rounded-2xl border border-white/10 p-8 flex flex-col justify-between space-y-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
             <div>
               <div className="flex justify-between items-center mb-6">
                 <span className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
@@ -188,7 +188,7 @@ export const OnePlusAudiophileStudio: React.FC<AudiophileStudioProps> = ({ btSta
               <div className="flex items-center justify-center gap-8 py-6">
                 {/* Left Earbud */}
                 <div className="flex flex-col items-center space-y-3 group cursor-pointer" onClick={() => sound.playClick()}>
-                  <div className="relative w-20 h-32 rounded-3xl bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 border-2 border-white/30 p-2 shadow-2xl flex flex-col items-center justify-between group-hover:scale-105 transition-all">
+                  <div className="relative w-20 h-32 rounded-2xl bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 border-2 border-white/30 p-2 shadow-2xl flex flex-col items-center justify-between group-hover:scale-105 transition-all">
                     <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-[10px] font-mono text-slate-300">
                       L
                     </div>
@@ -217,7 +217,7 @@ export const OnePlusAudiophileStudio: React.FC<AudiophileStudioProps> = ({ btSta
 
                 {/* Right Earbud */}
                 <div className="flex flex-col items-center space-y-3 group cursor-pointer" onClick={() => sound.playClick()}>
-                  <div className="relative w-20 h-32 rounded-3xl bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 border-2 border-white/30 p-2 shadow-2xl flex flex-col items-center justify-between group-hover:scale-105 transition-all">
+                  <div className="relative w-20 h-32 rounded-2xl bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 border-2 border-white/30 p-2 shadow-2xl flex flex-col items-center justify-between group-hover:scale-105 transition-all">
                     <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-[10px] font-mono text-slate-300">
                       R
                     </div>
@@ -240,7 +240,7 @@ export const OnePlusAudiophileStudio: React.FC<AudiophileStudioProps> = ({ btSta
           </div>
 
           {/* Right: Real-time Spectrum Waveform + 6-Band Graphic EQ (7 cols) */}
-          <div className="lg:col-span-7 bg-[#090e1c]/90 rounded-3xl border border-white/10 p-8 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 bg-white/5 rounded-2xl border border-white/10 p-8 flex flex-col justify-between space-y-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
             
             {/* Live FFT Spectrum Analyzer Canvas */}
             <div className="space-y-3">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import { Command, XCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { sound } from './utils/audio';
 
 // Showcase Components
@@ -236,7 +237,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-[#0071e3]/30 relative selection:text-white">
+    <div className="min-h-screen bg-[#08080a] text-[#F5F5F7] flex flex-col font-sans selection:bg-[#7C3AED]/30 relative selection:text-white">
       {/* Subtle Apple Ambient Backlight Glow */}
       <CosmicField />
 
@@ -291,8 +292,14 @@ export default function App() {
         />
       </div>
 
-      {/* 5. Scroll Story Section: 3 Scrubbed Acts */}
-      <div id="story">
+      {/* 5. Scroll Story Section: 3 Scrubbed Acts (Below Fold Reveal) */}
+      <motion.div
+        id="story"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <ScrollStorySection
           stats={stats}
           onExploreFeature={(tab) => {
@@ -300,10 +307,16 @@ export default function App() {
             scrollToSection('studio');
           }}
         />
-      </div>
+      </motion.div>
 
-      {/* 6. Bento Spec Sheet: Asymmetric 4-Col Grid */}
-      <div id="specs">
+      {/* 6. Bento Spec Sheet: Asymmetric 4-Col Grid (Below Fold Reveal) */}
+      <motion.div
+        id="specs"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <BentoSpecSheet
           stats={stats}
           triggerAction={triggerAction}
@@ -314,54 +327,68 @@ export default function App() {
             scrollToSection('studio');
           }}
         />
-      </div>
+      </motion.div>
 
-      {/* 7. GhostKey Sentry Studio */}
-      <div id="sentry" className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8">
+      {/* 7. GhostKey Sentry Studio (Below Fold Reveal) */}
+      <motion.div
+        id="sentry"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8"
+      >
         <div className="space-y-2">
-          <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#ff9f0a]">Spatial Sentry</span>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-white">
+          <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Spatial Sentry</span>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
             GhostKey & Gaze Studio.
           </h2>
-          <p className="text-[#86868b] text-sm max-w-xl">
+          <p className="text-[#8A8A93] text-sm max-w-xl">
             Fine-tune stem squeeze thresholds, headphone acoustics, and on-device gaze estimation.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] p-6 backdrop-blur-2xl">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center justify-between">
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+            <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
               <span>OnePlus Buds 4 Stem Controls</span>
-              <span className="text-xs text-[#30d158] font-mono">Connected</span>
+              <span className="text-xs text-[#22D3EE] font-mono">Connected</span>
             </h3>
             <EarbudsTab />
           </div>
 
-          <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] p-6 backdrop-blur-2xl">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center justify-between">
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+            <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
               <span>Gaze & Bezel Sentry</span>
-              <span className="text-xs text-[#2997ff] font-mono">Local Neural Engine</span>
+              <span className="text-xs text-[#7C3AED] font-mono">Local Neural Engine</span>
             </h3>
             <GazeSentryTab />
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* 8. Deep Telemetry & System Utilities Studio */}
-      <div id="studio" className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8 border-t border-white/[0.06]">
+      {/* 8. Deep Telemetry & System Utilities Studio (Below Fold Reveal) */}
+      <motion.div
+        id="studio"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8 border-t border-white/[0.08]"
+      >
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-2">
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#2997ff]">Hardware Console</span>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-white">
+            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Hardware Console</span>
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
               System Instrumentation.
             </h2>
-            <p className="text-[#86868b] text-sm">
+            <p className="text-[#8A8A93] text-sm">
               Surgical diagnostic control over thermal sensors, APFS storage blocks, kernel processes, and launch daemons.
             </p>
           </div>
 
-          {/* SubTab Pill Selector */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs overflow-x-auto max-w-full">
+          {/* SubTab Pill Selector with sliding layoutId */}
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white/5 border border-white/10 text-xs overflow-x-auto max-w-full backdrop-blur-xl">
             {[
               { id: 'thermal', label: 'Thermal' },
               { id: 'storage', label: 'Storage' },
@@ -370,82 +397,102 @@ export default function App() {
               { id: 'privacy', label: 'Privacy' },
               { id: 'controls', label: 'Tweaks' },
               { id: 'startup', label: 'Daemons' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  sound.playClick();
-                  setActiveSubTab(tab.id);
-                }}
-                className={`px-3.5 py-1.5 rounded-full transition-all shrink-0 font-medium ${
-                  activeSubTab === tab.id
-                    ? 'bg-white text-black shadow-sm'
-                    : 'text-[#86868b] hover:text-white'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+            ].map((tab) => {
+              const isActive = activeSubTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    sound.playClick();
+                    setActiveSubTab(tab.id);
+                  }}
+                  className={`relative px-4 py-1.5 rounded-2xl transition-all shrink-0 font-medium ${
+                    isActive
+                      ? 'text-white'
+                      : 'text-[#8A8A93] hover:text-[#F5F5F7]'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeSubTabPill"
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Dynamic Studio Tab Content */}
-        <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] p-6 sm:p-8 backdrop-blur-2xl min-h-[500px]">
-          {activeSubTab === 'thermal' && (
-            <ThermalTab
-              stats={stats}
-              triggerAction={triggerAction}
-              loadingAction={loadingAction}
-            />
-          )}
+        {/* Dynamic Studio Tab Content with AnimatePresence page transition */}
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl min-h-[500px] shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSubTab}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+            >
+              {activeSubTab === 'thermal' && (
+                <ThermalTab
+                  stats={stats}
+                  triggerAction={triggerAction}
+                  loadingAction={loadingAction}
+                />
+              )}
 
-          {activeSubTab === 'storage' && (
-            <StorageTab
-              stats={stats}
-              triggerAction={triggerAction}
-            />
-          )}
+              {activeSubTab === 'storage' && (
+                <StorageTab
+                  stats={stats}
+                  triggerAction={triggerAction}
+                />
+              )}
 
-          {activeSubTab === 'processes' && (
-            <ProcessesTab
-              stats={stats}
-              triggerAction={triggerAction}
-            />
-          )}
+              {activeSubTab === 'processes' && (
+                <ProcessesTab
+                  stats={stats}
+                  triggerAction={triggerAction}
+                />
+              )}
 
-          {activeSubTab === 'developer' && (
-            <DevGhostHunter
-              stats={stats}
-              triggerAction={triggerAction}
-              loadingAction={loadingAction}
-            />
-          )}
+              {activeSubTab === 'developer' && (
+                <DevGhostHunter
+                  stats={stats}
+                  triggerAction={triggerAction}
+                  loadingAction={loadingAction}
+                />
+              )}
 
-          {activeSubTab === 'privacy' && (
-            <PrivacyVaultTab
-              stats={stats}
-              triggerAction={triggerAction}
-              loadingAction={loadingAction}
-            />
-          )}
+              {activeSubTab === 'privacy' && (
+                <PrivacyVaultTab
+                  stats={stats}
+                  triggerAction={triggerAction}
+                  loadingAction={loadingAction}
+                />
+              )}
 
-          {activeSubTab === 'controls' && (
-            <TweaksTab
-              stats={stats}
-              perfMode={perfMode}
-              setPerfMode={setPerfMode}
-              triggerAction={triggerAction}
-            />
-          )}
+              {activeSubTab === 'controls' && (
+                <TweaksTab
+                  stats={stats}
+                  perfMode={perfMode}
+                  setPerfMode={setPerfMode}
+                  triggerAction={triggerAction}
+                />
+              )}
 
-          {activeSubTab === 'startup' && (
-            <StartupTab
-              stats={stats}
-              triggerAction={triggerAction}
-            />
-          )}
+              {activeSubTab === 'startup' && (
+                <StartupTab
+                  stats={stats}
+                  triggerAction={triggerAction}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
 
       {/* 9. Global Modals & Dialogs */}
       <SupernovaModal
@@ -489,49 +536,62 @@ export default function App() {
         }}
       />
 
-      {/* Keyboard Shortcuts Modal (?) */}
-      {isShortcutsOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xl flex items-center justify-center p-4" 
-          onClick={() => setIsShortcutsOpen(false)}
-        >
-          <div 
-            className="w-full max-w-md rounded-2xl bg-[#1c1c1e] border border-white/[0.1] p-6 space-y-4 shadow-2xl animate-in zoom-in-95 duration-150 text-xs" 
-            onClick={(e) => e.stopPropagation()}
+      {/* Keyboard Shortcuts Modal (?) with AnimatePresence & spring physics */}
+      <AnimatePresence>
+        {isShortcutsOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4" 
+            onClick={() => setIsShortcutsOpen(false)}
           >
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-              <h3 className="font-semibold text-sm text-white flex items-center gap-2">
-                <Command className="w-4 h-4 text-white" /> Keyboard Shortcuts
-              </h3>
-              <button onClick={() => setIsShortcutsOpen(false)} className="text-[#86868b] hover:text-white transition-colors">
-                <XCircle className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-2.5">
-              <div className="flex justify-between py-1 border-b border-white/[0.04]">
-                <span className="text-[#a1a1a6]">Open Command Palette</span>
-                <kbd className="px-2 py-0.5 rounded bg-white/[0.08] text-white font-mono">⌘K</kbd>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-md rounded-2xl bg-[#0e0e12] border border-white/10 p-6 space-y-4 shadow-[0_0_40px_rgba(124,58,237,0.2)] text-xs" 
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+                <h3 className="font-semibold text-sm text-[#F5F5F7] flex items-center gap-2">
+                  <Command className="w-4 h-4 text-[#7C3AED]" /> Keyboard Shortcuts
+                </h3>
+                <button 
+                  onClick={() => setIsShortcutsOpen(false)} 
+                  className="text-[#8A8A93] hover:text-white transition-colors p-1 rounded-xl hover:bg-white/5"
+                >
+                  <XCircle className="w-4 h-4" />
+                </button>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/[0.04]">
-                <span className="text-[#a1a1a6]">Guardian AI Studio</span>
-                <kbd className="px-2 py-0.5 rounded bg-white/[0.08] text-white font-mono">⌘J</kbd>
+              <div className="space-y-2.5">
+                <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
+                  <span className="text-[#8A8A93]">Open Command Palette</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘K</kbd>
+                </div>
+                <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
+                  <span className="text-[#8A8A93]">Guardian AI Studio</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘J</kbd>
+                </div>
+                <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
+                  <span className="text-[#8A8A93]">Quick Mac Sweep</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘B</kbd>
+                </div>
+                <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
+                  <span className="text-[#8A8A93]">Jump to Sections</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">1 - 5</kbd>
+                </div>
+                <div className="flex justify-between items-center py-1.5">
+                  <span className="text-[#8A8A93]">Close Overlays</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">ESC</kbd>
+                </div>
               </div>
-              <div className="flex justify-between py-1 border-b border-white/[0.04]">
-                <span className="text-[#a1a1a6]">Quick Mac Sweep</span>
-                <kbd className="px-2 py-0.5 rounded bg-white/[0.08] text-white font-mono">⌘B</kbd>
-              </div>
-              <div className="flex justify-between py-1 border-b border-white/[0.04]">
-                <span className="text-[#a1a1a6]">Jump to Sections</span>
-                <kbd className="px-2 py-0.5 rounded bg-white/[0.08] text-white font-mono">1 - 5</kbd>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-[#a1a1a6]">Close Overlays</span>
-                <kbd className="px-2 py-0.5 rounded bg-white/[0.08] text-white font-mono">ESC</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 10. Apple Frosted Glass Footer */}
       <footer className="border-t border-white/[0.08] bg-black/80 backdrop-blur-xl px-6 sm:px-12 py-6 text-xs text-[#86868b] flex flex-wrap items-center justify-between gap-4 mt-20">

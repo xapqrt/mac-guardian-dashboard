@@ -42,7 +42,7 @@ export const ProcessMemoryRing: React.FC<ProcessMemoryRingProps> = ({
   const activeProcess = hoveredIdx !== null ? topProcesses[hoveredIdx] : topProcesses[0];
 
   return (
-    <div className="p-8 sm:p-10 rounded-3xl bg-[#0c0e15] border border-white/[0.08] relative overflow-hidden space-y-6">
+    <div className="p-8 sm:p-10 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)] relative overflow-hidden space-y-6">
       {/* Ambient background glow following active item */}
       <div
         className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl opacity-15 transition-colors duration-300"

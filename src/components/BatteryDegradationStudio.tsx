@@ -39,7 +39,7 @@ export const BatteryDegradationStudio: React.FC<BatteryStudioProps> = ({ battery
   const expectedCapacityPercent = Math.max(80, Math.round(100 - (cycles / 1000) * 20));
 
   return (
-    <HoloCard className="p-8 sm:p-10 space-y-8 bg-gradient-to-b from-[#0e1526]/95 to-[#090e1a]/95 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+    <HoloCard className="p-8 sm:p-10 space-y-8 bg-white/5 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(124,58,237,0.12)] backdrop-blur-xl relative overflow-hidden">
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header Bar */}

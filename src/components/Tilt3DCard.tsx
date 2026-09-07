@@ -61,7 +61,7 @@ export const Tilt3DCard: React.FC<Tilt3DCardProps> = ({
           transformStyle: 'preserve-3d',
           transition: tilt.isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
         }}
-        className={`relative overflow-hidden rounded-3xl bg-[#0f1117]/90 border border-white/[0.08] backdrop-blur-2xl shadow-2xl shadow-black/60 ${className}`}
+        className={`relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.15)] ${className}`}
       >
         {/* Dynamic Light Sheen follow cursor */}
         {tilt.isHovered && (

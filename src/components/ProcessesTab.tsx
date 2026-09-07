@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import {
   Layers,
   Radio,
@@ -72,7 +73,7 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-200 bg-[#000000] text-[#f5f5f7]">
+    <div className="space-y-8 animate-in fade-in duration-200 text-[#F5F5F7]">
       {/* Mach Virtual Memory Compressor & Segment Analysis */}
       <MemoryCompressorVisualizer stats={stats} />
 
@@ -86,13 +87,13 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
       )}
 
       {/* 1. Activity Monitor Header & Filters */}
-      <HoloCard className="p-8 sm:p-10 space-y-6 bg-[#101010] border border-white/[0.08]">
+      <HoloCard className="p-8 sm:p-10 space-y-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
         <div className="flex flex-wrap items-center justify-between gap-5">
           <div className="space-y-1">
-            <h3 className="text-base font-semibold text-[#f5f5f7] flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#86868b]" /> Activity Monitor & Safety Inspector
+            <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#7C3AED]" /> Activity Monitor & Safety Inspector
             </h3>
-            <p className="text-xs text-[#86868b] max-w-2xl leading-relaxed">
+            <p className="text-xs text-[#8A8A93] max-w-2xl leading-relaxed">
               Real-time process intelligence with Apple kernel protection guards. Safely terminate memory-leaking apps without touching critical system daemons.
             </p>
           </div>
@@ -105,13 +106,13 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
             >
               ↻ Refresh
             </TactileButton>
-            <div className="flex items-center gap-1 bg-[#0a0a0c] p-1 rounded-full border border-white/[0.08] text-xs font-mono">
+            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/10 text-xs font-mono">
               {(['mem', 'cpu', 'name'] as const).map((s) => (
                 <button
                   key={s}
                   onClick={() => setProcSort(s)}
-                  className={`px-3 py-1 rounded-full uppercase font-medium transition-colors ${
-                    procSort === s ? 'bg-[#f5f5f7] text-black shadow-sm' : 'text-[#86868b] hover:text-[#f5f5f7]'
+                  className={`px-3 py-1 rounded-2xl uppercase font-medium transition-all ${
+                    procSort === s ? 'bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white shadow-sm' : 'text-[#8A8A93] hover:text-[#F5F5F7]'
                   }`}
                 >
                   {s}
@@ -122,25 +123,25 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
         </div>
 
         {/* Safety & Category Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-white/[0.06]">
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-white/10">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <button
               onClick={() => setProcCategoryFilter('safe')}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all flex items-center gap-1.5 ${
                 procCategoryFilter === 'safe'
-                  ? 'bg-white/[0.14] text-[#f5f5f7] border border-white/20'
-                  : 'bg-white/[0.04] text-[#86868b] hover:text-[#f5f5f7] border border-white/[0.04]'
+                  ? 'bg-[#22D3EE]/20 text-[#22D3EE] border border-[#22D3EE]/40 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#30d158]" /> Safe to Quit
+              <ShieldCheck className="w-3.5 h-3.5 text-[#22D3EE]" /> Safe to Quit
             </button>
 
             <button
               onClick={() => setProcCategoryFilter('all')}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
                 procCategoryFilter === 'all'
-                  ? 'bg-white/[0.14] text-[#f5f5f7] border border-white/20'
-                  : 'bg-white/[0.04] text-[#86868b] hover:text-[#f5f5f7] border border-white/[0.04]'
+                  ? 'bg-white/15 text-[#F5F5F7] border border-white/25 shadow-sm'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
               All Processes
@@ -148,10 +149,10 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
 
             <button
               onClick={() => setProcCategoryFilter('browser')}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
                 procCategoryFilter === 'browser'
-                  ? 'bg-white/[0.14] text-[#f5f5f7] border border-white/20'
-                  : 'bg-white/[0.04] text-[#86868b] hover:text-[#f5f5f7] border border-white/[0.04]'
+                  ? 'bg-[#7C3AED]/20 text-[#7C3AED] border border-[#7C3AED]/40 shadow-[0_0_15px_rgba(124,58,237,0.2)]'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
               Browsers
@@ -159,10 +160,10 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
 
             <button
               onClick={() => setProcCategoryFilter('dev')}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
                 procCategoryFilter === 'dev'
-                  ? 'bg-white/[0.14] text-[#f5f5f7] border border-white/20'
-                  : 'bg-white/[0.04] text-[#86868b] hover:text-[#f5f5f7] border border-white/[0.04]'
+                  ? 'bg-[#7C3AED]/20 text-[#7C3AED] border border-[#7C3AED]/40 shadow-[0_0_15px_rgba(124,58,237,0.2)]'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
               Developer Tools
@@ -170,119 +171,158 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
 
             <button
               onClick={() => setProcCategoryFilter('system')}
-              className={`px-3.5 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all flex items-center gap-1.5 ${
                 procCategoryFilter === 'system'
-                  ? 'bg-white/[0.14] text-[#f5f5f7] border border-white/20'
-                  : 'bg-white/[0.04] text-[#86868b] hover:text-[#f5f5f7] border border-white/[0.04]'
+                  ? 'bg-white/15 text-[#F5F5F7] border border-white/25'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
-              <Lock className="w-3.5 h-3.5 text-[#86868b]" /> Apple Protected
+              <Lock className="w-3.5 h-3.5 text-[#8A8A93]" /> Apple Protected
             </button>
           </div>
 
           <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#86868b]" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8A8A93]" />
             <input
               type="text"
               placeholder="Search name or PID..."
               value={procSearch}
               onChange={(e) => setProcSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-full bg-[#0a0a0c] border border-white/[0.08] text-xs text-[#f5f5f7] placeholder-[#86868b] focus:outline-none focus:border-white/25"
+              className="w-full pl-9 pr-3 py-1.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-[#F5F5F7] placeholder-[#8A8A93] focus:outline-none focus:border-[#7C3AED]/60 focus:ring-1 focus:ring-[#7C3AED]/40 transition-all"
             />
           </div>
         </div>
 
         {procCategoryFilter === 'system' && (
-          <div className="p-3.5 rounded-xl bg-[#0a0a0c] border border-white/[0.08] flex items-center gap-2.5 text-xs text-[#86868b]">
-            <AlertTriangle className="w-4 h-4 shrink-0 text-[#f5f5f7]" />
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center gap-2.5 text-xs text-[#8A8A93]">
+            <AlertTriangle className="w-4 h-4 shrink-0 text-[#22D3EE]" />
             <span>
               <strong>Apple System Core:</strong> These processes (WindowServer, launchd, coreaudiod) are protected by macOS kernel integrity. Terminating them is locked to protect system stability.
             </span>
           </div>
         )}
 
-        <div className="space-y-2 max-h-[500px] overflow-y-auto pt-1">
-          {filteredProcesses.map((proc: ProcessItem) => {
-            const isTerminated = terminatedPids.includes(proc.pid);
+        <div className="space-y-2 max-h-[500px] overflow-y-auto pt-1 pr-1">
+          {filteredProcesses.length > 0 ? (
+            filteredProcesses.map((proc: ProcessItem, idx: number) => {
+              const isTerminated = terminatedPids.includes(proc.pid);
 
-            return (
-              <div
-                key={proc.pid}
-                className={`flex items-center justify-between p-3.5 rounded-xl border transition-all text-xs ${
-                  isTerminated
-                    ? 'bg-transparent border-white/[0.04] opacity-50'
-                    : 'bg-[#0a0a0c] border-white/[0.06] hover:border-white/[0.12]'
-                }`}
-              >
-                <div className="min-w-0 flex-1 mr-4">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-[#86868b] text-[11px] shrink-0">{proc.pid}</span>
-                    <span className={`font-medium text-[#f5f5f7] truncate max-w-xs ${isTerminated ? 'line-through text-[#86868b]' : ''}`}>
-                      {proc.name}
-                    </span>
+              return (
+                <motion.div
+                  key={proc.pid}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: Math.min(idx, 15) * 0.03 }}
+                  className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-150 text-xs ${
+                    isTerminated
+                      ? 'bg-transparent border-white/5 opacity-40'
+                      : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.07] hover:border-[#7C3AED]/40 hover:-translate-y-0.5'
+                  }`}
+                >
+                  <div className="min-w-0 flex-1 mr-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-mono text-[#8A8A93] text-[11px] shrink-0">{proc.pid}</span>
+                      <span className={`font-medium text-[#F5F5F7] truncate max-w-xs ${isTerminated ? 'line-through text-[#8A8A93]' : ''}`}>
+                        {proc.name}
+                      </span>
+                      
+                      {isTerminated ? (
+                        <CyberBadge variant="slate" size="xs">
+                          <CheckCircle2 className="w-3 h-3 text-[#22D3EE]" /> Terminated
+                        </CyberBadge>
+                      ) : proc.isSafeToQuit ? (
+                        <CyberBadge variant="slate" size="xs">
+                          <ShieldCheck className="w-3 h-3 text-[#22D3EE]" /> Safe
+                        </CyberBadge>
+                      ) : (
+                        <CyberBadge variant="slate" size="xs">
+                          <Lock className="w-3 h-3" /> Core
+                        </CyberBadge>
+                      )}
+
+                      <span className="hidden md:inline text-[11px] text-[#8A8A93] font-mono">
+                        [{proc.categoryLabel}]
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-[#8A8A93] mt-0.5 truncate">{proc.advice}</div>
+                  </div>
+
+                  <div className="flex items-center gap-3 font-mono shrink-0">
+                    <span className="text-[#8A8A93] text-xs">{proc.cpu.toFixed(1)}% CPU</span>
+                    <span className="text-[#F5F5F7] font-semibold w-16 text-right text-xs">{proc.rssMb} MB</span>
                     
                     {isTerminated ? (
-                      <CyberBadge variant="slate" size="xs">
-                        <CheckCircle2 className="w-3 h-3 text-[#30d158]" /> Terminated
-                      </CyberBadge>
+                      <span className="text-xs text-[#22D3EE] font-semibold px-2">Closed</span>
                     ) : proc.isSafeToQuit ? (
-                      <CyberBadge variant="slate" size="xs">
-                        <ShieldCheck className="w-3 h-3 text-[#30d158]" /> Safe
-                      </CyberBadge>
+                      <div className="flex items-center gap-1.5">
+                        <TactileButton
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handleKillProcess(proc.pid, proc.name, 'TERM')}
+                        >
+                          Quit
+                        </TactileButton>
+                        <TactileButton
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleKillProcess(proc.pid, proc.name, 'KILL')}
+                        >
+                          Kill -9
+                        </TactileButton>
+                      </div>
                     ) : (
-                      <CyberBadge variant="slate" size="xs">
-                        <Lock className="w-3 h-3" /> Core
-                      </CyberBadge>
+                      <span className="text-xs font-mono text-[#8A8A93] italic px-2">Protected</span>
                     )}
-
-                    <span className="hidden md:inline text-[11px] text-[#86868b] font-mono">
-                      [{proc.categoryLabel}]
-                    </span>
                   </div>
-                  <div className="text-[11px] text-[#86868b] mt-0.5 truncate">{proc.advice}</div>
-                </div>
-
-                <div className="flex items-center gap-3 font-mono shrink-0">
-                  <span className="text-[#86868b] text-xs">{proc.cpu.toFixed(1)}% CPU</span>
-                  <span className="text-[#f5f5f7] font-semibold w-16 text-right text-xs">{proc.rssMb} MB</span>
-                  
-                  {isTerminated ? (
-                    <span className="text-xs text-[#30d158] font-semibold px-2">Closed</span>
-                  ) : proc.isSafeToQuit ? (
-                    <div className="flex items-center gap-1.5">
-                      <TactileButton
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => handleKillProcess(proc.pid, proc.name, 'TERM')}
-                      >
-                        Quit
-                      </TactileButton>
-                      <TactileButton
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleKillProcess(proc.pid, proc.name, 'KILL')}
-                      >
-                        Kill -9
-                      </TactileButton>
-                    </div>
-                  ) : (
-                    <span className="text-xs font-mono text-[#86868b] italic px-2">Protected</span>
-                  )}
+                </motion.div>
+              );
+            })
+          ) : (
+            /* Illustrated Animated SVG Empty State */
+            <div className="py-16 px-4 flex flex-col items-center justify-center text-center space-y-4">
+              <div className="relative w-24 h-24 flex items-center justify-center">
+                <motion.div
+                  className="absolute inset-0 rounded-2xl border border-[#7C3AED]/30"
+                  animate={{ scale: [1, 1.25, 1], opacity: [0.2, 0.6, 0.2] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute inset-2 rounded-2xl border border-[#22D3EE]/30"
+                  animate={{ scale: [1.15, 1, 1.15], opacity: [0.2, 0.5, 0.2] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div className="relative z-10 w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.25)]">
+                  <Search className="w-6 h-6 text-[#7C3AED]" />
                 </div>
               </div>
-            );
-          })}
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold text-[#F5F5F7]">No Matching Processes Found</h4>
+                <p className="text-xs text-[#8A8A93] max-w-sm">
+                  No active tasks match your search query or filter. Try broadening your criteria.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setProcSearch('');
+                  setProcCategoryFilter('all');
+                }}
+                className="px-4 py-2 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs text-[#F5F5F7] font-medium transition-all active:scale-95 shadow-sm"
+              >
+                Reset Process Filters
+              </button>
+            </div>
+          )}
         </div>
       </HoloCard>
 
       {/* 2. Active Listening Ports */}
-      <HoloCard className="p-8 sm:p-10 space-y-6 bg-[#101010] border border-white/[0.08]">
+      <HoloCard className="p-8 sm:p-10 space-y-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
-            <h3 className="text-base font-semibold text-[#f5f5f7] flex items-center gap-2">
-              <Radio className="w-4 h-4 text-[#86868b]" /> Active TCP Listening Ports
+            <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center gap-2">
+              <Radio className="w-4 h-4 text-[#22D3EE]" /> Active TCP Listening Ports
             </h3>
-            <p className="text-xs text-[#86868b] max-w-2xl leading-relaxed">Servers and local runtimes holding ports open</p>
+            <p className="text-xs text-[#8A8A93] max-w-2xl leading-relaxed">Servers and local runtimes holding ports open</p>
           </div>
           <div className="flex items-center gap-2">
             <TactileButton
@@ -308,23 +348,26 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
               const isFreed = freedPorts.includes(p.port);
 
               return (
-                <div
+                <motion.div
                   key={idx}
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-all text-xs ${
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: Math.min(idx, 15) * 0.03 }}
+                  className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all text-xs ${
                     isFreed
-                      ? 'bg-transparent border-white/[0.04] opacity-50'
-                      : 'bg-[#0a0a0c] border-white/[0.06] hover:border-white/[0.12]'
+                      ? 'bg-transparent border-white/5 opacity-40'
+                      : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.07] hover:border-[#7C3AED]/40 hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-3">
-                    <span className="px-2.5 py-1 rounded-lg bg-white/[0.05] text-[#f5f5f7] font-mono font-semibold text-xs border border-white/[0.08] shrink-0">
+                    <span className="px-2.5 py-1 rounded-2xl bg-white/10 text-[#F5F5F7] font-mono font-semibold text-xs border border-white/15 shrink-0">
                       :{p.port}
                     </span>
                     <div className="min-w-0">
-                      <div className={`font-medium text-[#f5f5f7] truncate ${isFreed ? 'line-through text-[#86868b]' : ''}`}>
+                      <div className={`font-medium text-[#F5F5F7] truncate ${isFreed ? 'line-through text-[#8A8A93]' : ''}`}>
                         {p.name}
                       </div>
-                      <div className="text-[10px] text-[#86868b] font-mono">PID {p.pid}</div>
+                      <div className="text-[10px] text-[#8A8A93] font-mono">PID {p.pid}</div>
                     </div>
                   </div>
 
@@ -334,12 +377,12 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
                       target="_blank"
                       rel="noreferrer"
                       title="Open in Browser"
-                      className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-[#86868b] hover:text-[#f5f5f7] transition-colors"
+                      className="p-1.5 rounded-2xl bg-white/5 hover:bg-white/10 text-[#8A8A93] hover:text-[#F5F5F7] transition-colors"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                     {isFreed ? (
-                      <span className="text-xs text-[#30d158] font-semibold px-2">Freed</span>
+                      <span className="text-xs text-[#22D3EE] font-semibold px-2">Freed</span>
                     ) : (
                       <TactileButton
                         variant="secondary"
@@ -350,11 +393,11 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
                       </TactileButton>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })
           ) : (
-            <div className="p-8 text-center text-xs text-[#86868b] col-span-3">Scanning listening ports...</div>
+            <div className="p-8 text-center text-xs text-[#8A8A93] col-span-3">Scanning listening ports...</div>
           )}
         </div>
       </HoloCard>

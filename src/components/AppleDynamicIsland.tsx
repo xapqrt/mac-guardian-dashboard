@@ -49,10 +49,10 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
       <motion.div
         layout
         transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-        className={`mx-auto bg-black/85 backdrop-blur-2xl border border-white/[0.1] shadow-2xl transition-colors overflow-hidden ${
+        className={`mx-auto bg-[#08080a]/90 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-colors overflow-hidden rounded-2xl ${
           isExpanded
-            ? 'rounded-3xl p-6 border-white/[0.16]'
-            : 'rounded-full px-5 py-2.5 hover:border-white/[0.2] max-w-3xl'
+            ? 'p-6 border-white/15'
+            : 'px-5 py-2.5 hover:border-[#7C3AED]/40 max-w-3xl'
         }`}
       >
         {/* Compact Island Pill (Always visible) */}
@@ -64,15 +64,15 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
                 sound.playClick();
                 onOpenSpecs();
               }}
-              className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-white font-medium transition-all active:scale-95"
+              className="flex items-center gap-2 px-2.5 py-1 rounded-2xl bg-white/5 hover:bg-white/10 text-[#F5F5F7] font-medium transition-all active:scale-95 border border-white/10"
             >
               <StatusLed color="green" size="sm" />
               <span>{stats?.specs?.chip || 'Apple Silicon'}</span>
-              <span className="text-[#86868b] font-normal">{m4.watts}W</span>
+              <span className="text-[#8A8A93] font-normal">{m4.watts}W</span>
             </button>
 
-            <div className="hidden sm:flex items-center gap-1.5 text-[#86868b]">
-              <span className="text-[#30d158] font-medium">{healthScore}%</span>
+            <div className="hidden sm:flex items-center gap-1.5 text-[#8A8A93]">
+              <span className="text-[#22D3EE] font-medium">{healthScore}%</span>
               <span>Health</span>
             </div>
           </div>
@@ -80,16 +80,16 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
           {/* Center: Live Memory & Earbuds */}
           <div className="flex items-center gap-3">
             {/* RAM */}
-            <div className="hidden md:flex items-center gap-1.5 text-[#86868b]">
-              <Layers className="w-3.5 h-3.5" />
-              <span className="text-[#a1a1a6]">
+            <div className="hidden md:flex items-center gap-1.5 text-[#8A8A93]">
+              <Layers className="w-3.5 h-3.5 text-[#7C3AED]" />
+              <span className="text-[#F5F5F7]">
                 {stats?.ram?.usedGb || '6.0'} / {stats?.ram?.totalGb || '12'} GB
               </span>
             </div>
 
             {/* Earbuds status */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.05] text-[#a1a1a6]">
-              <Headphones className="w-3.5 h-3.5 text-[#2997ff]" />
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-white/5 text-[#F5F5F7] border border-white/10">
+              <Headphones className="w-3.5 h-3.5 text-[#22D3EE]" />
               <span className="font-medium text-white">{buds.battery || 60}%</span>
             </div>
 
@@ -97,13 +97,13 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
             <button
               onClick={() => triggerAction('toggle-mic', {}, 'Toggle Hardware Microphone')}
               title="Click to toggle mic lockdown"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] transition-all active:scale-95 ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-2xl text-[11px] transition-all active:scale-95 ${
                 micMuted
-                  ? 'bg-[#ff453a]/20 text-[#ff453a] border border-[#ff453a]/30'
-                  : 'bg-white/[0.05] text-[#86868b] hover:text-white'
+                  ? 'bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/40 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
+                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
               }`}
             >
-              {micMuted ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3 text-[#30d158]" />}
+              {micMuted ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3 text-[#22D3EE]" />}
               <span>{micMuted ? 'Muted' : 'Mic'}</span>
             </button>
           </div>
@@ -113,7 +113,7 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
             <button
               onClick={() => triggerAction('boost-quick', {}, 'Instant Mac Sweep')}
               disabled={loadingAction === 'boost-quick'}
-              className="px-3.5 py-1 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1.5"
+              className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white font-semibold text-xs shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5"
             >
               <Sparkles className="w-3 h-3" />
               <span>{loadingAction === 'boost-quick' ? 'Sweeping...' : 'Sweep (⌘B)'}</span>
@@ -121,7 +121,7 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
 
             <button
               onClick={handleToggleExpand}
-              className="p-1 rounded-full text-[#86868b] hover:text-white hover:bg-white/[0.08] transition-colors active:scale-90"
+              className="p-1.5 rounded-2xl text-[#8A8A93] hover:text-white hover:bg-white/10 transition-colors active:scale-90"
               title={isExpanded ? 'Collapse Island' : 'Expand Island'}
             >
               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

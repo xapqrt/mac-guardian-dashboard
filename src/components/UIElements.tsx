@@ -1,5 +1,8 @@
 import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Loader2 } from 'lucide-react';
 import { sound } from '../utils/audio';
+import { useCountUp } from '../hooks/useCountUp';
 
 // Re-export hardware controls for unified developer ergonomics
 export {
@@ -18,8 +21,7 @@ export type {
 } from './TitaniumControls';
 
 // ============================================================================
-// 1. APPLE PHYSICAL TOGGLE SWITCH
-// Strictly monochrome/Apple design tokens (#000000 base, #101010 card, #f5f5f7 text)
+// 1. TACTILE TOGGLE SWITCH
 // ============================================================================
 
 export interface TactileSwitchProps {
@@ -59,16 +61,16 @@ export const TactileSwitch: React.FC<TactileSwitchProps> = ({
         aria-checked={checked}
         aria-label={label}
         disabled={disabled}
-        className={`relative inline-flex shrink-0 items-center rounded-full transition-colors duration-250 ease-out focus:outline-none ${
+        className={`relative inline-flex shrink-0 items-center rounded-full transition-colors duration-200 ease-out focus:outline-none ${
           isSm ? 'w-9 h-5 p-0.5' : 'w-11 h-6 p-0.5'
         } ${
           checked
-            ? 'bg-[#30d158]'
-            : 'bg-white/[0.16] hover:bg-white/[0.22]'
+            ? 'bg-[#7C3AED] shadow-[0_0_12px_rgba(124,58,237,0.5)]'
+            : 'bg-white/10 hover:bg-white/20'
         } ${disabled ? 'cursor-not-allowed' : 'active:scale-95'}`}
       >
         <span
-          className={`pointer-events-none inline-block rounded-full bg-[#f5f5f7] transition-transform duration-250 ease-out shadow-[0_2px_4px_rgba(0,0,0,0.4)] ${
+          className={`pointer-events-none inline-block rounded-full bg-[#F5F5F7] transition-transform duration-200 ease-out shadow-[0_2px_4px_rgba(0,0,0,0.4)] ${
             isSm ? 'w-4 h-4' : 'w-5 h-5'
           } ${
             checked
@@ -81,7 +83,7 @@ export const TactileSwitch: React.FC<TactileSwitchProps> = ({
       </button>
 
       {label && (
-        <span className="text-xs font-medium text-[#86868b] group-hover:text-[#f5f5f7] transition-colors">
+        <span className="text-xs font-medium text-[#8A8A93] group-hover:text-[#F5F5F7] transition-colors">
           {label}
         </span>
       )}
@@ -90,8 +92,8 @@ export const TactileSwitch: React.FC<TactileSwitchProps> = ({
 };
 
 // ============================================================================
-// 2. APPLE-GRADE FROSTED BENTO CARD (HoloCard)
-// Strictly #101010 primary cards with border: 1px solid rgba(255, 255, 255, 0.08)
+// 2. GLASSMORPHISM BENTO CARD (HoloCard)
+// Hover: lift 4px, glow shadow appears, border brightens white/10 -> white/20
 // ============================================================================
 
 export interface HoloCardProps {
@@ -110,8 +112,10 @@ export const HoloCard: React.FC<HoloCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden rounded-2xl bg-[#101010] border border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-2xl transition-all duration-200 text-[#f5f5f7] ${
-        hoverGlow ? 'hover:border-white/[0.16]' : ''
+      className={`relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 text-[#F5F5F7] ${
+        hoverGlow
+          ? 'hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]'
+          : ''
       } ${onClick ? 'cursor-pointer active:scale-[0.99]' : ''} ${className}`}
     >
       {children}
@@ -120,16 +124,46 @@ export const HoloCard: React.FC<HoloCardProps> = ({
 };
 
 // ============================================================================
-// 3. APPLE PILL ACTION BUTTON (TactileButton)
-// Strictly monochrome/metallic sheen & Apple high-contrast tokens
+// 3. CVA-POWERED ACTION BUTTON (TactileButton)
+// Primary: gradient violet→cyan, scale 0.97 on press, glow intensifies on hover
+// Secondary: glass style (bg-white/5 backdrop-blur-xl border border-white/10)
+// Loading state: spinner replaces label, fixed min-width
 // ============================================================================
 
-export interface TactileButtonProps {
+const buttonVariants = cva(
+  'inline-flex items-center justify-center font-medium transition-all duration-150 rounded-2xl tracking-tight disabled:opacity-40 disabled:pointer-events-none select-none focus:outline-none',
+  {
+    variants: {
+      variant: {
+        primary:
+          'bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white shadow-sm hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] active:scale-[0.97]',
+        secondary:
+          'bg-white/5 backdrop-blur-xl text-[#F5F5F7] border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_rgba(124,58,237,0.15)] active:scale-[0.97]',
+        danger:
+          'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 hover:bg-[#EF4444]/25 hover:shadow-[0_0_24px_rgba(239,68,68,0.3)] active:scale-[0.97]',
+        success:
+          'bg-[#22D3EE]/15 text-[#22D3EE] border border-[#22D3EE]/30 hover:bg-[#22D3EE]/25 hover:shadow-[0_0_24px_rgba(34,211,238,0.3)] active:scale-[0.97]',
+        ghost:
+          'bg-transparent text-[#8A8A93] hover:text-[#F5F5F7] hover:bg-white/5 active:scale-[0.97]'
+      },
+      size: {
+        sm: 'px-3 py-1.5 text-xs gap-1.5 min-w-[80px]',
+        md: 'px-4 py-2 text-xs gap-2 min-w-[100px]',
+        lg: 'px-6 py-2.5 text-sm gap-2.5 min-w-[130px]'
+      }
+    },
+    defaultVariants: {
+      variant: 'secondary',
+      size: 'md'
+    }
+  }
+);
+
+export interface TactileButtonProps extends VariantProps<typeof buttonVariants> {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
-  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
   className?: string;
   icon?: React.ReactNode;
 }
@@ -138,73 +172,60 @@ export const TactileButton: React.FC<TactileButtonProps> = ({
   children,
   onClick,
   disabled = false,
+  loading = false,
   variant = 'secondary',
   size = 'md',
   className = '',
   icon
 }) => {
   const handleClick = () => {
-    if (!disabled && onClick) {
+    if (!disabled && !loading && onClick) {
       sound.playClick();
       onClick();
     }
   };
 
-  const variantStyles = {
-    primary:
-      'bg-[#f5f5f7] hover:bg-white text-black font-semibold shadow-[0_2px_8px_rgba(255,255,255,0.15)] active:bg-zinc-200',
-    secondary:
-      'bg-white/[0.08] hover:bg-white/[0.12] text-[#f5f5f7] border border-white/[0.08] active:bg-white/[0.16]',
-    danger:
-      'bg-[#ff453a]/15 hover:bg-[#ff453a]/25 text-[#ff453a] border border-[#ff453a]/20 active:bg-[#ff453a]/30',
-    success:
-      'bg-[#30d158]/15 hover:bg-[#30d158]/25 text-[#30d158] border border-[#30d158]/20 active:bg-[#30d158]/30',
-    ghost:
-      'bg-transparent hover:bg-white/[0.06] text-[#86868b] hover:text-[#f5f5f7] border border-transparent'
-  };
-
-  const sizeStyles = {
-    sm: 'px-3 py-1.5 text-xs rounded-full gap-1.5',
-    md: 'px-4 py-2 text-xs rounded-full gap-2',
-    lg: 'px-6 py-2.5 text-sm rounded-full gap-2.5 font-medium'
-  };
-
   return (
     <button
       type="button"
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={handleClick}
-      className={`inline-flex items-center justify-center transition-all duration-150 active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none tracking-tight font-medium ${
-        variantStyles[variant]
-      } ${sizeStyles[size]} ${className}`}
+      className={buttonVariants({ variant, size, className })}
     >
-      {icon && <span className="shrink-0">{icon}</span>}
-      <span>{children}</span>
+      {loading ? (
+        <Loader2 className="w-4 h-4 animate-spin text-current shrink-0" />
+      ) : (
+        <>
+          {icon && <span className="shrink-0">{icon}</span>}
+          <span>{children}</span>
+        </>
+      )}
     </button>
   );
 };
 
 // ============================================================================
-// 4. APPLE HARDWARE STATUS INDICATOR (StatusLed)
+// 4. HARDWARE STATUS INDICATOR (StatusLed)
 // ============================================================================
 
 export interface StatusLedProps {
-  color?: 'green' | 'amber' | 'red' | 'blue' | 'purple';
+  color?: 'green' | 'amber' | 'red' | 'blue' | 'purple' | 'cyan';
   pulse?: boolean;
   size?: 'sm' | 'md';
 }
 
 export const StatusLed: React.FC<StatusLedProps> = ({
-  color = 'green',
+  color = 'cyan',
   pulse = false,
   size = 'md'
 }) => {
   const colorMap = {
-    green: 'bg-[#30d158]',
-    amber: 'bg-[#ff9f0a]',
-    red: 'bg-[#ff453a]',
-    blue: 'bg-[#f5f5f7]',
-    purple: 'bg-[#bf5af2]'
+    cyan: 'bg-[#22D3EE]',
+    green: 'bg-[#22D3EE]',
+    amber: 'bg-[#F59E0B]',
+    red: 'bg-[#EF4444]',
+    blue: 'bg-[#7C3AED]',
+    purple: 'bg-[#7C3AED]'
   };
 
   const dimSize = size === 'sm' ? 'w-1.5 h-1.5' : 'w-2 h-2';
@@ -213,7 +234,7 @@ export const StatusLed: React.FC<StatusLedProps> = ({
     <span className="relative inline-flex items-center justify-center">
       {pulse && (
         <span
-          className={`absolute inline-flex h-full w-full rounded-full opacity-50 animate-ping ${colorMap[color]}`}
+          className={`absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping ${colorMap[color]}`}
         />
       )}
       <span className={`relative inline-block rounded-full ${dimSize} ${colorMap[color]}`} />
@@ -222,8 +243,7 @@ export const StatusLed: React.FC<StatusLedProps> = ({
 };
 
 // ============================================================================
-// 5. APPLE REFINED PILL BADGE (CyberBadge)
-// Strictly #86868b subtext and silver/metallic hues
+// 5. REFINED PILL BADGE (CyberBadge)
 // ============================================================================
 
 export interface CyberBadgeProps {
@@ -238,15 +258,15 @@ export const CyberBadge: React.FC<CyberBadgeProps> = ({
   size = 'xs'
 }) => {
   const styles = {
-    blue: 'bg-white/[0.08] text-[#f5f5f7] border-white/[0.12]',
-    emerald: 'bg-[#30d158]/12 text-[#30d158] border-[#30d158]/20',
-    amber: 'bg-[#ff9f0a]/12 text-[#ff9f0a] border-[#ff9f0a]/20',
-    rose: 'bg-[#ff453a]/12 text-[#ff453a] border-[#ff453a]/20',
-    sky: 'bg-white/[0.08] text-[#f5f5f7] border-white/[0.12]',
-    cyan: 'bg-white/[0.08] text-[#f5f5f7] border-white/[0.12]',
-    indigo: 'bg-white/[0.08] text-[#f5f5f7] border-white/[0.12]',
-    purple: 'bg-white/[0.08] text-[#f5f5f7] border-white/[0.12]',
-    slate: 'bg-white/[0.05] text-[#86868b] border-white/[0.08]'
+    blue: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
+    purple: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
+    indigo: 'bg-[#7C3AED]/15 text-[#C4B5FD] border-[#7C3AED]/30',
+    cyan: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
+    emerald: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
+    sky: 'bg-[#22D3EE]/15 text-[#22D3EE] border-[#22D3EE]/30',
+    amber: 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30',
+    rose: 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30',
+    slate: 'bg-white/5 text-[#8A8A93] border-white/10'
   };
 
   const sizeStyles =
@@ -262,7 +282,7 @@ export const CyberBadge: React.FC<CyberBadgeProps> = ({
 };
 
 // ============================================================================
-// 6. APPLE ACTIVITY RING GAUGE (MetricProgressRing)
+// 6. METRIC PROGRESS RING
 // ============================================================================
 
 export interface MetricProgressRingProps {
@@ -281,14 +301,15 @@ export const MetricProgressRing: React.FC<MetricProgressRingProps> = ({
   max = 100,
   size = 110,
   strokeWidth = 7,
-  color = '#f5f5f7',
+  color = '#7C3AED',
   label,
   unit = '%',
   sublabel
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progress = Math.min(100, Math.max(0, (value / max) * 100));
+  const animatedValue = useCountUp(value, 800);
+  const progress = Math.min(100, Math.max(0, (animatedValue / max) * 100));
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
@@ -312,16 +333,16 @@ export const MetricProgressRing: React.FC<MetricProgressRingProps> = ({
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           fill="transparent"
-          style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}
+          style={{ transition: 'stroke-dashoffset 0.4s ease-out' }}
         />
       </svg>
       <div className="absolute flex flex-col items-center justify-center text-center">
-        <div className="text-xl font-semibold tracking-tight text-[#f5f5f7] leading-none">
-          {label !== undefined ? label : Math.round(value)}
-          <span className="text-xs font-normal text-[#86868b] ml-0.5">{unit}</span>
+        <div className="text-xl font-semibold tracking-tight text-[#F5F5F7] leading-none">
+          {label !== undefined ? label : Math.round(animatedValue)}
+          <span className="text-xs font-normal text-[#8A8A93] ml-0.5">{unit}</span>
         </div>
         {sublabel && (
-          <span className="text-[10px] text-[#86868b] mt-1 font-medium tracking-wide">
+          <span className="text-[10px] text-[#8A8A93] mt-1 font-medium tracking-wide">
             {sublabel}
           </span>
         )}
@@ -331,8 +352,9 @@ export const MetricProgressRing: React.FC<MetricProgressRingProps> = ({
 };
 
 // ============================================================================
-// 7. APPLE BENTO KPI CARD (GlassKpiCard)
-// Strictly #101010 primary cards, #f5f5f7 text, #86868b subtext
+// 7. BENTO KPI CARD (GlassKpiCard)
+// Numbers count up from 0 on mount (~800ms)
+// Card hover: lift 4px, glow shadow appears, border brightens
 // ============================================================================
 
 export interface GlassKpiCardProps {
@@ -359,32 +381,41 @@ export const GlassKpiCard: React.FC<GlassKpiCardProps> = ({
   className = '',
   onClick
 }) => {
+  const isNumeric = typeof value === 'number' || (!isNaN(parseFloat(String(value))) && isFinite(Number(value)));
+  const animatedNumber = useCountUp(isNumeric ? parseFloat(String(value)) : 0, 800);
+
+  const displayValue = isNumeric
+    ? typeof value === 'number' && Number.isInteger(value)
+      ? Math.round(animatedNumber)
+      : animatedNumber.toFixed(1)
+    : value;
+
   return (
     <div
       onClick={onClick}
-      className={`rounded-2xl bg-[#101010] border border-white/[0.08] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-all duration-200 hover:border-white/[0.16] ${
+      className={`rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] ${
         onClick ? 'cursor-pointer active:scale-[0.99]' : ''
       } ${className}`}
     >
-      <div className="flex items-center justify-between text-xs text-[#86868b] mb-3">
+      <div className="flex items-center justify-between text-xs text-[#8A8A93] mb-3">
         <div className="flex items-center gap-2">
-          {icon && <span className="text-[#f5f5f7]">{icon}</span>}
-          <span className="font-medium tracking-wide uppercase text-[11px] text-[#86868b]">{title}</span>
+          {icon && <span className="text-[#22D3EE]">{icon}</span>}
+          <span className="font-medium tracking-wide uppercase text-[11px] text-[#8A8A93]">{title}</span>
         </div>
         {badge && (
-          <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[10px] text-[#86868b]">
+          <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-[#22D3EE] font-mono">
             {badge}
           </span>
         )}
       </div>
 
-      <div className="text-3xl font-semibold text-[#f5f5f7] tracking-tight">{value}</div>
+      <div className="text-3xl font-semibold text-[#F5F5F7] tracking-tight">{displayValue}</div>
 
       {(subtitle || trend) && (
-        <div className="mt-2 flex items-center justify-between text-xs text-[#86868b]">
+        <div className="mt-2 flex items-center justify-between text-xs text-[#8A8A93]">
           {subtitle && <span>{subtitle}</span>}
           {trend && (
-            <span className={`font-mono ${trendPositive ? 'text-[#30d158]' : 'text-[#ff453a]'}`}>
+            <span className={`font-mono ${trendPositive ? 'text-[#22D3EE]' : 'text-[#EF4444]'}`}>
               {trend}
             </span>
           )}
@@ -393,3 +424,4 @@ export const GlassKpiCard: React.FC<GlassKpiCardProps> = ({
     </div>
   );
 };
+

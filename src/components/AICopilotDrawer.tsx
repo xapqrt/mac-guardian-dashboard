@@ -439,7 +439,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
               className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
             >
               <div
-                className={`max-w-[92%] rounded-3xl p-6 text-sm leading-relaxed ${
+                className={`max-w-[92%] rounded-2xl p-6 text-sm leading-relaxed ${
                   msg.role === 'user'
                     ? 'bg-white text-slate-950 font-medium rounded-br-none shadow-xl'
                     : 'bg-[#12141c] border border-white/[0.08] text-[#f5f5f7] rounded-bl-none shadow-2xl shadow-black/70'
