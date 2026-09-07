@@ -24,7 +24,8 @@ import {
   Flame,
   LayoutDashboard,
   Headphones,
-  FileBox
+  FileBox,
+  Power
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 
@@ -50,6 +51,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onClose,
   triggerAction,
   setActiveTab,
+  stats,
 }) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
