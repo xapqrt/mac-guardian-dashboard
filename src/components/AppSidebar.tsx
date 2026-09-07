@@ -33,7 +33,7 @@ export interface NavItemDef {
 export const DASHBOARD_NAV_ITEMS: NavItemDef[] = [
   {
     id: 'overview',
-    label: 'Overview Stage',
+    label: 'Overview',
     icon: LayoutDashboard,
   },
   {
@@ -45,14 +45,14 @@ export const DASHBOARD_NAV_ITEMS: NavItemDef[] = [
   },
   {
     id: 'thermal',
-    label: 'Thermal & Fans',
+    label: 'Thermal & Battery',
     icon: Flame,
     badge: (stats) => (stats?.temperature ? `${stats.temperature}°C` : null),
     badgeVariant: 'slate',
   },
   {
     id: 'storage',
-    label: 'APFS Storage',
+    label: 'Storage & APFS',
     icon: HardDrive,
     badge: (stats) => (stats?.disk?.capacity ? stats.disk.capacity : null),
     badgeVariant: 'slate',
@@ -66,26 +66,26 @@ export const DASHBOARD_NAV_ITEMS: NavItemDef[] = [
   },
   {
     id: 'dev',
-    label: 'Dev Ghost Hunter',
+    label: 'Developer Ports',
     icon: Terminal,
     badge: (stats) => (stats?.devPorts ? `${stats.devPorts.length}p` : null),
     badgeVariant: 'violet',
   },
   {
     id: 'privacy',
-    label: 'Privacy Vault',
+    label: 'Privacy & Security',
     icon: Shield,
-    badge: (stats) => (stats?.micMuted ? 'LOCKED' : null),
+    badge: (stats) => (stats?.micMuted ? 'MUTED' : null),
     badgeVariant: 'danger',
   },
   {
     id: 'tweaks',
-    label: 'Titanium Tweaks',
+    label: 'System Tweaks',
     icon: Sliders,
   },
   {
     id: 'startup',
-    label: 'Launch Daemons',
+    label: 'Startup Daemons',
     icon: Power,
     badge: (stats) => (stats?.launchAgents ? stats.launchAgents.length : null),
     badgeVariant: 'slate',

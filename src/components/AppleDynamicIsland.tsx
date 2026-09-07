@@ -49,82 +49,82 @@ export const AppleDynamicIsland: React.FC<AppleDynamicIslandProps> = ({
       <motion.div
         layout
         transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-        className={`mx-auto bg-[#08080a]/90 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-colors overflow-hidden rounded-2xl ${
+        className={`mx-auto bg-[#0d0d10]/95 backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-colors overflow-hidden rounded-2xl ${
           isExpanded
-            ? 'p-6 border-white/15'
-            : 'px-5 py-2.5 hover:border-[#7C3AED]/40 max-w-3xl'
+            ? 'p-6 border-white/[0.12]'
+            : 'px-4 py-2 hover:border-white/[0.15] max-w-2xl'
         }`}
       >
         {/* Compact Island Pill (Always visible) */}
         <div className="flex items-center justify-between gap-3 text-xs">
           {/* Left: Chip and Health */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => {
                 sound.playClick();
                 onOpenSpecs();
               }}
-              className="flex items-center gap-2 px-2.5 py-1 rounded-2xl bg-white/5 hover:bg-white/10 text-[#F5F5F7] font-medium transition-all active:scale-95 border border-white/10"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-zinc-300 font-medium transition-all active:scale-98 border border-white/[0.06]"
             >
               <StatusLed color="green" size="sm" />
               <span>{stats?.specs?.chip || 'Apple Silicon'}</span>
-              <span className="text-[#8A8A93] font-normal">{m4.watts}W</span>
+              <span className="text-zinc-500 font-normal">{m4.watts}W</span>
             </button>
 
-            <div className="hidden sm:flex items-center gap-1.5 text-[#8A8A93]">
-              <span className="text-[#22D3EE] font-medium">{healthScore}%</span>
-              <span>Health</span>
+            <div className="hidden sm:flex items-center gap-1 text-zinc-400">
+              <span className="text-[#38BDF8] font-medium">{healthScore}%</span>
+              <span className="text-zinc-500">Health</span>
             </div>
           </div>
 
           {/* Center: Live Memory & Earbuds */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* RAM */}
-            <div className="hidden md:flex items-center gap-1.5 text-[#8A8A93]">
-              <Layers className="w-3.5 h-3.5 text-[#7C3AED]" />
-              <span className="text-[#F5F5F7]">
+            <div className="hidden md:flex items-center gap-1.5 text-zinc-400">
+              <Layers className="w-3.5 h-3.5 text-[#8B5CF6]" />
+              <span className="text-zinc-300">
                 {stats?.ram?.usedGb || '6.0'} / {stats?.ram?.totalGb || '12'} GB
               </span>
             </div>
 
             {/* Earbuds status */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-white/5 text-[#F5F5F7] border border-white/10">
-              <Headphones className="w-3.5 h-3.5 text-[#22D3EE]" />
-              <span className="font-medium text-white">{buds.battery || 60}%</span>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-xl bg-white/[0.04] text-zinc-300 border border-white/[0.06]">
+              <Headphones className="w-3 h-3 text-[#38BDF8]" />
+              <span className="font-medium text-xs text-zinc-200">{buds.battery || 60}%</span>
             </div>
 
             {/* Mic indicator */}
             <button
               onClick={() => triggerAction('toggle-mic', {}, 'Toggle Hardware Microphone')}
               title="Click to toggle mic lockdown"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-2xl text-[11px] transition-all active:scale-95 ${
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-xl text-[11px] transition-all active:scale-98 ${
                 micMuted
-                  ? 'bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/40 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
+                  ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
+                  : 'bg-white/[0.04] text-zinc-400 hover:text-zinc-200 border border-white/[0.06]'
               }`}
             >
-              {micMuted ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3 text-[#22D3EE]" />}
+              {micMuted ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3 text-[#38BDF8]" />}
               <span>{micMuted ? 'Muted' : 'Mic'}</span>
             </button>
           </div>
 
           {/* Right: Quick Sweep & Expand */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => triggerAction('boost-quick', {}, 'Instant Mac Sweep')}
               disabled={loadingAction === 'boost-quick'}
-              className="px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white font-semibold text-xs shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5"
+              className="px-3 py-1 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-medium text-xs shadow-sm active:scale-98 transition-all flex items-center gap-1.5"
             >
               <Sparkles className="w-3 h-3" />
-              <span>{loadingAction === 'boost-quick' ? 'Sweeping...' : 'Sweep (⌘B)'}</span>
+              <span>{loadingAction === 'boost-quick' ? 'Sweeping...' : 'Sweep'}</span>
             </button>
 
             <button
               onClick={handleToggleExpand}
-              className="p-1.5 rounded-2xl text-[#8A8A93] hover:text-white hover:bg-white/10 transition-colors active:scale-90"
+              className="p-1 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors active:scale-90"
               title={isExpanded ? 'Collapse Island' : 'Expand Island'}
             >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           </div>
         </div>

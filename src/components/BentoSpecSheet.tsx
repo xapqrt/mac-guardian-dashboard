@@ -61,14 +61,14 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
     <section className="py-12 px-4 sm:px-8 w-full space-y-12">
       {/* Section Header with Dark Cinematic Typography */}
       <div className="space-y-3 text-center md:text-left">
-        <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">
-          Architecture & Diagnostics
+        <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#8B5CF6]">
+          System Hardware
         </span>
         <h2 className="text-4xl sm:text-5xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-          The Silicon Grid.
+          System Specifications & Health
         </h2>
         <p className="text-[#8A8A93] max-w-xl text-base">
-          Engineered for Apple Silicon telemetry, zero-friction tab hibernation, and surgical disk reclamation.
+          Detailed breakdown of Apple Silicon architecture, memory pressure, and active applications.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
         {/* CARD 1: Apple Silicon M-Series Metallic Die (Span 2 cols on md/lg) */}
         <div
           onMouseMove={handleMouseMove}
-          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300"
+          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-white/[0.15] hover:-translate-y-1  transition-all duration-300"
         >
           {/* Subtle cursor spotlight effect with violet glow */}
           <div
@@ -90,8 +90,8 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
 
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#7C3AED]/15 border border-[#7C3AED]/30 flex items-center justify-center">
-                <Cpu className="w-5 h-5 text-[#22D3EE]" />
+              <div className="w-10 h-10 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+                <Cpu className="w-5 h-5 text-[#38BDF8]" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-[#F5F5F7] tracking-tight">{chipName}</h3>
@@ -116,7 +116,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
             <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
               <span className="text-[#8A8A93] block mb-1">Performance Cores</span>
               <span className="text-xl font-mono font-semibold text-[#F5F5F7]">4 Firestorm</span>
-              <span className="text-[10px] text-[#22D3EE] block mt-1">4.40 GHz Max</span>
+              <span className="text-[10px] text-[#38BDF8] block mt-1">4.40 GHz Max</span>
             </div>
             <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
               <span className="text-[#8A8A93] block mb-1">Efficiency Cores</span>
@@ -125,14 +125,14 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
             </div>
             <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
               <span className="text-[#8A8A93] block mb-1">Neural Engine</span>
-              <span className="text-xl font-mono font-semibold text-[#7C3AED]">38 TOPS</span>
+              <span className="text-xl font-mono font-semibold text-[#8B5CF6]">38 TOPS</span>
               <span className="text-[10px] text-[#8A8A93] block mt-1">16-Core CoreML</span>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-3 border-t border-white/10 text-xs text-[#8A8A93]">
             <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-[#7C3AED]" /> Uptime: {uptime}
+              <Clock className="w-3.5 h-3.5 text-[#8B5CF6]" /> Uptime: {uptime}
             </span>
             <span className="font-mono text-[#F5F5F7]">Thermal Envelope: {m4.watts}W Draw</span>
           </div>
@@ -141,7 +141,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
         {/* CARD 2: Browser Tab Memory Reaper (1 col on lg) */}
         <div
           onMouseMove={handleMouseMove}
-          className="group relative rounded-2xl bg-white/5 border border-white/10 p-7 backdrop-blur-xl overflow-hidden hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 flex flex-col justify-between"
+          className="group relative rounded-2xl bg-white/5 border border-white/10 p-7 backdrop-blur-xl overflow-hidden hover:border-white/[0.15] hover:-translate-y-1  transition-all duration-300 flex flex-col justify-between"
         >
           <div
             className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
@@ -153,7 +153,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="w-9 h-9 rounded-2xl bg-[#22D3EE]/10 border border-[#22D3EE]/20 flex items-center justify-center">
-                <Globe className="w-4 h-4 text-[#22D3EE]" />
+                <Globe className="w-4 h-4 text-[#38BDF8]" />
               </div>
               <span className="text-xs font-mono text-[#8A8A93]">
                 {browserTabs.length} Active Tabs
@@ -169,7 +169,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
               {browserTabs.slice(0, 3).map((tab: any) => (
                 <div key={tab.id} className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between text-xs">
                   <span className="truncate max-w-[140px] text-[#F5F5F7]">{tab.title}</span>
-                  <span className="font-mono text-[#22D3EE] text-[11px]">{tab.memoryMb} MB</span>
+                  <span className="font-mono text-[#38BDF8] text-[11px]">{tab.memoryMb} MB</span>
                 </div>
               ))}
             </div>
@@ -188,7 +188,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
         {/* CARD 3: Caffeinate Awake Sentry (1 col on lg) */}
         <div
           onMouseMove={handleMouseMove}
-          className="group relative rounded-2xl bg-white/5 border border-white/10 p-7 backdrop-blur-xl overflow-hidden hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300 flex flex-col justify-between"
+          className="group relative rounded-2xl bg-white/5 border border-white/10 p-7 backdrop-blur-xl overflow-hidden hover:border-white/[0.15] hover:-translate-y-1  transition-all duration-300 flex flex-col justify-between"
         >
           <div
             className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
@@ -199,10 +199,10 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
 
           <div>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-9 h-9 rounded-2xl bg-[#7C3AED]/15 border border-[#7C3AED]/30 flex items-center justify-center">
-                <Coffee className="w-4 h-4 text-[#7C3AED]" />
+              <div className="w-9 h-9 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+                <Coffee className="w-4 h-4 text-[#8B5CF6]" />
               </div>
-              <span className="text-xs font-mono text-[#22D3EE]">
+              <span className="text-xs font-mono text-[#38BDF8]">
                 Assertion: Active
               </span>
             </div>
@@ -230,7 +230,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
             disabled={loadingAction === 'toggle-caffeinate'}
             className="w-full py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-medium text-[#F5F5F7] transition-all active:scale-95 flex items-center justify-center gap-2"
           >
-            <Sun className="w-3.5 h-3.5 text-[#22D3EE]" />
+            <Sun className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span>Indefinite Stay-Awake</span>
           </button>
         </div>
@@ -238,7 +238,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
         {/* CARD 4: Dev Artifacts & Cache Reclaimer (Span 2 cols on md/lg) */}
         <div
           onMouseMove={handleMouseMove}
-          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300"
+          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-white/[0.15] hover:-translate-y-1  transition-all duration-300"
         >
           <div
             className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
@@ -250,7 +250,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-[#22D3EE]/10 border border-[#22D3EE]/20 flex items-center justify-center">
-                <HardDrive className="w-5 h-5 text-[#22D3EE]" />
+                <HardDrive className="w-5 h-5 text-[#38BDF8]" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-[#F5F5F7] tracking-tight">APFS Dev Cleaner</h3>
@@ -263,7 +263,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
                 sound.playClick();
                 onNavigateTab?.('developer');
               }}
-              className="text-xs text-[#22D3EE] hover:underline"
+              className="text-xs text-[#38BDF8] hover:underline"
             >
               Inspect Ghost Folders
             </button>
@@ -306,7 +306,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
         {/* CARD 5: Boss Key & Confidentiality Cloak (Span 2 cols on md/lg) */}
         <div
           onMouseMove={handleMouseMove}
-          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-300"
+          className="group relative md:col-span-2 rounded-2xl bg-white/5 border border-white/10 p-8 backdrop-blur-xl overflow-hidden hover:border-white/[0.15] hover:-translate-y-1  transition-all duration-300"
         >
           <div
             className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
@@ -338,7 +338,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-white/10">
             <div className="flex items-center gap-2 text-xs text-[#8A8A93]">
-              <Terminal className="w-3.5 h-3.5 text-[#7C3AED]" />
+              <Terminal className="w-3.5 h-3.5 text-[#8B5CF6]" />
               <span>Keyboard Shortcut: ⌥ + Esc</span>
             </div>
             <button

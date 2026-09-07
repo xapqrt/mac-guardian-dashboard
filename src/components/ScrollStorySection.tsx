@@ -23,8 +23,8 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
           {/* Left Column (Text): Span 7 columns */}
           <div className="lg:col-span-7 flex flex-col items-start">
             {/* Context Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-[#22D3EE] mb-6">
-              <Cpu className="w-3.5 h-3.5 text-[#7C3AED]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-[#38BDF8] mb-6">
+              <Cpu className="w-3.5 h-3.5 text-[#8B5CF6]" />
               <span>Unified Memory Architecture • Apple Silicon</span>
             </div>
 
@@ -47,7 +47,7 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
                   sound.playClick();
                   onExploreFeature?.('processes');
                 }}
-                className="rounded-2xl px-5 py-2.5 text-sm font-medium transition-all bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] flex items-center gap-2 active:scale-95 cursor-pointer"
+                className="rounded-2xl px-5 py-2.5 text-sm font-medium transition-all bg-[#7C3AED] hover:bg-[#6D28D9] text-white  flex items-center gap-2 active:scale-95 cursor-pointer"
               >
                 <span>Inspect Process Memory</span>
                 <ArrowRight className="w-4 h-4 text-white" />
@@ -72,11 +72,11 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
             <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#7C3AED]/15 blur-3xl" />
 
             {/* Outer Card: Glassmorphic panel with rounded-2xl */}
-            <div className="relative rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-2xl overflow-hidden hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] transition-all duration-200">
+            <div className="relative rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-2xl overflow-hidden hover:border-white/20  transition-all duration-200">
               
               {/* Header Row */}
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#22D3EE]">
+                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#38BDF8]">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22D3EE] opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22D3EE]" />
@@ -99,7 +99,7 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
               {/* Progress Bar Container */}
               <div className="h-2 w-full bg-white/5 rounded-2xl overflow-hidden my-4">
                 <div
-                  className="h-full bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] rounded-2xl transition-all duration-500 shadow-[0_0_12px_rgba(34,211,238,0.5)]"
+                  className="h-full bg-[#7C3AED] hover:bg-[#6D28D9] rounded-2xl transition-all duration-500 shadow-[0_0_12px_rgba(34,211,238,0.5)]"
                   style={{ width: `${Math.min(100, Math.max(8, ramPercent))}%` }}
                 />
               </div>
@@ -112,7 +112,7 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-xs text-[#8A8A93]">App Memory</span>
-                  <span className="text-sm font-mono text-[#22D3EE] font-medium">Local Neural Engine</span>
+                  <span className="text-sm font-mono text-[#38BDF8] font-medium">Local Neural Engine</span>
                 </div>
               </div>
 
@@ -124,7 +124,7 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-xs text-[#8A8A93]">Bezel Notch Sentry</span>
-                  <span className="text-sm font-mono text-[#7C3AED] font-medium">Air-Gapped Local</span>
+                  <span className="text-sm font-mono text-[#8B5CF6] font-medium">Air-Gapped Local</span>
                 </div>
               </div>
 

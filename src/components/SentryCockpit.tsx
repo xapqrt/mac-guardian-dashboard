@@ -22,38 +22,38 @@ export const SentryCockpit: React.FC = () => {
   const modes = [
     {
       id: 'buds' as const,
-      label: 'Headphone Stem Sentry',
-      description: 'OnePlus Buds & AirPods stem touch gestures',
+      label: 'Headphone Stem Gestures',
+      description: 'OnePlus Buds & AirPods stem touch controls',
       icon: Headphones,
     },
     {
       id: 'gaze' as const,
-      label: 'Neural Vision & Gaze',
-      description: 'Head-pose yaw & subtle eyebrow trigger',
+      label: 'Head & Eyebrow Gestures',
+      description: 'Head glance yaw & subtle eyebrow lift detection',
       icon: Eye,
     },
     {
       id: 'audiophile' as const,
-      label: 'Acoustic Studio & RF',
-      description: 'Nord 4 Bluetooth packet telemetry & EQ',
+      label: 'Acoustic Studio & EQ',
+      description: 'Bluetooth audio quality, packets & equalizer',
       icon: Radio,
     },
   ];
 
   return (
-    <div className="w-full space-y-10">
-      {/* Calm Header & Mode Selector */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b border-white/[0.06]">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-mono text-[#8B5CF6]">
+    <div className="w-full space-y-8">
+      {/* Clean Header & Mode Selector */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-white/[0.06]">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2 text-xs font-medium text-[#8B5CF6]">
             <ShieldCheck className="w-4 h-4" />
-            <span className="uppercase tracking-[0.2em]">Spatial Hardware Sentry</span>
+            <span>Hands-Free Controls</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
-            GhostKey Spatial Sentry
+            GhostKey Sentry
           </h2>
           <p className="text-sm text-zinc-400 max-w-2xl leading-relaxed">
-            Hands-free zero-latency gesture sentry. Switch virtual desktops, cloak target windows, and sanitize memory in sub-10ms via physical stem squeeze or subtle head glance.
+            Hands-free desktop evasion and audio controls via earbud stem touches or natural head glances.
           </p>
         </div>
 

@@ -75,20 +75,20 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
         }`}
       >
         {/* Left: Traffic Lights & Title */}
-        <div className="flex items-center gap-3.5 min-w-0 shrink-0">
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className="w-3 h-3 rounded-full bg-[#EF4444] border border-black/20 transition-transform duration-150 hover:scale-110" />
-            <span className="w-3 h-3 rounded-full bg-[#F59E0B] border border-black/20 transition-transform duration-150 hover:scale-110" />
-            <span className="w-3 h-3 rounded-full bg-[#22D3EE] border border-black/20 transition-transform duration-150 hover:scale-110" />
+        <div className="flex items-center gap-3 min-w-0 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
           </div>
 
-          <div className="h-4 w-px bg-white/10 hidden sm:block" />
+          <div className="h-3.5 w-px bg-white/[0.08] hidden sm:block" />
 
           <button
             onClick={() => onNavigate('overview')}
             className="flex items-center gap-2 text-left group cursor-pointer"
           >
-            <span className="text-sm font-semibold tracking-tight text-[#F5F5F7] group-hover:text-white transition-colors">
+            <span className="text-sm font-medium tracking-tight text-white/90 group-hover:text-white transition-colors">
               Mac Guardian
             </span>
           </button>
@@ -99,27 +99,27 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               onOpenSpecs();
             }}
             title="Inspect Hardware Specifications"
-            className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-[#8A8A93] hover:text-white transition-all active:scale-95 group cursor-pointer"
+            className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[11px] text-zinc-400 hover:text-white transition-all active:scale-98 group cursor-pointer"
           >
-            <Cpu className="w-3 h-3 text-[#7C3AED] transition-all duration-150 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(124,58,237,0.7)]" />
-            <span className="font-medium text-[#F5F5F7] truncate">{chipName || 'Apple Silicon'}</span>
+            <Cpu className="w-3 h-3 text-[#8B5CF6]" />
+            <span className="font-medium text-zinc-300 truncate">{chipName || 'Apple Silicon'}</span>
           </button>
         </div>
 
         {/* Center: Global Search in Top Bar */}
-        <div className="flex-1 max-w-lg mx-2 sm:mx-4">
+        <div className="flex-1 max-w-md mx-2 sm:mx-4">
           <button
             onClick={() => {
               sound.playClick();
               onOpenCmd();
             }}
-            className="w-full flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-[#8A8A93] hover:text-[#F5F5F7] transition-all group cursor-pointer shadow-sm"
+            className="w-full flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.07] text-xs text-zinc-400 hover:text-zinc-200 transition-all group cursor-pointer"
           >
             <span className="flex items-center gap-2.5 truncate">
-              <Search className="w-3.5 h-3.5 text-[#7C3AED] group-hover:scale-110 transition-transform" />
-              <span className="truncate">Search processes, daemons, ports, files...</span>
+              <Search className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-300 transition-colors" />
+              <span className="truncate text-[11px]">Search processes, daemons, ports, files...</span>
             </span>
-            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-black/40 text-[10px] font-mono text-[#8A8A93] border border-white/10">
+            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.05] text-[10px] font-mono text-zinc-400 border border-white/[0.08]">
               <Command className="w-2.5 h-2.5" />K
             </kbd>
           </button>
@@ -134,12 +134,12 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               onOpenReceipts();
             }}
             title="Action Execution Receipts"
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-[#8A8A93] hover:text-[#F5F5F7] transition-all group cursor-pointer"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs text-zinc-400 hover:text-zinc-200 transition-all group cursor-pointer"
           >
-            <FileCheck2 className="w-3.5 h-3.5 text-[#22D3EE] transition-all duration-150 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]" />
+            <FileCheck2 className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span className="text-[11px] font-medium">Audit</span>
             {receiptCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-[#22D3EE]/20 text-[#22D3EE] text-[10px] font-semibold">
+              <span className="px-1.5 py-0.2 rounded-full bg-sky-500/15 text-[#38BDF8] text-[10px] font-semibold">
                 {receiptCount}
               </span>
             )}
@@ -151,11 +151,11 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               sound.playClick();
               onOpenAI();
             }}
-            className="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-[#F5F5F7] transition-all active:scale-95 group cursor-pointer"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs text-zinc-300 hover:text-white transition-all active:scale-98 group cursor-pointer"
           >
-            <Bot className="w-3.5 h-3.5 text-[#7C3AED] transition-all duration-150 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(124,58,237,0.7)]" />
+            <Bot className="w-3.5 h-3.5 text-[#8B5CF6]" />
             <span className="text-[11px] font-medium">AI</span>
-            <kbd className="text-[9px] font-mono px-1 rounded bg-black/50 text-[#8A8A93]">⌘J</kbd>
+            <kbd className="text-[9px] font-mono px-1 rounded bg-black/40 text-zinc-400">⌘J</kbd>
           </button>
 
           {/* Command Palette Trigger */}
@@ -165,9 +165,9 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               onOpenCmd();
             }}
             title="Open Command Palette (⌘K)"
-            className="p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[#8A8A93] hover:text-white transition-all group cursor-pointer"
+            className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-all group cursor-pointer"
           >
-            <Command className="w-3.5 h-3.5 transition-all duration-150 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(124,58,237,0.7)]" />
+            <Command className="w-3.5 h-3.5" />
           </button>
 
           {/* Rescan Button */}
@@ -177,29 +177,29 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               onRescan();
             }}
             title="Force Hardware & Telemetry Rescan"
-            className="p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[#8A8A93] hover:text-white transition-all group cursor-pointer"
+            className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-all group cursor-pointer"
           >
-            <RotateCw className={`w-3.5 h-3.5 transition-all duration-150 ease-out group-hover:scale-110 ${isScanning ? 'animate-spin text-[#22D3EE]' : ''}`} />
+            <RotateCw className={`w-3.5 h-3.5 transition-all duration-150 ease-out ${isScanning ? 'animate-spin text-[#38BDF8]' : ''}`} />
           </button>
 
           {/* Sound Toggle */}
           <button
             onClick={onToggleSound}
             title={soundEnabled ? 'Mute audio feedback' : 'Enable click audio'}
-            className="p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[#8A8A93] hover:text-white transition-all group cursor-pointer"
+            className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-all group cursor-pointer"
           >
             {soundEnabled ? (
-              <Volume2 className="w-3.5 h-3.5 text-[#22D3EE] transition-all duration-150 ease-out group-hover:scale-110" />
+              <Volume2 className="w-3.5 h-3.5 text-zinc-300" />
             ) : (
-              <VolumeX className="w-3.5 h-3.5 transition-all duration-150 ease-out group-hover:scale-110" />
+              <VolumeX className="w-3.5 h-3.5 text-zinc-500" />
             )}
           </button>
 
-          {/* Primary Action Button: Violet to Cyan gradient with fixed min-width */}
+          {/* Primary Action Button */}
           <button
             onClick={onQuickSweep}
             disabled={isSweeping}
-            className="min-w-[95px] px-4 py-1.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white text-xs font-medium hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="min-w-[85px] px-3.5 py-1.5 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-medium active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             {isSweeping ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />

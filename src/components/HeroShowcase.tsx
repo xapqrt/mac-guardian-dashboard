@@ -101,7 +101,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
   };
 
   return (
-    <section id="overview" className="relative min-h-[90vh] flex flex-col items-center justify-center pt-8 pb-16 px-4 sm:px-6 overflow-hidden">
+    <section id="overview" className="relative  flex flex-col items-center justify-center pt-8 pb-16 px-4 sm:px-6 overflow-hidden">
       
       {/* 3D Wireframe Scene Layer (Atmosphere) */}
       <Suspense fallback={null}>
@@ -117,7 +117,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
       >
         <span className="w-2 h-2 rounded-full bg-[#22D3EE] ring-4 ring-[#22D3EE]/20 animate-pulse" />
         <span className="text-xs font-semibold tracking-wider uppercase text-[#F5F5F7]">
-          Silicon Velocity Matrix
+          System Diagnostics
         </span>
         <span className="text-[#8A8A93] text-xs">•</span>
         <span className="text-xs text-[#8A8A93] font-medium">{stats?.specs?.osVersion || 'macOS Sequoia'}</span>
@@ -131,11 +131,11 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
         className="text-center max-w-5xl mx-auto space-y-4 relative z-10"
       >
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tight text-white leading-[1.05]">
-          <motion.span variants={wordVariants} className="block text-gradient-violet-cyan">
-            Power in stillness.
+          <motion.span variants={wordVariants} className="block text-white">
+            Fast, quiet, efficient.
           </motion.span>
           <motion.span variants={wordVariants} className="block text-[#8A8A93] font-medium">
-            Speed at your command.
+            Mac health at a glance.
           </motion.span>
         </h1>
 
@@ -143,7 +143,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
           variants={wordVariants}
           className="text-lg sm:text-xl text-[#8A8A93] max-w-2xl mx-auto font-normal leading-relaxed tracking-tight"
         >
-          Engineered for Apple Silicon. Zero-copy unified memory reclamation, passive cooling sentry, and wireless hardware stealth switcher.
+          Real-time telemetry for Apple Silicon: monitor unified memory, die temperatures, and manage GhostKey stealth triggers.
         </motion.p>
       </motion.div>
 
@@ -163,7 +163,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
             rotateY,
             transformStyle: 'preserve-3d'
           }}
-          className="relative rounded-2xl p-6 sm:p-10 bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_30px_90px_rgba(0,0,0,0.9)] transition-all duration-200 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]"
+          className="relative rounded-2xl p-6 sm:p-10 bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl transition-all duration-200 hover:border-white/20 "
         >
           {/* Subtle Top Specular Sheen */}
           <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
@@ -172,14 +172,14 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/10">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shrink-0 shadow-[0_0_20px_rgba(124,58,237,0.2)]">
-                <Cpu className="w-7 h-7 text-[#7C3AED]" />
+                <Cpu className="w-7 h-7 text-[#8B5CF6]" />
               </div>
               <div>
                 <div className="flex items-center gap-3">
                   <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
                     {stats?.specs?.chip || 'Apple M-Series Pro'}
                   </h2>
-                  <span className="px-2.5 py-0.5 rounded-2xl bg-[#22D3EE]/15 text-[#22D3EE] text-xs font-semibold border border-[#22D3EE]/30">
+                  <span className="px-2.5 py-0.5 rounded-2xl bg-[#22D3EE]/15 text-[#38BDF8] text-xs font-semibold border border-[#22D3EE]/30">
                     {Math.round(animatedScore)}% Peak Score
                   </span>
                 </div>
@@ -198,13 +198,13 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
               </div>
 
               <div className="px-3.5 py-1.5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-[#22D3EE]" />
+                <Activity className="w-3.5 h-3.5 text-[#38BDF8]" />
                 <span className="text-[#8A8A93]">SoC Junction:</span>
                 <span className="text-white font-semibold font-mono">{animatedTemp.toFixed(1)}°C</span>
               </div>
 
               <div className="px-3.5 py-1.5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
-                <Headphones className="w-3.5 h-3.5 text-[#7C3AED]" />
+                <Headphones className="w-3.5 h-3.5 text-[#8B5CF6]" />
                 <span className="text-[#8A8A93]">Buds 4:</span>
                 <span className="text-white font-semibold font-mono">{buds.battery || 60}%</span>
               </div>
@@ -215,10 +215,10 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
           <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Unified Memory Allocation Card */}
-            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]">
+            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 ">
               <div className="flex items-center justify-between text-xs text-[#8A8A93]">
                 <span className="flex items-center gap-1.5 text-white font-medium">
-                  <Layers className="w-3.5 h-3.5 text-[#7C3AED]" /> Unified RAM
+                  <Layers className="w-3.5 h-3.5 text-[#8B5CF6]" /> Unified RAM
                 </span>
                 <span className="text-white font-semibold font-mono">{ramPercent}%</span>
               </div>
@@ -251,7 +251,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                 <button
                   onClick={onPurgeRam}
                   disabled={isPurgingRam}
-                  className="text-[#22D3EE] hover:text-[#38BDF8] font-medium transition-colors cursor-pointer"
+                  className="text-[#38BDF8] hover:text-[#38BDF8] font-medium transition-colors cursor-pointer"
                 >
                   {isPurgingRam ? 'Purging...' : 'Purge Inactive'}
                 </button>
@@ -259,12 +259,12 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
             </div>
 
             {/* Thermal Headroom & Power Card */}
-            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]">
+            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 ">
               <div className="flex items-center justify-between text-xs text-[#8A8A93]">
                 <span className="flex items-center gap-1.5 text-white font-medium">
                   <Zap className="w-3.5 h-3.5 text-[#F59E0B]" /> Thermal Headroom
                 </span>
-                <span className="text-[#22D3EE] font-semibold font-mono">Nominal</span>
+                <span className="text-[#38BDF8] font-semibold font-mono">Nominal</span>
               </div>
 
               <div className="text-3xl font-semibold tracking-tight text-white font-mono">
@@ -285,12 +285,12 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
             </div>
 
             {/* GhostKey Wireless Stealth Switcher Card */}
-            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_rgba(124,58,237,0.15)]">
+            <div className="space-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/20 ">
               <div className="flex items-center justify-between text-xs text-[#8A8A93]">
                 <span className="flex items-center gap-1.5 text-white font-medium">
-                  <Shield className="w-3.5 h-3.5 text-[#22D3EE]" /> GhostKey Switcher
+                  <Shield className="w-3.5 h-3.5 text-[#38BDF8]" /> GhostKey Switcher
                 </span>
-                <span className="text-xs text-[#22D3EE] font-semibold font-mono">ARMED</span>
+                <span className="text-xs text-[#38BDF8] font-semibold font-mono">ARMED</span>
               </div>
 
               <div className="text-3xl font-semibold tracking-tight text-white">
@@ -304,7 +304,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
               <div className="pt-1 flex items-center justify-between text-[11px]">
                 <button
                   onClick={onOpenSentry}
-                  className="text-[#22D3EE] hover:text-[#38BDF8] font-medium flex items-center gap-1 transition-colors cursor-pointer"
+                  className="text-[#38BDF8] hover:text-[#38BDF8] font-medium flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   Configure Triggers <ArrowRight className="w-3 h-3" />
                 </button>
@@ -319,7 +319,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
               <button
                 onClick={onQuickSweep}
                 disabled={isSweeping}
-                className="min-w-[170px] px-6 py-2.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] active:scale-95 text-white text-sm font-medium transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="min-w-[170px] px-6 py-2.5 rounded-2xl bg-[#7C3AED] hover:bg-[#6D28D9] hover:shadow-[0_0_24px_rgba(124,58,237,0.45)] active:scale-95 text-white text-sm font-medium transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {isSweeping ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -345,7 +345,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
               className="text-xs text-[#8A8A93] hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <span>View Full Silicon Architecture</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#22D3EE]" />
+              <ArrowRight className="w-3.5 h-3.5 text-[#38BDF8]" />
             </button>
           </div>
 
