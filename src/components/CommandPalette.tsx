@@ -17,9 +17,14 @@ import {
   Monitor,
   ShieldAlert,
   Gauge,
-  FolderOpen,
   Terminal,
-  Shield
+  Shield,
+  Layers,
+  Cpu,
+  Flame,
+  LayoutDashboard,
+  Headphones,
+  FileBox
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 
@@ -37,6 +42,7 @@ interface CommandPaletteProps {
   onClose: () => void;
   triggerAction: (action: string, payload: any, label: string) => void;
   setActiveTab: (tab: any) => void;
+  stats?: any;
 }
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({
@@ -185,37 +191,132 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       icon: Trash2,
       action: () => triggerAction('empty-trash', {}, 'Empty Trash'),
     },
+    // Top-Level View Navigation
     {
-      id: 'open-dev-tab',
-      title: 'Jump to APFS Ghost Hunter',
-      category: 'Navigation',
-      icon: FolderOpen,
-      action: () => setActiveTab('developer'),
+      id: 'nav-overview',
+      title: 'Jump to Overview Stage',
+      category: 'Views & Navigation',
+      icon: LayoutDashboard,
+      action: () => setActiveTab('overview'),
     },
     {
-      id: 'open-privacy-tab',
-      title: 'Jump to Privacy Vault',
-      category: 'Navigation',
+      id: 'nav-sentry',
+      title: 'Jump to GhostKey & Gaze Sentry',
+      category: 'Views & Navigation',
+      icon: Headphones,
+      action: () => setActiveTab('sentry'),
+    },
+    {
+      id: 'nav-thermal',
+      title: 'Jump to Thermal & Battery Sentry',
+      category: 'Views & Navigation',
+      icon: Flame,
+      action: () => setActiveTab('thermal'),
+    },
+    {
+      id: 'nav-storage',
+      title: 'Jump to APFS Storage & Sunburst',
+      category: 'Views & Navigation',
+      icon: HardDrive,
+      action: () => setActiveTab('storage'),
+    },
+    {
+      id: 'nav-processes',
+      title: 'Jump to Activity Monitor & Processes',
+      category: 'Views & Navigation',
+      icon: Layers,
+      action: () => setActiveTab('processes'),
+    },
+    {
+      id: 'nav-dev',
+      title: 'Jump to Dev Ghost Hunter & Ports',
+      category: 'Views & Navigation',
+      icon: Terminal,
+      action: () => setActiveTab('dev'),
+    },
+    {
+      id: 'nav-privacy',
+      title: 'Jump to Privacy Vault & Hygiene',
+      category: 'Views & Navigation',
       icon: Shield,
       action: () => setActiveTab('privacy'),
     },
     {
-      id: 'open-thermal-tab',
-      title: 'Jump to Thermal & Fan Sentry',
-      category: 'Navigation',
-      icon: Zap,
-      action: () => setActiveTab('thermal'),
+      id: 'nav-tweaks',
+      title: 'Jump to Titanium Tweaks & Audio',
+      category: 'Views & Navigation',
+      icon: Sliders,
+      action: () => setActiveTab('tweaks'),
     },
     {
-      id: 'open-earbuds-tab',
-      title: 'Jump to OnePlus Buds 4 Audiophile Studio',
-      category: 'Navigation',
-      icon: Volume2,
-      action: () => setActiveTab('earbuds'),
+      id: 'nav-startup',
+      title: 'Jump to Launch Daemons Manager',
+      category: 'Views & Navigation',
+      icon: Power,
+      action: () => setActiveTab('startup'),
     },
   ];
 
-  const filtered = actions.filter((item) => {
+  // Dynamically index stats data (processes, storage files, launch agents, dev ports)
+  const allActions = React.useMemo(() => {
+    const list = [...actions];
+
+    // Index real processes
+    if (stats?.topProcesses && Array.isArray(stats.topProcesses)) {
+      stats.topProcesses.forEach((p: any) => {
+        list.push({
+          id: `proc-${p.pid}`,
+          title: `${p.name} (PID ${p.pid}) • ${p.rssMb}MB RAM • ${p.cpu}% CPU`,
+          category: 'Active Processes',
+          icon: Cpu,
+          action: () => setActiveTab('processes'),
+        });
+      });
+    }
+
+    // Index large storage files
+    if (stats?.largeFiles && Array.isArray(stats.largeFiles)) {
+      stats.largeFiles.forEach((f: any, idx: number) => {
+        list.push({
+          id: `file-${idx}-${f.name}`,
+          title: `${f.name} (${f.size}) • ${f.path}`,
+          category: 'Storage & Downloads',
+          icon: FileBox,
+          action: () => setActiveTab('storage'),
+        });
+      });
+    }
+
+    // Index startup daemons
+    if (stats?.launchAgents && Array.isArray(stats.launchAgents)) {
+      stats.launchAgents.forEach((a: any, idx: number) => {
+        list.push({
+          id: `agent-${idx}-${a.fileName}`,
+          title: `${a.label || a.fileName} (${a.isEnabled ? 'Enabled' : 'Disabled'}) • ${a.category || 'Daemon'}`,
+          category: 'Startup Daemons',
+          icon: Power,
+          action: () => setActiveTab('startup'),
+        });
+      });
+    }
+
+    // Index active dev ports
+    if (stats?.devPorts && Array.isArray(stats.devPorts)) {
+      stats.devPorts.forEach((p: any) => {
+        list.push({
+          id: `port-${p.port}-${p.pid}`,
+          title: `Port :${p.port} (${p.command}) • PID ${p.pid} • ${p.user}`,
+          category: 'TCP Listening Ports',
+          icon: Terminal,
+          action: () => setActiveTab('dev'),
+        });
+      });
+    }
+
+    return list;
+  }, [actions, stats, setActiveTab]);
+
+  const filtered = allActions.filter((item) => {
     if (!query) return true;
     const q = query.toLowerCase();
     return (
@@ -283,7 +384,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Type a command or search action..."
+                placeholder="Search processes, daemons, ports, files, or actions (⌘K)..."
                 className="flex-1 bg-transparent text-xs text-[#F5F5F7] placeholder-[#8A8A93] focus:outline-none"
               />
               <span className="px-2 py-0.5 rounded-lg bg-white/10 text-[10px] font-mono text-[#8A8A93] border border-white/10">

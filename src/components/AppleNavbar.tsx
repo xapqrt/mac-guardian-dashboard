@@ -9,7 +9,8 @@ import {
   VolumeX,
   RotateCw,
   Cpu,
-  Loader2
+  Loader2,
+  Search
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 
@@ -65,16 +66,16 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 pt-3 pb-2 transition-all duration-300">
+    <header className="sticky top-0 z-30 w-full px-4 sm:px-6 pt-3 pb-2 transition-all duration-300">
       <div
-        className={`max-w-6xl mx-auto rounded-2xl transition-all duration-300 px-4 sm:px-6 py-2 flex items-center justify-between gap-4 border ${
+        className={`w-full rounded-2xl transition-all duration-300 px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 border ${
           scrolled
-            ? 'bg-[#08080a]/80 backdrop-blur-xl border-white/10 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.9),0_0_30px_rgba(124,58,237,0.1)]'
+            ? 'bg-[#08080a]/85 backdrop-blur-xl border-white/10 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.9),0_0_30px_rgba(124,58,237,0.1)]'
             : 'bg-white/5 backdrop-blur-xl border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
         }`}
       >
         {/* Left: Traffic Lights & Title */}
-        <div className="flex items-center gap-3.5 min-w-0">
+        <div className="flex items-center gap-3.5 min-w-0 shrink-0">
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="w-3 h-3 rounded-full bg-[#EF4444] border border-black/20 transition-transform duration-150 hover:scale-110" />
             <span className="w-3 h-3 rounded-full bg-[#F59E0B] border border-black/20 transition-transform duration-150 hover:scale-110" />
@@ -98,40 +99,31 @@ export const AppleNavbar: React.FC<AppleNavbarProps> = ({
               onOpenSpecs();
             }}
             title="Inspect Hardware Specifications"
-            className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-[#8A8A93] hover:text-white transition-all active:scale-95 group cursor-pointer"
+            className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-[#8A8A93] hover:text-white transition-all active:scale-95 group cursor-pointer"
           >
             <Cpu className="w-3 h-3 text-[#7C3AED] transition-all duration-150 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(124,58,237,0.7)]" />
             <span className="font-medium text-[#F5F5F7] truncate">{chipName || 'Apple Silicon'}</span>
           </button>
         </div>
 
-        {/* Center: Framer-Motion Animated Pill Nav with layoutId */}
-        <nav className="hidden md:flex items-center p-1 rounded-2xl bg-black/40 border border-white/10 text-xs relative">
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  sound.playClick();
-                  onNavigate(item.id);
-                }}
-                className={`relative px-3.5 py-1.5 rounded-2xl transition-colors duration-150 text-xs font-medium cursor-pointer ${
-                  isActive ? 'text-white' : 'text-[#8A8A93] hover:text-[#F5F5F7]'
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeNavPill"
-                    className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#7C3AED]/40 to-[#22D3EE]/30 border border-white/20 shadow-[0_0_20px_rgba(124,58,237,0.3)]"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
+        {/* Center: Global Search in Top Bar */}
+        <div className="flex-1 max-w-lg mx-2 sm:mx-4">
+          <button
+            onClick={() => {
+              sound.playClick();
+              onOpenCmd();
+            }}
+            className="w-full flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-[#8A8A93] hover:text-[#F5F5F7] transition-all group cursor-pointer shadow-sm"
+          >
+            <span className="flex items-center gap-2.5 truncate">
+              <Search className="w-3.5 h-3.5 text-[#7C3AED] group-hover:scale-110 transition-transform" />
+              <span className="truncate">Search processes, daemons, ports, files...</span>
+            </span>
+            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-black/40 text-[10px] font-mono text-[#8A8A93] border border-white/10">
+              <Command className="w-2.5 h-2.5" />K
+            </kbd>
+          </button>
+        </div>
 
         {/* Right: Quick Action & Tool Cluster */}
         <div className="flex items-center gap-2 shrink-0">

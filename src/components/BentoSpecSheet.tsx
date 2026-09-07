@@ -58,7 +58,7 @@ export const BentoSpecSheet: React.FC<BentoSpecSheetProps> = ({
   const totalTabMemoryMb = browserTabs.reduce((acc: number, t: any) => acc + (t.memoryMb || 0), 0);
 
   return (
-    <section className="py-20 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-12">
+    <section className="py-12 px-4 sm:px-8 w-full space-y-12">
       {/* Section Header with Dark Cinematic Typography */}
       <div className="space-y-3 text-center md:text-left">
         <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">

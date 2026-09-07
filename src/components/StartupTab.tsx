@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { Power, CheckCircle2 } from 'lucide-react';
+import { Power, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 import { HoloCard, TactileButton, CyberBadge } from './UIElements';
+import { FilterBar } from './FilterBar';
 
 interface LaunchAgentItem {
   fileName: string;
@@ -20,16 +21,37 @@ export const StartupTab: React.FC<StartupTabProps> = ({
   triggerAction
 }) => {
   const [startupFilter, setStartupFilter] = useState<'all' | 'enabled' | 'disabled'>('all');
+  const [startupSearch, setStartupSearch] = useState('');
+  const [startupSort, setStartupSort] = useState<'status' | 'name' | 'category'>('status');
   const [toggledAgents, setToggledAgents] = useState<string[]>([]);
 
   const filteredAgents = useMemo(() => {
     if (!stats?.launchAgents) return [];
-    return stats.launchAgents.filter((a: LaunchAgentItem) => {
+    let list = stats.launchAgents.filter((a: LaunchAgentItem) => {
+      if (startupSearch) {
+        const q = startupSearch.toLowerCase();
+        const match =
+          a.label?.toLowerCase().includes(q) ||
+          a.fileName?.toLowerCase().includes(q) ||
+          a.desc?.toLowerCase().includes(q) ||
+          a.category?.toLowerCase().includes(q);
+        if (!match) return false;
+      }
       if (startupFilter === 'enabled') return a.isEnabled;
       if (startupFilter === 'disabled') return !a.isEnabled;
       return true;
     });
-  }, [stats?.launchAgents, startupFilter]);
+
+    list = [...list].sort((a: LaunchAgentItem, b: LaunchAgentItem) => {
+      if (startupSort === 'name') return a.label.localeCompare(b.label);
+      if (startupSort === 'category') return a.category.localeCompare(b.category);
+      // default: status (enabled first)
+      if (a.isEnabled === b.isEnabled) return a.label.localeCompare(b.label);
+      return a.isEnabled ? -1 : 1;
+    });
+
+    return list;
+  }, [stats?.launchAgents, startupFilter, startupSearch, startupSort]);
 
   const handleToggleAgent = (agent: LaunchAgentItem) => {
     setToggledAgents(prev => [...prev, agent.fileName]);
@@ -41,22 +63,40 @@ export const StartupTab: React.FC<StartupTabProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-200 bg-[#000000] text-[#f5f5f7]">
-      <HoloCard className="p-8 sm:p-10 space-y-6 bg-[#101010] border border-white/[0.08]">
-        <div className="flex flex-wrap items-center justify-between gap-5">
-          <div className="space-y-1">
-            <div className="flex items-center gap-3">
-              <h3 className="text-base font-semibold text-[#f5f5f7] flex items-center gap-2">
-                <Power className="w-4 h-4 text-[#86868b]" /> Startup LaunchAgents Manager
-              </h3>
-              <CyberBadge variant="slate" size="xs">BOOT ACCELERATOR</CyberBadge>
-            </div>
-            <p className="text-xs text-[#86868b] max-w-2xl leading-relaxed">
-              Stop heavy background apps and updater daemons from auto-starting on login and consuming memory before you even open them.
-            </p>
+    <div className="space-y-8 animate-in fade-in duration-200 text-[#F5F5F7]">
+      <HoloCard className="p-8 sm:p-10 space-y-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center gap-2">
+              <Power className="w-4 h-4 text-[#7C3AED]" /> Startup LaunchAgents Manager
+            </h3>
+            <CyberBadge variant="slate" size="xs">BOOT ACCELERATOR</CyberBadge>
           </div>
+          <p className="text-xs text-[#8A8A93] max-w-2xl leading-relaxed">
+            Stop heavy background apps and updater daemons from auto-starting on login and consuming memory before you even open them.
+          </p>
+        </div>
 
-          <div className="flex items-center gap-2">
+        {/* Reusable FilterBar */}
+        <FilterBar
+          search={startupSearch}
+          onSearchChange={setStartupSearch}
+          searchPlaceholder="Search daemons, agents, background apps..."
+          categories={[
+            { id: 'all', label: 'All Items' },
+            { id: 'enabled', label: 'Enabled Only' },
+            { id: 'disabled', label: 'Disabled Only' },
+          ]}
+          selectedCategory={startupFilter}
+          onCategoryChange={(c) => setStartupFilter(c as any)}
+          sortOptions={[
+            { id: 'status', label: 'STATUS' },
+            { id: 'name', label: 'NAME' },
+            { id: 'category', label: 'TAG' },
+          ]}
+          selectedSort={startupSort}
+          onSortChange={(s) => setStartupSort(s as any)}
+          rightActions={
             <TactileButton
               variant="secondary"
               size="sm"
@@ -64,23 +104,8 @@ export const StartupTab: React.FC<StartupTabProps> = ({
             >
               ↻ Rescan
             </TactileButton>
-            <div className="flex items-center gap-1 bg-[#0a0a0c] p-1 rounded-full border border-white/[0.08] text-xs font-mono">
-              {(['all', 'enabled', 'disabled'] as const).map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setStartupFilter(f)}
-                  className={`px-3 py-1 rounded-full uppercase font-medium transition-colors ${
-                    startupFilter === f
-                      ? 'bg-[#f5f5f7] text-black shadow-sm'
-                      : 'text-[#86868b] hover:text-[#f5f5f7]'
-                  }`}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+          }
+        />
 
         <div className="space-y-3 pt-2">
           {filteredAgents.length > 0 ? (

@@ -16,7 +16,7 @@ export const ScrollStorySection: React.FC<ScrollStorySectionProps> = ({ stats, o
 
   return (
     <section className="relative w-full bg-[#08080a] text-[#F5F5F7] selection:bg-[#7C3AED]/30 overflow-hidden border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 py-24">
+      <div className="w-full px-4 sm:px-8 py-16">
         {/* 1. Strict 2-Column Responsive Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           

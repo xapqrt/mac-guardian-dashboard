@@ -12,6 +12,7 @@ import {
   Cpu
 } from 'lucide-react';
 import { HoloCard, TactileButton, CyberBadge } from './UIElements';
+import { FilterBar } from './FilterBar';
 import { ProcessMemoryRing } from './ProcessMemoryRing';
 import { MemoryCompressorVisualizer } from './MemoryCompressorVisualizer';
 
@@ -97,8 +98,30 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
               Real-time process intelligence with Apple kernel protection guards. Safely terminate memory-leaking apps without touching critical system daemons.
             </p>
           </div>
+        </div>
 
-          <div className="flex items-center gap-2">
+        {/* Reusable FilterBar for Processes */}
+        <FilterBar
+          search={procSearch}
+          onSearchChange={setProcSearch}
+          searchPlaceholder="Search process name or PID..."
+          categories={[
+            { id: 'safe', label: 'Safe to Quit', icon: ShieldCheck },
+            { id: 'all', label: 'All Processes' },
+            { id: 'browser', label: 'Browsers' },
+            { id: 'dev', label: 'Developer Tools' },
+            { id: 'system', label: 'Apple Protected', icon: Lock },
+          ]}
+          selectedCategory={procCategoryFilter}
+          onCategoryChange={(c) => setProcCategoryFilter(c as any)}
+          sortOptions={[
+            { id: 'mem', label: 'MEM' },
+            { id: 'cpu', label: 'CPU' },
+            { id: 'name', label: 'NAME' },
+          ]}
+          selectedSort={procSort}
+          onSortChange={(s) => setProcSort(s as any)}
+          rightActions={
             <TactileButton
               variant="secondary"
               size="sm"
@@ -106,92 +129,8 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({
             >
               ↻ Refresh
             </TactileButton>
-            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/10 text-xs font-mono">
-              {(['mem', 'cpu', 'name'] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setProcSort(s)}
-                  className={`px-3 py-1 rounded-2xl uppercase font-medium transition-all ${
-                    procSort === s ? 'bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-white shadow-sm' : 'text-[#8A8A93] hover:text-[#F5F5F7]'
-                  }`}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Safety & Category Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-white/10">
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            <button
-              onClick={() => setProcCategoryFilter('safe')}
-              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all flex items-center gap-1.5 ${
-                procCategoryFilter === 'safe'
-                  ? 'bg-[#22D3EE]/20 text-[#22D3EE] border border-[#22D3EE]/40 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
-              }`}
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#22D3EE]" /> Safe to Quit
-            </button>
-
-            <button
-              onClick={() => setProcCategoryFilter('all')}
-              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
-                procCategoryFilter === 'all'
-                  ? 'bg-white/15 text-[#F5F5F7] border border-white/25 shadow-sm'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
-              }`}
-            >
-              All Processes
-            </button>
-
-            <button
-              onClick={() => setProcCategoryFilter('browser')}
-              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
-                procCategoryFilter === 'browser'
-                  ? 'bg-[#7C3AED]/20 text-[#7C3AED] border border-[#7C3AED]/40 shadow-[0_0_15px_rgba(124,58,237,0.2)]'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
-              }`}
-            >
-              Browsers
-            </button>
-
-            <button
-              onClick={() => setProcCategoryFilter('dev')}
-              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all ${
-                procCategoryFilter === 'dev'
-                  ? 'bg-[#7C3AED]/20 text-[#7C3AED] border border-[#7C3AED]/40 shadow-[0_0_15px_rgba(124,58,237,0.2)]'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
-              }`}
-            >
-              Developer Tools
-            </button>
-
-            <button
-              onClick={() => setProcCategoryFilter('system')}
-              className={`px-3.5 py-1.5 rounded-2xl font-medium transition-all flex items-center gap-1.5 ${
-                procCategoryFilter === 'system'
-                  ? 'bg-white/15 text-[#F5F5F7] border border-white/25'
-                  : 'bg-white/5 text-[#8A8A93] hover:text-[#F5F5F7] border border-white/10'
-              }`}
-            >
-              <Lock className="w-3.5 h-3.5 text-[#8A8A93]" /> Apple Protected
-            </button>
-          </div>
-
-          <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8A8A93]" />
-            <input
-              type="text"
-              placeholder="Search name or PID..."
-              value={procSearch}
-              onChange={(e) => setProcSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-[#F5F5F7] placeholder-[#8A8A93] focus:outline-none focus:border-[#7C3AED]/60 focus:ring-1 focus:ring-[#7C3AED]/40 transition-all"
-            />
-          </div>
-        </div>
+          }
+        />
 
         {procCategoryFilter === 'system' && (
           <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center gap-2.5 text-xs text-[#8A8A93]">

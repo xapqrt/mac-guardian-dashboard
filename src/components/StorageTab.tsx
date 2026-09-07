@@ -14,6 +14,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { HoloCard, TactileButton, CyberBadge } from './UIElements';
+import { FilterBar } from './FilterBar';
 import { SunburstDisk } from './SunburstDisk';
 import { AppUninstaller } from './AppUninstaller';
 import { GitInspector } from './GitInspector';
@@ -35,19 +36,30 @@ export const StorageTab: React.FC<StorageTabProps> = ({
   triggerAction
 }) => {
   const [fileTypeFilter, setFileTypeFilter] = useState<'all' | 'dmg' | 'zip' | 'app'>('all');
+  const [fileSearch, setFileSearch] = useState('');
+  const [fileSort, setFileSort] = useState<'size' | 'name'>('size');
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [purgedPaths, setPurgedPaths] = useState<string[]>([]);
   const [deletedFilePaths, setDeletedFilePaths] = useState<string[]>([]);
 
   const filteredFiles = useMemo(() => {
     if (!stats?.largeFiles) return [];
-    return stats.largeFiles.filter((f: any) => {
+    let list = stats.largeFiles.filter((f: any) => {
+      if (fileSearch) {
+        const q = fileSearch.toLowerCase();
+        if (!f.name.toLowerCase().includes(q) && !f.path.toLowerCase().includes(q)) return false;
+      }
       if (fileTypeFilter === 'dmg' && !f.name.endsWith('.dmg')) return false;
       if (fileTypeFilter === 'zip' && !f.name.endsWith('.zip') && !f.name.endsWith('.tar') && !f.name.endsWith('.gz')) return false;
       if (fileTypeFilter === 'app' && !f.name.endsWith('.app') && !f.path.includes('.app')) return false;
       return true;
     });
-  }, [stats?.largeFiles, fileTypeFilter]);
+
+    if (fileSort === 'name') {
+      list = [...list].sort((a: any, b: any) => a.name.localeCompare(b.name));
+    }
+    return list;
+  }, [stats?.largeFiles, fileTypeFilter, fileSearch, fileSort]);
 
   const toggleSelectFile = (path: string) => {
     setSelectedFiles(prev =>
@@ -305,38 +317,40 @@ export const StorageTab: React.FC<StorageTabProps> = ({
         </div>
 
         {/* Filters Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-white/[0.06] text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-[#86868b] mr-1 font-mono">Format:</span>
-            {(['all', 'dmg', 'zip', 'app'] as const).map((type) => (
+        <FilterBar
+          search={fileSearch}
+          onSearchChange={setFileSearch}
+          searchPlaceholder="Search files by name or path..."
+          categories={[
+            { id: 'all', label: 'All Files' },
+            { id: 'dmg', label: 'DMG Installers' },
+            { id: 'zip', label: 'Archives' },
+            { id: 'app', label: 'Applications' },
+          ]}
+          selectedCategory={fileTypeFilter}
+          onCategoryChange={(c) => setFileTypeFilter(c as any)}
+          sortOptions={[
+            { id: 'size', label: 'SIZE' },
+            { id: 'name', label: 'NAME' },
+          ]}
+          selectedSort={fileSort}
+          onSortChange={(s) => setFileSort(s as any)}
+          rightActions={
+            filteredFiles.length > 0 ? (
               <button
-                key={type}
-                onClick={() => setFileTypeFilter(type)}
-                className={`px-3 py-1 rounded-full transition-colors uppercase font-mono text-xs ${
-                  fileTypeFilter === type
-                    ? 'bg-[#f5f5f7] text-black font-semibold shadow-sm'
-                    : 'text-[#86868b] hover:text-[#f5f5f7] hover:bg-white/[0.04]'
-                }`}
+                onClick={selectAllFilteredFiles}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-[#8A8A93] hover:text-[#F5F5F7] font-medium transition-all cursor-pointer"
               >
-                {type}
+                {selectedFiles.length === filteredFiles.length ? (
+                  <CheckSquare className="w-3.5 h-3.5 text-[#22D3EE]" />
+                ) : (
+                  <Square className="w-3.5 h-3.5 text-[#8A8A93]" />
+                )}
+                <span>Select All ({filteredFiles.length})</span>
               </button>
-            ))}
-          </div>
-
-          {filteredFiles.length > 0 && (
-            <button
-              onClick={selectAllFilteredFiles}
-              className="flex items-center gap-2 text-xs text-[#86868b] hover:text-[#f5f5f7] font-medium"
-            >
-              {selectedFiles.length === filteredFiles.length ? (
-                <CheckSquare className="w-4 h-4 text-[#f5f5f7]" />
-              ) : (
-                <Square className="w-4 h-4 text-[#86868b]" />
-              )}
-              Select All ({filteredFiles.length})
-            </button>
-          )}
-        </div>
+            ) : null
+          }
+        />
 
         {/* File List */}
         <div className="space-y-2">

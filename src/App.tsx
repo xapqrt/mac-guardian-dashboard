@@ -4,7 +4,8 @@ import { Command, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sound } from './utils/audio';
 
-// Showcase Components
+// Showcase Components & Persistent Shell
+import { AppSidebar, DASHBOARD_NAV_ITEMS } from './components/AppSidebar';
 import { AppleNavbar } from './components/AppleNavbar';
 import { HeroShowcase } from './components/HeroShowcase';
 import { ScrollStorySection } from './components/ScrollStorySection';
@@ -32,8 +33,19 @@ import { SupernovaModal } from './components/SupernovaModal';
 
 export default function App() {
   const [stats, setStats] = useState<any>(null);
-  const [activeSection, setActiveSection] = useState<string>('overview');
-  const [activeSubTab, setActiveSubTab] = useState<string>('earbuds');
+
+  // URL Hash-based Client-Side Routing
+  const getInitialView = () => {
+    if (typeof window === 'undefined') return 'overview';
+    const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+    const validViews = ['overview', 'sentry', 'thermal', 'storage', 'processes', 'dev', 'privacy', 'tweaks', 'startup'];
+    if (validViews.includes(hash)) return hash;
+    if (hash === 'developer') return 'dev';
+    if (hash === 'controls') return 'tweaks';
+    return 'overview';
+  };
+
+  const [currentView, setCurrentView] = useState<string>(getInitialView);
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
   const [refreshInterval, setRefreshInterval] = useState<number>(2000);
   const [perfMode, setPerfMode] = useState<'snappy' | 'balanced' | 'default'>('snappy');
@@ -96,7 +108,34 @@ export default function App() {
     }
   }, [refreshInterval]);
 
-  // Global Keyboard Shortcuts (⌘K, ⌘J, ?, ⌘B, 1-6)
+  // Sync route with URL hash on external changes (back/forward)
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      const validViews = ['overview', 'sentry', 'thermal', 'storage', 'processes', 'dev', 'privacy', 'tweaks', 'startup'];
+      if (validViews.includes(hash)) {
+        setCurrentView(hash);
+      } else if (hash === 'developer') {
+        setCurrentView('dev');
+      } else if (hash === 'controls') {
+        setCurrentView('tweaks');
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const navigateToView = (view: string) => {
+    let mapped = view;
+    if (view === 'developer') mapped = 'dev';
+    if (view === 'controls') mapped = 'tweaks';
+    if (view === 'studio') mapped = 'processes';
+    if (view === 'specs' || view === 'story') mapped = 'overview';
+    setCurrentView(mapped);
+    window.location.hash = mapped;
+  };
+
+  // Global Keyboard Shortcuts (⌘K, ⌘J, ?, ⌘B, 1-9)
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
@@ -116,21 +155,23 @@ export default function App() {
       } else if (e.key.toLowerCase() === 'b' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         triggerAction('boost-quick', {}, 'Instant Mac Sweep');
-      } else if (e.key === '1') {
-        sound.playClick();
-        scrollToSection('overview');
-      } else if (e.key === '2') {
-        sound.playClick();
-        scrollToSection('story');
-      } else if (e.key === '3') {
-        sound.playClick();
-        scrollToSection('specs');
-      } else if (e.key === '4') {
-        sound.playClick();
-        scrollToSection('sentry');
-      } else if (e.key === '5') {
-        sound.playClick();
-        scrollToSection('studio');
+      } else if (['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(e.key)) {
+        const viewMap: Record<string, string> = {
+          '1': 'overview',
+          '2': 'sentry',
+          '3': 'thermal',
+          '4': 'storage',
+          '5': 'processes',
+          '6': 'dev',
+          '7': 'privacy',
+          '8': 'tweaks',
+          '9': 'startup',
+        };
+        const target = viewMap[e.key];
+        if (target) {
+          sound.playClick();
+          navigateToView(target);
+        }
       }
     };
 
@@ -228,273 +269,301 @@ export default function App() {
     return Math.max(50, score);
   }, [stats]);
 
-  const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#08080a] text-[#F5F5F7] flex flex-col font-sans selection:bg-[#7C3AED]/30 relative selection:text-white">
+    <div className="min-h-screen bg-[#08080a] text-[#F5F5F7] flex flex-row font-sans selection:bg-[#7C3AED]/30 relative selection:text-white overflow-hidden">
       {/* Subtle Apple Ambient Backlight Glow */}
       <CosmicField />
 
-      {/* 1. Apple Centered Frosted Capsule Navbar */}
-      <AppleNavbar
-        chipName={stats?.specs?.chip || 'Apple M4'}
-        activeSection={activeSection}
-        onNavigate={scrollToSection}
-        onOpenAI={() => setIsAIOpen(true)}
-        onOpenCmd={() => setIsCmdOpen(true)}
-        onOpenReceipts={() => setIsReceiptsModalOpen(true)}
+      {/* 1. Left Sidebar: Fixed Width (w-64), Full Height, Always Visible Persistent Nav */}
+      <AppSidebar
+        currentView={currentView}
+        onSelectView={navigateToView}
+        stats={stats}
         onOpenSpecs={() => setIsSpecsOpen(true)}
-        onQuickSweep={() => triggerAction('boost-quick', {}, 'Instant Mac Sweep')}
-        isSweeping={loadingAction === 'boost-quick'}
+        onOpenAI={() => setIsAIOpen(true)}
+        onOpenReceipts={() => setIsReceiptsModalOpen(true)}
+        onOpenShortcuts={() => setIsShortcutsOpen(true)}
         receiptCount={receipts.length}
         soundEnabled={soundEnabled}
         onToggleSound={toggleSound}
-        onRescan={() => triggerAction('rescan-all', {}, 'Complete System Rescan')}
-        isScanning={loadingAction === 'rescan-all' || !!stats?.isScanningStorage}
       />
 
-      {/* 2. Top Island Action Verification HUD */}
-      <ActionHUD
-        latestReceipt={latestReceipt}
-        allReceipts={receipts}
-        onDismiss={() => setLatestReceipt(null)}
-        onClearReceipts={clearAllReceipts}
-      />
-
-      {/* 3. Morphing Dynamic Island Floating Cockpit */}
-      <div className="pt-2 sticky top-20 z-30 pointer-events-none">
-        <div className="pointer-events-auto">
-          <AppleDynamicIsland
-            stats={stats}
-            healthScore={healthScore}
-            triggerAction={triggerAction}
-            loadingAction={loadingAction}
-            onOpenSpecs={() => setIsSpecsOpen(true)}
-          />
-        </div>
-      </div>
-
-      {/* 4. Hero Section: Cinematic Product Stage */}
-      <div id="overview">
-        <HeroShowcase
-          stats={stats}
-          healthScore={healthScore}
-          triggerAction={triggerAction}
-          loadingAction={loadingAction}
-          onOpenSpecs={() => setIsSpecsOpen(true)}
+      {/* 2. Main Dashboard Content Area: flex-1, Full Remaining Width, Internal Scroll, Unconstrained Viewport */}
+      <main className="flex-1 min-w-0 h-screen overflow-y-auto flex flex-col relative z-10">
+        {/* Top Header with Global Search (⌘K) */}
+        <AppleNavbar
+          chipName={stats?.specs?.chip || 'Apple M4'}
+          activeSection={currentView}
+          onNavigate={navigateToView}
           onOpenAI={() => setIsAIOpen(true)}
-        />
-      </div>
-
-      {/* 5. Scroll Story Section: 3 Scrubbed Acts (Below Fold Reveal) */}
-      <motion.div
-        id="story"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <ScrollStorySection
-          stats={stats}
-          onExploreFeature={(tab) => {
-            setActiveSubTab(tab);
-            scrollToSection('studio');
-          }}
-        />
-      </motion.div>
-
-      {/* 6. Bento Spec Sheet: Asymmetric 4-Col Grid (Below Fold Reveal) */}
-      <motion.div
-        id="specs"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <BentoSpecSheet
-          stats={stats}
-          triggerAction={triggerAction}
-          loadingAction={loadingAction}
+          onOpenCmd={() => setIsCmdOpen(true)}
+          onOpenReceipts={() => setIsReceiptsModalOpen(true)}
           onOpenSpecs={() => setIsSpecsOpen(true)}
-          onNavigateTab={(tab) => {
-            setActiveSubTab(tab);
-            scrollToSection('studio');
-          }}
+          onQuickSweep={() => triggerAction('boost-quick', {}, 'Instant Mac Sweep')}
+          isSweeping={loadingAction === 'boost-quick'}
+          receiptCount={receipts.length}
+          soundEnabled={soundEnabled}
+          onToggleSound={toggleSound}
+          onRescan={() => triggerAction('rescan-all', {}, 'Complete System Rescan')}
+          isScanning={loadingAction === 'rescan-all' || !!stats?.isScanningStorage}
         />
-      </motion.div>
 
-      {/* 7. GhostKey Sentry Studio (Below Fold Reveal) */}
-      <motion.div
-        id="sentry"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8"
-      >
-        <div className="space-y-2">
-          <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Spatial Sentry</span>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-            GhostKey & Gaze Studio.
-          </h2>
-          <p className="text-[#8A8A93] text-sm max-w-xl">
-            Fine-tune stem squeeze thresholds, headphone acoustics, and on-device gaze estimation.
-          </p>
-        </div>
+        {/* Top Island Action Verification HUD */}
+        <ActionHUD
+          latestReceipt={latestReceipt}
+          allReceipts={receipts}
+          onDismiss={() => setLatestReceipt(null)}
+          onClearReceipts={clearAllReceipts}
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-            <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
-              <span>OnePlus Buds 4 Stem Controls</span>
-              <span className="text-xs text-[#22D3EE] font-mono">Connected</span>
-            </h3>
-            <EarbudsTab />
-          </div>
-
-          <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
-            <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
-              <span>Gaze & Bezel Sentry</span>
-              <span className="text-xs text-[#7C3AED] font-mono">Local Neural Engine</span>
-            </h3>
-            <GazeSentryTab />
-          </div>
-        </div>
-      </motion.div>
-
-      {/* 8. Deep Telemetry & System Utilities Studio (Below Fold Reveal) */}
-      <motion.div
-        id="studio"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="py-16 px-6 sm:px-10 md:px-12 max-w-7xl mx-auto w-full space-y-8 border-t border-white/[0.08]"
-      >
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Hardware Console</span>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
-              System Instrumentation.
-            </h2>
-            <p className="text-[#8A8A93] text-sm">
-              Surgical diagnostic control over thermal sensors, APFS storage blocks, kernel processes, and launch daemons.
-            </p>
-          </div>
-
-          {/* SubTab Pill Selector with sliding layoutId */}
-          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white/5 border border-white/10 text-xs overflow-x-auto max-w-full backdrop-blur-xl">
-            {[
-              { id: 'thermal', label: 'Thermal' },
-              { id: 'storage', label: 'Storage' },
-              { id: 'processes', label: 'Processes' },
-              { id: 'developer', label: 'APFS Dev' },
-              { id: 'privacy', label: 'Privacy' },
-              { id: 'controls', label: 'Tweaks' },
-              { id: 'startup', label: 'Daemons' },
-            ].map((tab) => {
-              const isActive = activeSubTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    sound.playClick();
-                    setActiveSubTab(tab.id);
-                  }}
-                  className={`relative px-4 py-1.5 rounded-2xl transition-all shrink-0 font-medium ${
-                    isActive
-                      ? 'text-white'
-                      : 'text-[#8A8A93] hover:text-[#F5F5F7]'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeSubTabPill"
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] shadow-[0_0_20px_rgba(124,58,237,0.4)]"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                    />
-                  )}
-                  <span className="relative z-10">{tab.label}</span>
-                </button>
-              );
-            })}
+        {/* Morphing Dynamic Island Floating Cockpit */}
+        <div className="pt-2 sticky top-20 z-20 pointer-events-none">
+          <div className="pointer-events-auto">
+            <AppleDynamicIsland
+              stats={stats}
+              healthScore={healthScore}
+              triggerAction={triggerAction}
+              loadingAction={loadingAction}
+              onOpenSpecs={() => setIsSpecsOpen(true)}
+            />
           </div>
         </div>
 
-        {/* Dynamic Studio Tab Content with AnimatePresence page transition */}
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl min-h-[500px] shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+        {/* View Route Container: Full Width, No Max-W Constraint */}
+        <div className="flex-1 w-full px-4 sm:px-8 py-6 space-y-8">
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeSubTab}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
+              key={currentView}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="w-full space-y-8"
             >
-              {activeSubTab === 'thermal' && (
-                <ThermalTab
-                  stats={stats}
-                  triggerAction={triggerAction}
-                  loadingAction={loadingAction}
-                />
+              {/* VIEW: OVERVIEW */}
+              {currentView === 'overview' && (
+                <div className="space-y-12 w-full">
+                  <HeroShowcase
+                    stats={stats}
+                    healthScore={healthScore}
+                    triggerAction={triggerAction}
+                    loadingAction={loadingAction}
+                    onOpenSpecs={() => setIsSpecsOpen(true)}
+                    onOpenAI={() => setIsAIOpen(true)}
+                  />
+                  <BentoSpecSheet
+                    stats={stats}
+                    triggerAction={triggerAction}
+                    loadingAction={loadingAction}
+                    onOpenSpecs={() => setIsSpecsOpen(true)}
+                    onNavigateTab={navigateToView}
+                  />
+                  <ScrollStorySection
+                    stats={stats}
+                    onExploreFeature={navigateToView}
+                  />
+                </div>
               )}
 
-              {activeSubTab === 'storage' && (
-                <StorageTab
-                  stats={stats}
-                  triggerAction={triggerAction}
-                />
+              {/* VIEW: SENTRY (GHOSTKEY & GAZE) */}
+              {currentView === 'sentry' && (
+                <div className="w-full space-y-8">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Spatial Sentry</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      GhostKey & Gaze Studio.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Fine-tune stem squeeze thresholds, headphone acoustics, and on-device gaze estimation with local Neural Engine acceleration.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+                    <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                      <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
+                        <span>OnePlus Buds 4 Stem Controls</span>
+                        <span className="text-xs text-[#22D3EE] font-mono">Connected</span>
+                      </h3>
+                      <EarbudsTab />
+                    </div>
+
+                    <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                      <h3 className="text-sm font-semibold text-[#F5F5F7] mb-4 flex items-center justify-between">
+                        <span>Gaze & Bezel Sentry</span>
+                        <span className="text-xs text-[#7C3AED] font-mono">Local Neural Engine</span>
+                      </h3>
+                      <GazeSentryTab />
+                    </div>
+                  </div>
+                </div>
               )}
 
-              {activeSubTab === 'processes' && (
-                <ProcessesTab
-                  stats={stats}
-                  triggerAction={triggerAction}
-                />
+              {/* VIEW: THERMAL & BATTERY */}
+              {currentView === 'thermal' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Thermal Telemetry</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Thermal & Battery Studio.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Real-time Apple Silicon die temperatures, cooling fans, and Li-ion degradation analytics.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <ThermalTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
+                  </div>
+                </div>
               )}
 
-              {activeSubTab === 'developer' && (
-                <DevGhostHunter
-                  stats={stats}
-                  triggerAction={triggerAction}
-                  loadingAction={loadingAction}
-                />
+              {/* VIEW: APFS STORAGE */}
+              {currentView === 'storage' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">APFS Storage Engine</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Storage & Sunburst Explorer.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Interactive sunburst disk allocation, developer ghost folders, and heavy downloads hunter with surgical filtering.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <StorageTab stats={stats} triggerAction={triggerAction} />
+                  </div>
+                </div>
               )}
 
-              {activeSubTab === 'privacy' && (
-                <PrivacyVaultTab
-                  stats={stats}
-                  triggerAction={triggerAction}
-                  loadingAction={loadingAction}
-                />
+              {/* VIEW: PROCESSES & RAM */}
+              {currentView === 'processes' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">Kernel Activity Monitor</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Processes & Safety Inspector.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Apple kernel protection guards, RAM compression rings, and surgical thread termination with reusable multi-criteria filtering.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <ProcessesTab stats={stats} triggerAction={triggerAction} />
+                  </div>
+                </div>
               )}
 
-              {activeSubTab === 'controls' && (
-                <TweaksTab
-                  stats={stats}
-                  perfMode={perfMode}
-                  setPerfMode={setPerfMode}
-                  triggerAction={triggerAction}
-                />
+              {/* VIEW: DEV GHOST HUNTER & PORTS */}
+              {currentView === 'dev' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Developer Tools</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Dev Ghost Hunter & Port Sentry.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Detect stuck Node/Python compilers, nuke rogue listening sockets, and inspect compiler matrices.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <DevGhostHunter stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
+                  </div>
+                </div>
               )}
 
-              {activeSubTab === 'startup' && (
-                <StartupTab
-                  stats={stats}
-                  triggerAction={triggerAction}
-                />
+              {/* VIEW: PRIVACY VAULT */}
+              {currentView === 'privacy' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#EF4444]">Kernel Defense</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Privacy Vault & Hygiene Cockpit.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Memory-resident clipboard shredder, hardware microphone lockdown, and browser tracking artifact purges.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <PrivacyVaultTab stats={stats} triggerAction={triggerAction} loadingAction={loadingAction} />
+                  </div>
+                </div>
+              )}
+
+              {/* VIEW: TITANIUM TWEAKS */}
+              {currentView === 'tweaks' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#7C3AED]">System Optimization</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Titanium Controls & Audio Studio.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      CoreAudio latency repair, performance governors, and appearance toggles.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <TweaksTab stats={stats} perfMode={perfMode} setPerfMode={setPerfMode} triggerAction={triggerAction} />
+                  </div>
+                </div>
+              )}
+
+              {/* VIEW: STARTUP DAEMONS */}
+              {currentView === 'startup' && (
+                <div className="w-full space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#22D3EE]">Boot Acceleration</span>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#F5F5F7]">
+                      Startup LaunchAgents Manager.
+                    </h2>
+                    <p className="text-[#8A8A93] text-sm max-w-2xl">
+                      Audit and disable background login items, updater daemons, and memory-hogging background applications.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(124,58,237,0.12)]">
+                    <StartupTab stats={stats} triggerAction={triggerAction} />
+                  </div>
+                </div>
               )}
             </motion.div>
           </AnimatePresence>
         </div>
-      </motion.div>
 
-      {/* 9. Global Modals & Dialogs */}
+        {/* Frosted Glass Footer */}
+        <footer className="border-t border-white/10 bg-[#08080a]/90 backdrop-blur-xl px-6 sm:px-12 py-6 text-xs text-[#8A8A93] flex flex-wrap items-center justify-between gap-4 mt-auto">
+          <div className="flex items-center gap-2.5">
+            <span className="text-[#F5F5F7] font-medium">Mac Guardian Pro</span>
+            <span>•</span>
+            <span>{stats?.specs?.chip || 'Apple Silicon'} ({stats?.specs?.model || 'MacBook Pro'})</span>
+            <span>•</span>
+            <span className="text-[#22D3EE] flex items-center gap-1.5 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#22D3EE] shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
+              Kernel Active
+            </span>
+          </div>
+          <div className="flex items-center gap-5 text-[#8A8A93]">
+            <button
+              onClick={() => setIsReceiptsModalOpen(true)}
+              className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Receipts</span>
+              <span className="px-1.5 py-0.2 rounded-2xl bg-white/10 text-[10px] text-white border border-white/10">{receipts.length}</span>
+            </button>
+            <button
+              onClick={() => setIsAIOpen(true)}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              AI Studio (⌘J)
+            </button>
+            <button onClick={() => setIsShortcutsOpen(true)} className="hover:text-white transition-colors cursor-pointer">
+              Shortcuts (?)
+            </button>
+            <button onClick={() => setIsSpecsOpen(true)} className="hover:text-white transition-colors cursor-pointer">
+              Die Specs
+            </button>
+          </div>
+        </footer>
+      </main>
+
+      {/* Global Modals & Dialogs */}
       <SupernovaModal
         isOpen={isSupernovaOpen}
         onClose={() => setIsSupernovaOpen(false)}
@@ -526,17 +595,16 @@ export default function App() {
         onStatsUpdate={(newStats) => setStats(newStats)}
       />
 
+      {/* Global Search & Command Palette (⌘K) */}
       <CommandPalette
         isOpen={isCmdOpen}
         onClose={() => setIsCmdOpen(false)}
         triggerAction={triggerAction}
-        setActiveTab={(tab) => {
-          setActiveSubTab(tab);
-          scrollToSection('studio');
-        }}
+        setActiveTab={navigateToView}
+        stats={stats}
       />
 
-      {/* Keyboard Shortcuts Modal (?) with AnimatePresence & spring physics */}
+      {/* Keyboard Shortcuts Modal (?) */}
       <AnimatePresence>
         {isShortcutsOpen && (
           <motion.div 
@@ -561,14 +629,14 @@ export default function App() {
                 </h3>
                 <button 
                   onClick={() => setIsShortcutsOpen(false)} 
-                  className="text-[#8A8A93] hover:text-white transition-colors p-1 rounded-xl hover:bg-white/5"
+                  className="text-[#8A8A93] hover:text-white transition-colors p-1 rounded-xl hover:bg-white/5 cursor-pointer"
                 >
                   <XCircle className="w-4 h-4" />
                 </button>
               </div>
               <div className="space-y-2.5">
                 <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
-                  <span className="text-[#8A8A93]">Open Command Palette</span>
+                  <span className="text-[#8A8A93]">Global Search / Command Palette</span>
                   <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘K</kbd>
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
@@ -576,12 +644,12 @@ export default function App() {
                   <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘J</kbd>
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
-                  <span className="text-[#8A8A93]">Quick Mac Sweep</span>
+                  <span className="text-[#8A8A93]">Instant Mac Sweep</span>
                   <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">⌘B</kbd>
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
-                  <span className="text-[#8A8A93]">Jump to Sections</span>
-                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">1 - 5</kbd>
+                  <span className="text-[#8A8A93]">Direct View Switch</span>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white/10 text-white font-mono border border-white/10 text-[11px]">1 - 9</kbd>
                 </div>
                 <div className="flex justify-between items-center py-1.5">
                   <span className="text-[#8A8A93]">Close Overlays</span>
@@ -592,41 +660,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 10. Frosted Glass Footer */}
-      <footer className="border-t border-white/10 bg-[#08080a]/90 backdrop-blur-xl px-6 sm:px-12 py-6 text-xs text-[#8A8A93] flex flex-wrap items-center justify-between gap-4 mt-20">
-        <div className="flex items-center gap-2.5">
-          <span className="text-[#F5F5F7] font-medium">Mac Guardian Pro</span>
-          <span>•</span>
-          <span>{stats?.specs?.chip || 'Apple Silicon'} ({stats?.specs?.model || 'MacBook Pro'})</span>
-          <span>•</span>
-          <span className="text-[#22D3EE] flex items-center gap-1.5 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#22D3EE] shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
-            Kernel Active
-          </span>
-        </div>
-        <div className="flex items-center gap-5 text-[#8A8A93]">
-          <button
-            onClick={() => setIsReceiptsModalOpen(true)}
-            className="hover:text-white transition-colors flex items-center gap-1.5"
-          >
-            <span>Receipts</span>
-            <span className="px-1.5 py-0.2 rounded-2xl bg-white/10 text-[10px] text-white border border-white/10">{receipts.length}</span>
-          </button>
-          <button
-            onClick={() => setIsAIOpen(true)}
-            className="hover:text-white transition-colors"
-          >
-            AI Studio (⌘J)
-          </button>
-          <button onClick={() => setIsShortcutsOpen(true)} className="hover:text-white transition-colors">
-            Shortcuts (?)
-          </button>
-          <button onClick={() => setIsSpecsOpen(true)} className="hover:text-white transition-colors">
-            Die Specs
-          </button>
-        </div>
-      </footer>
     </div>
   );
 }

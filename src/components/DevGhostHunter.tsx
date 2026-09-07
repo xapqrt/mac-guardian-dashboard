@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Terminal, Skull, RefreshCw, Radio, Zap, AlertTriangle, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { HoloCard, TactileButton, CyberBadge, StatusLed } from './UIElements';
+import { FilterBar } from './FilterBar';
 import { DevMatrixInspector } from './DevMatrixInspector';
 import { sound } from '../utils/audio';
 
@@ -21,14 +22,35 @@ interface DevGhostHunterProps {
 
 export const DevGhostHunter: React.FC<DevGhostHunterProps> = ({ stats, triggerAction, loadingAction }) => {
   const [filterQuery, setFilterQuery] = useState('');
+  const [portCategory, setPortCategory] = useState<'all' | 'dev' | 'system'>('all');
+  const [portSort, setPortSort] = useState<'port' | 'command' | 'pid'>('port');
   const devPorts: DevPort[] = stats?.devPorts || [];
   const devCaches = stats?.devCaches || { npm: '0 MB', brew: '0 MB', xcodeDerived: '0 MB', uv: '0 MB', totalMb: 0 };
 
-  const filteredPorts = devPorts.filter(p => 
-    p.command.toLowerCase().includes(filterQuery.toLowerCase()) ||
-    p.port.toString().includes(filterQuery) ||
-    p.pid.includes(filterQuery)
-  );
+  const filteredPorts = React.useMemo(() => {
+    let list = devPorts.filter(p => {
+      const q = filterQuery.toLowerCase();
+      const matchSearch =
+        !filterQuery ||
+        p.command.toLowerCase().includes(q) ||
+        p.port.toString().includes(filterQuery) ||
+        p.pid.includes(filterQuery);
+      if (!matchSearch) return false;
+
+      const isCommonDev = [3000, 3334, 5000, 5173, 8000, 8080, 9222, 5432, 6379, 4000, 4200, 8081].includes(p.port);
+      if (portCategory === 'dev') return isCommonDev;
+      if (portCategory === 'system') return !isCommonDev;
+      return true;
+    });
+
+    list = [...list].sort((a, b) => {
+      if (portSort === 'command') return a.command.localeCompare(b.command);
+      if (portSort === 'pid') return parseInt(a.pid, 10) - parseInt(b.pid, 10);
+      return a.port - b.port;
+    });
+
+    return list;
+  }, [devPorts, filterQuery, portCategory, portSort]);
 
   const handleKillPort = (port: number, pid: string, cmd: string) => {
     sound.playClick();
@@ -113,25 +135,33 @@ export const DevGhostHunter: React.FC<DevGhostHunterProps> = ({ stats, triggerAc
 
       {/* Listening Ports Section */}
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Radio className="w-4 h-4 text-[#86868b]" />
-            <h2 className="text-base font-bold text-[#f5f5f7] tracking-tight">Active TCP Listening Ports</h2>
-            <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-white/[0.05] text-[#86868b] border border-white/[0.08]">
-              {filteredPorts.length} Active Sockets
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Filter by port or process..."
-              value={filterQuery}
-              onChange={(e) => setFilterQuery(e.target.value)}
-              className="px-3 py-1.5 rounded-full bg-[#0a0a0c] border border-white/[0.08] text-xs font-mono text-[#f5f5f7] placeholder-[#86868b] focus:outline-none focus:border-white/20 w-64"
-            />
-          </div>
+        <div className="flex items-center gap-3">
+          <Radio className="w-4 h-4 text-[#7C3AED]" />
+          <h2 className="text-base font-bold text-[#F5F5F7] tracking-tight">Active TCP Listening Ports</h2>
+          <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/5 text-[#22D3EE] border border-white/10">
+            {filteredPorts.length} Sockets
+          </span>
         </div>
+
+        <FilterBar
+          search={filterQuery}
+          onSearchChange={setFilterQuery}
+          searchPlaceholder="Search port, process name, or PID..."
+          categories={[
+            { id: 'all', label: 'All Sockets', count: devPorts.length },
+            { id: 'dev', label: 'Dev Servers' },
+            { id: 'system', label: 'System Sockets' },
+          ]}
+          selectedCategory={portCategory}
+          onCategoryChange={(c) => setPortCategory(c as any)}
+          sortOptions={[
+            { id: 'port', label: 'PORT' },
+            { id: 'command', label: 'CMD' },
+            { id: 'pid', label: 'PID' },
+          ]}
+          selectedSort={portSort}
+          onSortChange={(s) => setPortSort(s as any)}
+        />
 
         {/* Ports Table */}
         <div className="rounded-2xl bg-[#101010] border border-white/[0.08] overflow-hidden shadow-xl">
